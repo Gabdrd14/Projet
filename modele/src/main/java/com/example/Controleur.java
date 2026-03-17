@@ -1,6 +1,4 @@
 package com.example;
-
-
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -73,8 +71,9 @@ public class Controleur extends MouseAdapter {
                 Shape shape = model.getShapes().get(i);
 
                 if (shape.getBounds().contains(point)) {
-                    System.out.println("Mouse is over shape " + i + " Type :"+ shape.getBounds().getClass());}
-                
+                    System.out.println("click souris sur la forme " + i + " Type :"+ shape.getBounds().getClass());}
+                    System.out.println("Location rectangle (tjr le point en haut a gauche)"+shape.getBounds().getLocation());   
+                    System.out.println("dimension de la forme " + shape.getBounds().getSize());
             }
         } 
     
