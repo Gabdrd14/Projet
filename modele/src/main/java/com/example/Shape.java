@@ -11,12 +11,15 @@ public abstract class Shape {
 
     protected Point p2 = null ;
 
+    protected String id_joueur ;
+
 
 
     public  Shape(Point p1, Point p2){
 
         this.p1 = p1 ; 
         this.p2 = p2 ;
+        this.id_joueur = id_joueur ;
 
         
     }
@@ -64,6 +67,9 @@ public abstract class Shape {
     }
 
     public abstract void draw(Graphics g) ;
+
+
+
 
 
 

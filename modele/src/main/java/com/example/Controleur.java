@@ -1,4 +1,6 @@
 package com.example;
+
+
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +13,7 @@ public class Controleur extends MouseAdapter {
 
 
     private Point p1  = null ;
+     
 
     public Controleur(Model model , Vue vue){
 
@@ -30,6 +33,7 @@ public class Controleur extends MouseAdapter {
         if (p1 == null) {
 
             p1 = e.getPoint();
+            contains(p1); // check si le click se trouve dans une forme
         
 
         } else {
@@ -49,18 +53,38 @@ public class Controleur extends MouseAdapter {
             }
             model.addShape(shape);
             
-
-
             p1 = null ; 
 
-            vue.repaint();
+            vue.paintComponent(vue.getGraphics());
 
 
 
         }
-    }
+    
 
+    }
+        
+    public void contains(Point point){
+
+
+
+            for (int i = 0 ; i < model.getShapes().size() ; i++  ){
+
+                Shape shape = model.getShapes().get(i);
+
+                if (shape.getBounds().contains(point)) {
+                    System.out.println("Mouse is over shape " + i + " Type :"+ shape.getBounds().getClass());}
+                
+            }
+        } 
+    
+
+  
+    
 
 
 
 }
+
+
+

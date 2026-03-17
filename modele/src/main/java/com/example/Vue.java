@@ -1,7 +1,6 @@
 package com.example;
 
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
 
 public class Vue extends JPanel{
