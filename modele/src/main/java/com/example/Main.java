@@ -13,7 +13,7 @@ public class Main {
 
 
         vue.addMouseListener(controleur);
-
+        vue.addMouseMotionListener(controleur); 
 
         JFrame frame  = new JFrame("TEST DESSIN");
         frame.add(vue);
