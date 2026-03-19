@@ -1,89 +1,58 @@
 package com.example;
+
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Controleur extends MouseAdapter {
 
-    private Model model ;
-    private Vue vue ;
-    private Tool t  = Tool.RECTANGLE ;
+    private Model model;
+    private Vue vue;
+    private Tool tool = Tool.RECTANGLE;
 
+    private Point start = null;
+    private Point current = null;
 
-    private Point p1  = null ;
-     
-
-    public Controleur(Model model , Vue vue){
-
-        this.model = model ;
-        this.vue = vue ;
-
-    }
-
-    public void setTool(Tool t){
-
-        this.t = t ;
+    public Controleur(Model model, Vue vue) {
+        this.model = model;
+        this.vue = vue;
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-        if (p1 == null) {
-
-            p1 = e.getPoint();
-            contains(p1); // check si le click se trouve dans une forme
-        
-
-        } else {
-                Point p2 = e.getPoint();
-
-                Shape shape ;
-
-            if (t == Tool.RECTANGLE){
-
-                 shape = new Shape_Rectangle(p1, p2);  // a changer. avec le choix des boutons pour la forme
-
-            } else {
-
-                 shape = new Shape_Circle(p1, p2);  // a changer. avec le choix des boutons pour la forme
-
-
-            }
-            model.addShape(shape);
-            
-            p1 = null ; 
-
-            vue.paintComponent(vue.getGraphics());
-
-
-
-        }
-    
-
+    public void mousePressed(MouseEvent e) {
+        start = e.getPoint();
+        current = start;
     }
-        
-    public void contains(Point point){
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        current = e.getPoint();
+        vue.setPreview(start, current, tool);
+        vue.repaint(); // 🔥 redraw en live
+    }
 
+    @Override
+    public void mouseReleased(MouseEvent e) {
 
-            for (int i = 0 ; i < model.getShapes().size() ; i++  ){
+        if (start == null) return;
 
-                Shape shape = model.getShapes().get(i);
+        Point end = e.getPoint();
 
-                if (shape.getBounds().contains(point)) {
-                    System.out.println("click souris sur la forme " + i + " Type :"+ shape.getBounds().getClass());}
-                    System.out.println("Location rectangle (tjr le point en haut a gauche)"+shape.getBounds().getLocation());   
-                    System.out.println("dimension de la forme " + shape.getBounds().getSize());
-            }
-        } 
-    
+        if (end == null) return; // sécurité bonus
 
-  
-    
+        Drawable shape = ShapeFactory.createShape(
+                tool,
+                start,
+                end,
+                model.getCurrentPlayer()
+        );
 
+        model.addShape(shape);
 
+        vue.clearPreview();
 
-}
+        start = null;
 
-
-
+        vue.repaint();
+    }
+    }
