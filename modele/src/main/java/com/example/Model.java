@@ -26,7 +26,7 @@ public class Model {
     public boolean collision() {
         for (int i = 0; i < shapes.size(); i++) {
             for (int j = i + 1; j < shapes.size(); j++) {
-                if (shapes.get(i).intersects(shapes.get(j))) {
+                if (CollisionUtil.intersects(shapes.get(i), shapes.get(j))) {
                     return true;
                 }
             }

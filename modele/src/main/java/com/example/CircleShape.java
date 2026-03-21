@@ -28,8 +28,10 @@ public class CircleShape implements Drawable {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
+
+
     @Override
-    public boolean intersects(Drawable other) {
-        return this.getBounds().intersects(other.getBounds());
+    public void accept(IntersectionVisiteur visitor) {
+        visitor.visit(this);
     }
 }
