@@ -1,0 +1,285 @@
+package Game.view.menu;
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+/**
+ * Cette Classe permet de configurer les paramètres du jeu à travers une interface graphique. //
+ */
+public class GameSettings {
+    
+	// Variables statiques représentant les paramètres par défaut de notre jeu. //
+    private static int nbRedShape = 5;
+    private static int sizeX = 15;
+    private static int sizeY = 15;
+    private static int nbPlayers = 1;
+    private static boolean HiddenChallenge = false;
+    
+    // Champs pour permettre la saisie des paramètres. //
+    private JTextField nbRedShapeField;
+    private JTextField sizeXField;
+    private JTextField sizeYField;
+    private JTextField nbPlayersField;  
+    private JCheckBox hiddenChallengeCheck;
+    
+    public GameSettings(JFrame frame) {
+    	
+    	// On crée une fenêtre pour les paramètres de taille 500*500. //
+        JFrame settingsFrame = new JFrame("Game settings");
+        settingsFrame.setSize(500, 500);
+        settingsFrame.setLocationRelativeTo(frame); // On centre notre fenêtre par rapport à la fenêtre principale. //
+        
+        // On crée un panneau principal. //
+        JPanel settingsPanel = new JPanel();
+        settingsPanel.setLayout(new BorderLayout());
+        settingsFrame.add(settingsPanel);
+        
+        // On ajoute un titre en haut de la fenêtre. //
+        JLabel titleLabel = new JLabel("Game settings", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(Color.DARK_GRAY);
+        settingsPanel.add(titleLabel, BorderLayout.NORTH);
+        
+        // On crée un panneau central pour les champs de saisie et leurs contrôles. //
+        JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new GridLayout(5, 3, 10, 10)); // Grille de 5 lignes et 3 colonnes. //
+        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Marges. //
+        settingsPanel.add(fieldsPanel, BorderLayout.CENTER);
+        
+        // On ajoute des champs de saisie et de leurs libellés. //
+        fieldsPanel.add(new JLabel("Number of red shapes :"));
+        nbRedShapeField = new JTextField(String.valueOf(nbRedShape)); // Champ avec valeur par défaut. //
+        configureField(nbRedShapeField);
+        fieldsPanel.add(nbRedShapeField);
+        fieldsPanel.add(createControlPanel(nbRedShapeField)); // Boutons "+" et "-". //
+        
+        fieldsPanel.add(new JLabel("Grid width (X) :"));
+        sizeXField = new JTextField(String.valueOf(sizeX));
+        configureField(sizeXField);
+        fieldsPanel.add(sizeXField);
+        fieldsPanel.add(createControlPanel(sizeXField));
+
+        fieldsPanel.add(new JLabel("Grid height (Y) :"));
+        sizeYField = new JTextField(String.valueOf(sizeY));
+        configureField(sizeYField);
+        fieldsPanel.add(sizeYField);
+        fieldsPanel.add(createControlPanel(sizeYField));
+
+        fieldsPanel.add(new JLabel("Number of players :"));
+        nbPlayersField = new JTextField(String.valueOf(nbPlayers));
+        configureField(nbPlayersField);
+        fieldsPanel.add(nbPlayersField);
+        fieldsPanel.add(createControlPanel(nbPlayersField));
+        
+        
+        // Hidden Challenge
+        fieldsPanel.add(new JLabel("Hidden Challenge :"));
+        hiddenChallengeCheck = new JCheckBox("Enable");
+        hiddenChallengeCheck.setSelected(HiddenChallenge);
+        
+        hiddenChallengeCheck.setFont(new Font("Arial", Font.BOLD, 11));
+        hiddenChallengeCheck.setForeground(new Color(50, 50, 50));
+        hiddenChallengeCheck.setFocusPainted(false);
+        hiddenChallengeCheck.setOpaque(false); // fond transparent
+        
+        fieldsPanel.add(hiddenChallengeCheck);
+        fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée
+        
+        // On crée un panneau pour les boutons Confirmer et Réinitialiser. //
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        
+        // Mise en place d'un bouton de confirmation pour valider les paramètres. //
+        JButton confirmButton = new JButton("Confirm");
+        configureButton(confirmButton, new Color(0, 153, 51));
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isValid = true; 
+                
+                // On s'assure que nos paramètres sont valides. //
+                isValid &= validateField(nbRedShapeField, "5", "the number of walls", frame);
+                isValid &= validateField(sizeXField, "15", "size X", frame);
+                isValid &= validateField(sizeYField, "15", "size Y", frame);
+                isValid &= validateField(nbPlayersField, "2", "the number of players", frame);
+
+                if (!isValid) {
+                    return;  
+                }
+                
+                // Si c'est le cas alors on récupère leurs valeurs. //
+                nbRedShape = Integer.parseInt(nbRedShapeField.getText());
+                sizeX = Integer.parseInt(sizeXField.getText());
+                sizeY = Integer.parseInt(sizeYField.getText());
+                nbPlayers = Integer.parseInt(nbPlayersField.getText());
+                HiddenChallenge = hiddenChallengeCheck.isSelected();
+                
+                // On effectue des vérifications supplémentaires. //
+                if (nbPlayers < 1) {
+                    JOptionPane.showMessageDialog(frame, "There must be at least 2 players");
+                    nbPlayersField.setText("2");
+                    return;
+                }
+
+                if (sizeX < 6 || sizeY < 6) {
+                    JOptionPane.showMessageDialog(frame, "Grid size too small");
+                    sizeXField.setText("15");
+                    sizeYField.setText("15");
+                    return;
+                }
+                settingsFrame.dispose();
+            }
+        });
+        
+        // Mise en place d'un bouton de réinitialisation. //
+        JButton resetButton = new JButton("Reset");
+        configureButton(resetButton, new Color(204, 102, 0));
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            	// Nos paramètres reprennent leurs valeurs par défaut. //
+            	nbRedShapeField.setText(String.valueOf(5)); 
+                sizeXField.setText(String.valueOf(15)); 
+                sizeYField.setText(String.valueOf(15));
+                nbPlayersField.setText(String.valueOf(1));
+                hiddenChallengeCheck.setSelected(false);
+            }
+        });
+        
+        buttonPanel.add(confirmButton);
+        buttonPanel.add(resetButton);
+        settingsPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        settingsFrame.setVisible(true);
+    }
+    
+    /**
+     * Cette méthode configure les champs de saisies. //
+     */
+    private void configureField(JTextField field) {
+        field.setHorizontalAlignment(JTextField.CENTER);
+        field.setFont(new Font("Arial", Font.BOLD, 14));
+    }
+    
+    /**
+     * Cette méthode permet de créer un panneau avec les boutons "-" et "+". //
+     */
+    private JPanel createControlPanel(JTextField field) {
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout());
+
+        JButton minusButton = new JButton("-");
+        JButton plusButton = new JButton("+");
+        configureControlButton(minusButton);
+        configureControlButton(plusButton);
+        
+        minusButton.addActionListener(e -> updateFieldValue(field, -1)); // On décrémente de 1 si on appuie sur le "-". //
+        plusButton.addActionListener(e -> updateFieldValue(field, 1)); // On incrémente de 1 si on appuie sur le "+". //
+
+        controlPanel.add(minusButton);
+        controlPanel.add(plusButton);
+        
+        return controlPanel;
+    }
+    
+    /**
+     * Cette méthode permet de configurer les boutons "+" et "-". //
+     */
+    private void configureControlButton(JButton button) {
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setPreferredSize(new Dimension(50, 40));
+        button.setBackground(new Color(200, 200, 200));
+        button.setForeground(Color.DARK_GRAY);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+    }
+    
+    /**
+     * Cette méthode permet de configurer les boutons "Confirmer" et "Réinitialiser". //
+     */
+    private void configureButton(JButton button, Color backgroundColor) {
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(backgroundColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(150, 40));
+    }
+    
+    /**
+     * Cette méthode permet de valider la saisie d'un champ. //
+     */
+    private boolean validateField(JTextField field, String defaultValue, String fieldName, JFrame frame) {
+        try {
+            int value = Integer.parseInt(field.getText());
+
+            if (value < 0) {
+                JOptionPane.showMessageDialog(frame, fieldName + " cannot be negative.");
+                field.setText(defaultValue);  
+                return false;  
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(frame, "Please enter a valid numeric value for " + fieldName + " !");
+            field.setText(defaultValue);  
+            return false; 
+        }
+        return true; 
+    }
+    
+    
+    /**
+     * Cette méthode permet d'incrémenter ou décrémenter la valeur d'un champ. //
+     */
+    private void updateFieldValue(JTextField field, int increment) {
+        try {
+            int value = Integer.parseInt(field.getText());
+            int newValue = value + increment;
+            
+            if (newValue < 0) {
+            	newValue = 0; 
+            }
+            
+            if (field == sizeXField && newValue < 6) {
+                newValue = 6;  
+            }
+            
+            if (field == sizeYField && newValue < 6) {
+                newValue = 6;              	
+            }
+            
+            if (field == nbPlayersField && newValue < 1) {
+                newValue = 1;  
+            }
+            
+            field.setText(String.valueOf(newValue));
+        } catch (NumberFormatException ex) {
+            field.setText("0"); 
+        }
+    }
+    
+    // Accesseurs pour les paramètres. //
+    public static int getnbRedShape() {
+        return nbRedShape;
+    }
+    
+    public static int getSizeX() {
+        return sizeX;
+    }
+
+    public static int getSizeY() {
+        return sizeY;
+    }
+
+    public static int getNbPlayers() {
+        return nbPlayers;
+    }
+    
+    public static boolean isHiddenChallenge() {
+        return HiddenChallenge;
+    }
+    
+}
