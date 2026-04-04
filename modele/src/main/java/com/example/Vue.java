@@ -31,7 +31,19 @@ public class Vue extends JPanel {
 
         // formes finales
         for (Drawable s : model.getShapes()) {
-            s.draw(g);
+
+            if(s instanceof RectangleShape) {
+                RectangleShape r = (RectangleShape) s;
+                // g.setColor(r.joueur.equals("Joueur 1") ? Color.BLUE : Color.RED);
+                g.drawRect(r.getBounds().x, r.getBounds().y, r.getBounds().width, r.getBounds().height);
+            } else if (s instanceof CircleShape) {
+                CircleShape c = (CircleShape) s;
+                // g.setColor(c.joueur.equals("Joueur 1") ? Color.BLUE : Color.RED);
+                g.drawOval(c.getBounds().x, c.getBounds().y, c.getBounds().width, c.getBounds().height);
+            }
+
+            
+            // s.draw(g);
         }
 
         if (p1 != null && p2 != null) {
