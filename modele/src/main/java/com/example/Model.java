@@ -13,6 +13,8 @@ public class Model { // Classe qui représente le modèle de données du jeu, el
     private int compteur_piece = 12; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
     private int score_joueur1 = 0; // Score du joueur 1,
     private int score_joueur2 = 0; // Score du joueur 2, 
+    private boolean aveuglemode = false; // Mode aveugle, si true alors les formes des joueurs ne sont pas affichées dans la vue, seulement les obstacles fixes sont affichés, cela peut être utilisé pour augmenter la difficulté du jeu en cachant les formes des adversaires
+
 
     public void addShape(Drawable s) { // ajoute une forme au modèle et vérifie les collisions, si collision -> suppression de la forme ajoutée 
         
@@ -73,21 +75,20 @@ public class Model { // Classe qui représente le modèle de données du jeu, el
             if (s instanceof RectangleShape) {
 
                 int forme_valeur = s.getBounds().getSize().width * s.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
-                score_joueur1 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 1
-
+                score_joueur1 += forme_valeur; 
             } else if (s instanceof CircleShape) {
                 int forme_valeur = (int) (Math.PI * Math.pow(s.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)²
-                score_joueur1 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 1
+                score_joueur1 += forme_valeur; 
             }
         
 
         for (Drawable y : shapes2) {
             if (y instanceof RectangleShape) {
                 int forme_valeur = y.getBounds().getSize().width * y.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
-                score_joueur2 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 2
+                score_joueur2 += forme_valeur; 
             } else if (y instanceof CircleShape) {
                 int forme_valeur = (int) (Math.PI * Math.pow(y.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
-                score_joueur2 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 2
+                score_joueur2 += forme_valeur; 
             } 
         }}
 

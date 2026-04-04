@@ -7,7 +7,7 @@ public class ai_player {
 
 
 
-    public Drawable choose_move(Model model, int level_ia) { // Méthode pour choisir le meilleur coup à jouer pour l'IA, elle utilise une stratégie simple basée sur le score du jeu, elle génère tous les coups possibles (formes à ajouter) et évalue le score de chaque coup en utilisant la méthode score_game du modèle, elle retourne le coup qui maximise le score pour l'IA (joueur 2) ou minimise le score pour l'adversaire (joueur 1)
+    public Drawable choose_move(Model model) { // Méthode pour choisir le meilleur coup à jouer pour l'IA, elle utilise une stratégie simple basée sur le score du jeu, elle génère tous les coups possibles (formes à ajouter) et évalue le score de chaque coup en utilisant la méthode score_game du modèle, elle retourne le coup qui maximise le score pour l'IA (joueur 2) ou minimise le score pour l'adversaire (joueur 1)
         Drawable best_move = null;
         int best_score = Integer.MIN_VALUE;
 
@@ -34,10 +34,16 @@ public class ai_player {
     }
 
 
-    public void play(Model model) { // Méthode pour jouer le coup choisi par l'IA, elle appelle la méthode choose_move pour obtenir le meilleur coup à jouer, puis elle ajoute ce coup au modèle en utilisant la méthode addShape du modèle, elle peut être appelée par le contrôleur après le tour de l'adversaire pour faire jouer l'IA
-        Drawable move = choose_move(model, 1); // Niveau de difficulté de l'IA, peut être utilisé pour ajuster la stratégie de choix du coup
+    public void play(Model model , int level_ia) { // Méthode pour jouer le coup choisi par l'IA, elle appelle la méthode choose_move pour obtenir le meilleur coup à jouer, puis elle ajoute ce coup au modèle en utilisant la méthode addShape du modèle, elle peut être appelée par le contrôleur après le tour de l'adversaire pour faire jouer l'IA
+      
+        int bias = 70 - (5* level_ia ); // Augmenter le biais pour les niveaux de difficulté plus élevés
+
+
+        Drawable move = choose_move(model); // Niveau de difficulté de l'IA
         if (move != null) {
-            model.addShape(move);
+
+           Drawable bias_move = ShapeFactory.createShape(Tool.RECTANGLE, new Point(move.getBounds().x + bias, move.getBounds().y + bias), new Point(move.getBounds().x + move.getBounds().width + bias, move.getBounds().y + move.getBounds().height + bias), "joueur_2");
+            model.addShape(bias_move); // Ajouter le coup choisi au modèle avec un biais pour les niveaux de difficulté plus élevés
         }
     }
 
