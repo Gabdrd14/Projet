@@ -10,14 +10,15 @@ public class Model { // Classe qui représente le modèle de données du jeu, el
     private List<Drawable> obstacle = new ArrayList<>(); // Liste des obstacles fixes a comparer pour les collisions
 
 
-    private int compteur_piece = 8; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
+    private int compteur_piece = 12; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
 
     public void addShape(Drawable s) { // ajoute une forme au modèle et vérifie les collisions, si collision -> suppression de la forme ajoutée 
+        
+        boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
 
-        boolean isPlayer1 = compteur_piece > 4;
+        boolean isPlayer1 = compteur_piece > 4; // si compteur > 4 alors c'est le joueur 1 qui joue, sinon c'est le joueur 2
 
-        List<Drawable> current = isPlayer1 ? shapes : shapes2;
-
+        List<Drawable> current = isObstacle ? obstacle : (isPlayer1 ? shapes : shapes2);
         current.add(s);
         compteur_piece--;
 
