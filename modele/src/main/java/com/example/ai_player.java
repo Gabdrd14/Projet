@@ -42,9 +42,9 @@ public class ai_player {
         Drawable move = choose_move(model); // Niveau de difficulté de l'IA
         if (move != null) {
 
-           Drawable bias_move = ShapeFactory.createShape(Tool.RECTANGLE, new Point(move.getBounds().x + bias, move.getBounds().y + bias), new Point(move.getBounds().x + move.getBounds().width + bias, move.getBounds().y + move.getBounds().height + bias), "joueur_2");
-            model.addShape(bias_move); // Ajouter le coup choisi au modèle avec un biais pour les niveaux de difficulté plus élevés
+            Drawable bias_move = ShapeFactory.createShape(Tool.RECTANGLE, new Point(move.getBounds().x + bias, move.getBounds().y + bias), new Point(move.getBounds().x + move.getBounds().width + bias, move.getBounds().y + move.getBounds().height + bias), "joueur_2");
         }
+    
     }
 
 

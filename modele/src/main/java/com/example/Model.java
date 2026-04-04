@@ -5,15 +5,18 @@ import java.util.List;
 
 public class Model { // Classe qui représente le modèle de données du jeu, elle contient les listes de formes pour chaque joueur, la liste des obstacles fixes, le compteur de pièces restantes pour chaque joueur, et les méthodes pour ajouter des formes, vérifier les collisions, obtenir les formes du joueur actuel et obtenir le nom du joueur actuel
 
+    ai_player ai = new ai_player();
+
     private List<Drawable> shapes = new ArrayList<>(); // Liste des formes du joueur 1
     private List<Drawable> shapes2 = new ArrayList<>(); // Liste des formes du joueur 2
     private List<Drawable> obstacle = new ArrayList<>(); // Liste des obstacles fixes a comparer pour les collisions
 
 
-    private int compteur_piece = 12; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
+    private int compteur_piece = 8; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
     private int score_joueur1 = 0; // Score du joueur 1,
     private int score_joueur2 = 0; // Score du joueur 2, 
     private boolean aveuglemode = false; // Mode aveugle, si true alors les formes des joueurs ne sont pas affichées dans la vue, seulement les obstacles fixes sont affichés, cela peut être utilisé pour augmenter la difficulté du jeu en cachant les formes des adversaires
+
 
 
     public void addShape(Drawable s) { // ajoute une forme au modèle et vérifie les collisions, si collision -> suppression de la forme ajoutée 
