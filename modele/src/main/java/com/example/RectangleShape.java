@@ -18,10 +18,6 @@ public class RectangleShape implements Drawable {
     private int getWidth() { return Math.abs(p1.x - p2.x); }
     private int getHeight() { return Math.abs(p1.y - p2.y); }
 
-    // @Override
-    // public void draw(Graphics g) {
-    //     g.drawRect(getX(), getY(), getWidth(), getHeight());
-    // }
 
     @Override
     public Rectangle getBounds() {

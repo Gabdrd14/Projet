@@ -8,6 +8,10 @@ public class Model {
     private List<Drawable> shapes = new ArrayList<>();
     private int compteur_piece = 8;
 
+    public float modificateur_score_cercele = 1.5f; // bonus pour les cercles
+    public float modificateur_score_rectangle = 1.0f; // bonus pour les rectangles  
+
+
     public void addShape(Drawable s) {
 
         shapes.add(s);
@@ -44,6 +48,39 @@ public class Model {
 
 
 
+    // public int scoring_game() {
+    //     if (compteur_piece == 0) {
+    //         int score_joueur_1 = 0;
+    //         int score_joueur_2 = 0;
+
+    //         for (Drawable s : shapes) {
+    //             if (s instanceof RectangleShape) {
+    //                 RectangleShape r = (RectangleShape) s;
+    //                 if (r.joueur.equals("joueur_1")) {
+    //                     score_joueur_1 += modificateur_score_rectangle;
+    //                 } else {
+    //                     score_joueur_2++;
+    //                 }
+    //             } else if (s instanceof CircleShape) {
+    //                 CircleShape c = (CircleShape) s;
+    //                 if (c.joueur.equals("joueur_1")) {
+    //                     score_joueur_1 += modificateur_score_rectangle;
+    //                 } else {
+    //                     score_joueur_2 += modificateur_score_cercele;
+    //                 }
+    //             }
+    //         }
+
+    //         if (score_joueur_1 > score_joueur_2) {
+    //             return 1; // joueur 1 gagne
+    //         } else if (score_joueur_2 > score_joueur_1) {
+    //             return 2; // joueur 2 gagne
+    //         } else {
+    //             return 0; // égalité
+    //         }
+    //     }
+    //     return -1; // partie en cours
+    // }
 
     
 }

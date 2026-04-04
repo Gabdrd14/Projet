@@ -8,7 +8,7 @@ public class Controleur extends MouseAdapter {
 
     private Model model;
     private Vue vue;
-    private Tool tool = Tool.RECTANGLE;
+    private Tool tool = Tool.RECTANGLE; // a change selon l'outil sélectionné dans l'interface graphique (à implémenter) 
 
     private Point start = null;
     private Point current = null;
@@ -28,7 +28,7 @@ public class Controleur extends MouseAdapter {
     public void mouseDragged(MouseEvent e) {
         current = e.getPoint();
         vue.setPreview(start, current, tool);
-        vue.repaint(); // 🔥 redraw en live
+        vue.repaint(); 
     }
 
     @Override
