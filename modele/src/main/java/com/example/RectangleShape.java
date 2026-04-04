@@ -2,7 +2,7 @@ package com.example;
 
 import java.awt.*;
 
-public class RectangleShape implements Drawable {
+public class RectangleShape implements Drawable { // Classe qui représente une forme de rectangle, elle implémente l'interface Drawable pour pouvoir être utilisée dans le modèle et la vue, elle contient les points de départ et de fin du rectangle ainsi que le joueur qui l'a dessiné, elle fournit des méthodes pour obtenir les limites du rectangle et pour accepter un visiteur d'intersection
 
     private Point p1, p2;
     private String joueur;

@@ -2,7 +2,7 @@ package com.example;
 
 import java.awt.*;
 
-public class CircleShape implements Drawable {
+public class CircleShape implements Drawable { // Même structure que RectangleShape, mais on peut différencier les formes via instanceof dans le visiteur
 
     private Point p1, p2;
     private String joueur;

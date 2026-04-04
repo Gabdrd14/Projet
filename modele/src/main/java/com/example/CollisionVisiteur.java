@@ -2,21 +2,21 @@ package com.example;
 
 import java.awt.Rectangle;
 
-public class CollisionVisiteur implements IntersectionVisiteur {
+public class CollisionVisiteur implements IntersectionVisiteur { // Visiteur pour vérifier les collisions entre formes, implémente l'interface IntersectionVisiteur pour pouvoir être utilisé dans les formes
 
     private Drawable other;
     private boolean result;
 
-    public CollisionVisiteur(Drawable other) {
+    public CollisionVisiteur(Drawable other) { // Constructeur qui prend l'autre forme à comparer
         this.other = other;
     }
 
-    public boolean getResult() {
+    public boolean getResult() { // Retourne le résultat de la collision après avoir visité la forme
         return result;
     }
 
     @Override
-    public void visit(RectangleShape r1) {
+    public void visit(RectangleShape r1) { // Vérifie les collisions entre un RectangleShape et l'autre forme
         if (other instanceof RectangleShape) {
             RectangleShape r2 = (RectangleShape) other;
             result = r1.getBounds().intersects(r2.getBounds());
@@ -28,7 +28,7 @@ public class CollisionVisiteur implements IntersectionVisiteur {
     }
 
     @Override
-    public void visit(CircleShape c1) {
+    public void visit(CircleShape c1) { // Vérifie les collisions entre un CircleShape et l'autre forme
         if (other instanceof CircleShape) {
             CircleShape c2 = (CircleShape) other;
             result = intersectCircleCircle(c1, c2);
@@ -39,7 +39,7 @@ public class CollisionVisiteur implements IntersectionVisiteur {
         }
     }
 
-    private boolean intersectCircleCircle(CircleShape c1, CircleShape c2) {
+    private boolean intersectCircleCircle(CircleShape c1, CircleShape c2) { // Vérifie les collisions entre deux cercles en utilisant la formule de distance entre les centres et les rayons
         int x1 = c1.getBounds().x + c1.getBounds().width / 2;
         int y1 = c1.getBounds().y + c1.getBounds().height / 2;
         int r1 = c1.getBounds().width / 2;
@@ -54,8 +54,8 @@ public class CollisionVisiteur implements IntersectionVisiteur {
         return dx * dx + dy * dy <= (r1 + r2) * (r1 + r2);
     }
 
-    private boolean intersectCircleRectangle(CircleShape c, RectangleShape r) {
-        Rectangle rect = r.getBounds();
+    private boolean intersectCircleRectangle(CircleShape c, RectangleShape r) { // Vérifie les collisions entre un cercle et un rectangle en utilisant la formule de distance entre le centre du cercle et le point le plus proche du rectangle
+        Rectangle rect = r.getBounds(); 
         Rectangle circ = c.getBounds();
 
         int cx = circ.x + circ.width / 2;
