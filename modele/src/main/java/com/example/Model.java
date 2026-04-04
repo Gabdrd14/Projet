@@ -59,50 +59,43 @@ public class Model { // Classe qui représente le modèle de données du jeu, el
         return false;
     }
 
+
+    protected void score_game() { // retourne le score du jeu, il est calculé en fonction du nombre de formes de chaque type pour chaque joueur, le score est égal au nombre de rectangles du joueur 1 moins le nombre de rectangles du joueur 2 plus le nombre de cercles du joueur 1 moins le nombre de cercles du joueur 2, un score positif signifie que le joueur 1 est en avance, un score négatif signifie que le joueur 2 est en avance, un score nul signifie que les deux joueurs sont à égalité
+         int score_joueur1 = 0;
+         int score_joueur2 = 0;
+
+        for (Drawable s : shapes) {
+            if (s instanceof RectangleShape) {
+
+                int forme_valeur = s.getBounds().getSize().width * s.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
+                score_joueur1 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 1
+
+            } else if (s instanceof CircleShape) {
+                int forme_valeur = (int) (Math.PI * Math.pow(s.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)²
+                score_joueur1 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 1
+            }
+        
+
+        for (Drawable y : shapes2) {
+            if (y instanceof RectangleShape) {
+                int forme_valeur = y.getBounds().getSize().width * y.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
+                score_joueur2 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 2
+            } else if (y instanceof CircleShape) {
+                int forme_valeur = (int) (Math.PI * Math.pow(y.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
+                score_joueur2 += forme_valeur; // Ajout de la valeur de la forme au score du joueur 2
+            } 
+        }}
+
+    }
+
+
     public List<Drawable> getShapes() { // retourne la liste des formes du joueur actuel
         return (compteur_piece > 4) ? shapes : shapes2;
     }
 
     public String getCurrentPlayer() {   // retourne le nom du joueur actuel
         return (compteur_piece > 4) ? "joueur_1" : "joueur_2";
+
     }
+
 }
-
-
-
-
-
-
-// public int scoring_game() {
-//     if (compteur_piece == 0) {
-//         int score_joueur_1 = 0;
-//         int score_joueur_2 = 0;
-
-//         for (Drawable s : shapes) {
-//             if (s instanceof RectangleShape) {
-//                 RectangleShape r = (RectangleShape) s;
-//                 if (r.joueur.equals("joueur_1")) {
-//                     score_joueur_1 += modificateur_score_rectangle;
-//                 } else {
-//                     score_joueur_2++;
-//                 }
-//             } else if (s instanceof CircleShape) {
-//                 CircleShape c = (CircleShape) s;
-//                 if (c.joueur.equals("joueur_1")) {
-//                     score_joueur_1 += modificateur_score_rectangle;
-//                 } else {
-//                     score_joueur_2 += modificateur_score_cercele;
-//                 }
-//             }
-//         }
-
-//         if (score_joueur_1 > score_joueur_2) {
-//             return 1; // joueur 1 gagne
-//         } else if (score_joueur_2 > score_joueur_1) {
-//             return 2; // joueur 2 gagne
-//         } else {
-//             return 0; // égalité
-//         }
-//     }
-//     return -1; // partie en cours
-// }
