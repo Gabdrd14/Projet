@@ -11,6 +11,8 @@ public class Model { // Classe qui représente le modèle de données du jeu, el
 
 
     private int compteur_piece = 12; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
+    private int score_joueur1 = 0; // Score du joueur 1,
+    private int score_joueur2 = 0; // Score du joueur 2, 
 
     public void addShape(Drawable s) { // ajoute une forme au modèle et vérifie les collisions, si collision -> suppression de la forme ajoutée 
         
@@ -60,9 +62,12 @@ public class Model { // Classe qui représente le modèle de données du jeu, el
     }
 
 
+
+
+
+
     protected void score_game() { // retourne le score du jeu, il est calculé en fonction du nombre de formes de chaque type pour chaque joueur, le score est égal au nombre de rectangles du joueur 1 moins le nombre de rectangles du joueur 2 plus le nombre de cercles du joueur 1 moins le nombre de cercles du joueur 2, un score positif signifie que le joueur 1 est en avance, un score négatif signifie que le joueur 2 est en avance, un score nul signifie que les deux joueurs sont à égalité
-         int score_joueur1 = 0;
-         int score_joueur2 = 0;
+
 
         for (Drawable s : shapes) {
             if (s instanceof RectangleShape) {
@@ -96,6 +101,24 @@ public class Model { // Classe qui représente le modèle de données du jeu, el
     public String getCurrentPlayer() {   // retourne le nom du joueur actuel
         return (compteur_piece > 4) ? "joueur_1" : "joueur_2";
 
+    }
+    
+
+    public int getscorejoueur1() { // retourne le score du joueur 1
+        return score_joueur1;
+    }
+
+    public int getscorejoueur2() { // retourne le score du joueur 2
+        return score_joueur2;
+    }
+
+
+    public void removeShape(Drawable s) { // Méthode pour supprimer une forme du modèle, elle est utilisée par l'IA pour annuler les coups testés lors de la recherche du meilleur coup, elle supprime la forme de la liste correspondante (shapes ou shapes2) en fonction du joueur actuel
+        if (shapes.contains(s)) {
+            shapes.remove(s);
+        } else if (shapes2.contains(s)) {
+            shapes2.remove(s);
+        }
     }
 
 }
