@@ -2,6 +2,8 @@ package Game.model;
 
 import java.awt.*;
 
+import Game.model.collision.IntersectionVisiteur;
+
 public class RectangleShape implements Shape {
 
     private Point p1, p2;
@@ -72,5 +74,9 @@ public class RectangleShape implements Shape {
 		 this.p1 = lastPoint;
 		 this.p2 = newPoint;
 	}
+    @Override
+    public void accept(IntersectionVisiteur visitor) {
+        visitor.visit(this);
+    }
 	
 }

@@ -3,6 +3,8 @@ package Game.model;
 import java.awt.*;
 import java.lang.Math;
 
+import Game.model.collision.IntersectionVisiteur;
+
 public class CircleShape implements Shape {
 
     private Point center;   
@@ -61,4 +63,11 @@ public class CircleShape implements Shape {
 	    int dy = newPoint.y - lastPoint.y;
 	    this.radius = (int) Math.sqrt(dx*dx + dy*dy);
 	}
+
+    
+    @Override
+    public void accept(IntersectionVisiteur visitor) {
+        visitor.visit(this);
+    }
+    
 }
