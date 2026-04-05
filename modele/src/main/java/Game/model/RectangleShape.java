@@ -69,8 +69,11 @@ public class RectangleShape implements Shape {
 
 	@Override
 	public void resize(Point lastPoint, Point newPoint) {
-		 this.p1 = lastPoint;
-		 this.p2 = newPoint;
+	    int dx = newPoint.x - lastPoint.x;
+	    int dy = newPoint.y - lastPoint.y;
+
+	    p2.x += dx;
+	    p2.y += dy;
 	}
 	
 }
