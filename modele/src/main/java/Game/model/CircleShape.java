@@ -7,27 +7,42 @@ public class CircleShape implements Shape {
 
     private Point center;   
     private int radius;    
-    private String joueur;  
-
-    public CircleShape(Point center, int radius, String joueur) {
+    
+    public CircleShape(Point center, int radius) {
         this.center = center;
         this.radius = radius;
-        this.joueur = joueur;
     }
-
+    
+    // Getter : //
+    
     // Hitbox //
     @Override
     public Rectangle getBounds() {
         return new Rectangle(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
     }
+    
+    public Point getCenter() {
+        return center;
+    }
+    
+    public int getRadius() {
+        return radius;
+    }
+    
+    // Setter : //
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
 
+    
     @Override
     public void move(int dx, int dy) {
         center.x += dx;
         center.y += dy;
+        // firechange
     }
 
-    // Vérifie si un point est à l'intérieur du cercle //
+    // On vérifie si un point est à l'intérieur du cercle //
     @Override
     public boolean contains(Point p) {
         int dx = p.x - center.x;
@@ -39,5 +54,11 @@ public class CircleShape implements Shape {
 	public double surface() {
 		return Math.PI * (radius * radius);
 	}
-    
+	
+	@Override
+	public void resize(Point lastPoint, Point newPoint) {
+	    int dx = newPoint.x - lastPoint.x;
+	    int dy = newPoint.y - lastPoint.y;
+	    this.radius = (int) Math.sqrt(dx*dx + dy*dy);
+	}
 }

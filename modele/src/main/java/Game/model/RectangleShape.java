@@ -12,16 +12,35 @@ public class RectangleShape implements Shape {
         this.p2 = p2;
     }
 
-    private int getX() { return Math.min(p1.x, p2.x); }
-    private int getY() { return Math.min(p1.y, p2.y); }
-    private int getWidth() { return Math.abs(p1.x - p2.x); }
-    private int getHeight() { return Math.abs(p1.y - p2.y); }
+    // Getter //
+    public int getX() { 
+    	return Math.min(p1.x, p2.x); 
+    }
     
-   
+    public int getY() { 
+    	return Math.min(p1.y, p2.y); 
+    }
+    
+    public int getWidth() { 
+    	return Math.abs(p1.x - p2.x); 
+    }
+    
+    public int getHeight() { 
+    	return Math.abs(p1.y - p2.y); 
+    }
+    
     @Override
     public Rectangle getBounds() {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
+    
+    // Setter //
+    
+    // Méthode pour changer la position finale //
+    public void setEndPoint(Point end) {
+        this.p2 = end;
+    }
+    
 
     @Override
     public void move(int dx, int dy) {
@@ -29,6 +48,7 @@ public class RectangleShape implements Shape {
         p1.y += dy;
         p2.x += dx;
         p2.y += dy;
+        // firechange 
     }
 
     // Vérifie si un point est à l'intérieur du rectangle //
@@ -46,7 +66,11 @@ public class RectangleShape implements Shape {
 	public double surface() {
 		 return getWidth() * getHeight();
 	}
-	
-	
+
+	@Override
+	public void resize(Point lastPoint, Point newPoint) {
+		 this.p1 = lastPoint;
+		 this.p2 = newPoint;
+	}
 	
 }

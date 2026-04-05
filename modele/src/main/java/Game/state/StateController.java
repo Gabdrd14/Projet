@@ -1,4 +1,4 @@
-package Game.controller;
+package Game.state;
 
 import java.awt.Point;
 
