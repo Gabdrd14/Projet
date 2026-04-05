@@ -57,8 +57,8 @@ public class CircleShape implements Shape {
 	
 	@Override
 	public void resize(Point lastPoint, Point newPoint) {
-		int dx = newPoint.x - center.x;
-		int dy = newPoint.y - center.y;
-		this.radius = (int) Math.sqrt(dx * dx + dy * dy);
+	    int dx = newPoint.x - lastPoint.x;
+	    int dy = newPoint.y - lastPoint.y;
+	    this.radius = (int) Math.sqrt(dx*dx + dy*dy);
 	}
 }
