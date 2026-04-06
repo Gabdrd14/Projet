@@ -28,7 +28,7 @@ public class GameMenu {
         JLabel loadingLabel = new JLabel("Loading in progress . . . ");
         try {
             Font PermanentMarker = Font.createFont(Font.TRUETYPE_FONT, 
-            new File("modele/src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(44f);
+            new File("src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(44f);
             loadingLabel.setFont(PermanentMarker);
         } catch (FontFormatException | IOException e) {
         }
@@ -62,13 +62,13 @@ public class GameMenu {
         JLabel transitionLabel1 = new JLabel("Welcome to");
         try {
             Font PermanentMarker = Font.createFont(Font.TRUETYPE_FONT, 
-            new File("modele/src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(34f);
+            new File("src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(34f);
             transitionLabel1.setFont(PermanentMarker);
         } catch (FontFormatException | IOException e) {
         }
         
      // Charger l'image
-        ImageIcon logoImage = new ImageIcon("modele/src/main/java/Images/Shape_Wars_logo.png");
+        ImageIcon logoImage = new ImageIcon("src/main/java/Images/Shape_Wars_logo.png");
         Image image = logoImage.getImage().getScaledInstance(900, 600, Image.SCALE_SMOOTH);
         ImageIcon resizedLogo = new ImageIcon(image);
         JLabel logoLabel = new JLabel(resizedLogo);
@@ -83,7 +83,7 @@ public class GameMenu {
         JLabel transitionLabel2 = new JLabel("Press any key on the keyboard to continue . . . ");
         try {
             Font PermanentMarker = Font.createFont(Font.TRUETYPE_FONT, 
-            new File("modele/src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(34f);
+            new File("src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(34f);
             transitionLabel2.setFont(PermanentMarker);
         } catch (FontFormatException | IOException e) {
         }
@@ -112,7 +112,7 @@ public class GameMenu {
 
     private static void showMainMenu(JFrame frame) {
         
-    	ImageIcon backgroundImage = new ImageIcon("modele/src/main/java/Images/fond_menu_2.png");
+    	ImageIcon backgroundImage = new ImageIcon("src/main/java/Images/fond_menu_2.png");
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setLayout(new BorderLayout());
         frame.setContentPane(backgroundLabel);  
@@ -138,7 +138,7 @@ public class GameMenu {
 
         try {
             Font PermanentMarker = Font.createFont(Font.TRUETYPE_FONT, 
-            new File("modele/src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(30f);
+            new File("src/main/java/Fonts/PermanentMarker-Regular.ttf")).deriveFont(30f);
             playButton.setFont(PermanentMarker);
             characterButton.setFont(PermanentMarker);
             settingsButton.setFont(PermanentMarker);
@@ -166,7 +166,7 @@ public class GameMenu {
         
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(300, 25, 0, 0));
 
-        JButton quitButton = new JButton(new ImageIcon("modele/src/main/java/Images/Bouton_exit.png"));
+        JButton quitButton = new JButton(new ImageIcon("src/main/java/Images/Bouton_exit.png"));
         quitButton.setPreferredSize(new Dimension(60, 60)); 
         quitButton.setBackground(new Color(200, 200, 200));
         quitButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
@@ -196,7 +196,7 @@ public class GameMenu {
         backgroundLabel.add(quitPanel, BorderLayout.SOUTH);
 
         // Bouton "Pause musique"
-        JButton musicBreakButton = new JButton(new ImageIcon("modele/src/main/java/Images/Bouton_pause.png"));
+        JButton musicBreakButton = new JButton(new ImageIcon("src/main/java/Images/Bouton_pause.png"));
         musicBreakButton.setPreferredSize(new Dimension(60, 60)); 
         musicBreakButton.setBackground(new Color(200, 200, 200));
         musicBreakButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
@@ -249,7 +249,7 @@ public class GameMenu {
     
     private static void playBackgroundMusic() {
         try {
-            File audioFile = new File("modele/src/main/java/Musique/musique_jeu.wav"); 
+            File audioFile = new File("src/main/java/Musique/musique_jeu.wav"); 
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip(); 
             clip.open(audioStream);

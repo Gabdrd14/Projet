@@ -35,16 +35,16 @@ public class GameFrame extends JFrame {
         menuPanel.setBackground(new Color(242, 242, 242));
 
         // Boutons à gauche
-        JButton rectangleButton = createIconButton("modele/src/main/java/Images/bouton_rectangle.png", 70, 40);
-        JButton circleButton = createIconButton("modele/src/main/java/Images/bouton_cercle.png", 40, 40);
+        JButton rectangleButton = createIconButton("src/main/java/Images/bouton_rectangle.png", 70, 40);
+        JButton circleButton = createIconButton("src/main/java/Images/bouton_cercle.png", 40, 40);
         JButton polygonButton = createTextButton("Polygone");
 
         JPanel leftButtons = createButtonPanel(FlowLayout.LEFT, rectangleButton, circleButton, polygonButton);
 
         // Boutons à droite
-        JButton deleteButton = createIconButton("modele/src/main/java/Images/bouton_supprimer.png", 40, 40);
-        JButton undoButton = createIconButton("modele/src/main/java/Images/undo.png", 40, 40);
-        JButton redoButton = createIconButton("modele/src/main/java/Images/redo.png", 40, 40);
+        JButton deleteButton = createIconButton("src/main/java/Images/bouton_supprimer.png", 40, 40);
+        JButton undoButton = createIconButton("src/main/java/Images/undo.png", 40, 40);
+        JButton redoButton = createIconButton("src/main/java/Images/redo.png", 40, 40);
 
         JPanel rightButtons = createButtonPanel(FlowLayout.RIGHT, deleteButton, undoButton, redoButton);
 
