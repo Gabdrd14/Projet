@@ -7,7 +7,7 @@ import Game.command.CommandDeleteShape;
 import Game.command.CommandHandler;
 import Game.command.CommandMoveShape;
 
-public class StateDeleteShape extends StateController {
+public class StateDeleteShape implements StateController {
 
     private Plateau plateau;
     private CommandHandler commandHandler;

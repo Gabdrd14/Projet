@@ -7,7 +7,7 @@ import Game.command.CommandCreateRectangle;
 import Game.command.CommandHandler;
 import Game.command.CommandMoveShape;
 
-public class StateMoveShape extends StateController {
+public class StateMoveShape implements StateController {
 
     private Plateau plateau;       
     private Shape selectedShape;

@@ -8,7 +8,7 @@ import Game.model.CircleShape;
 import Game.command.CommandHandler;
 import Game.command.CommandCreateCircle;
 
-public class StateCreateCircle extends StateController {
+public class StateCreateCircle implements StateController {
 
     private Plateau plateau;
     private CommandHandler commandHandler;

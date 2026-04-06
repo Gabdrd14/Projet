@@ -8,7 +8,7 @@ import Game.command.CommandResizeShape;
 import Game.model.Plateau;
 import Game.model.Shape;
 
-public class StateResizeShape extends StateController {
+public class StateResizeShape implements StateController {
 
     private Plateau plateau;       
     private Shape selectedShape;
