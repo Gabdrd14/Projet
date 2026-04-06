@@ -12,7 +12,8 @@ import Game.view.GameFrame;
 
 public class GameMenu {
     
-    private static Clip clip; 
+    private static Clip clip;
+    private static int a;
     private static boolean isPaused = false;
     private static boolean transitionShown = false;
     
