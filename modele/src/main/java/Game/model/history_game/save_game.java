@@ -1,4 +1,4 @@
-package Game.model.history;
+package Game.model.history_game;
 
 import java.io.*;
 import java.util.ArrayList;
