@@ -46,7 +46,7 @@ public class GamePanel extends JPanel {
         }
 
         
-        System.out.println(plateau.getObstacles());
+        //System.out.println(plateau.getObstacles());
         
         
         // Dessine la forme temporaire (preview) //

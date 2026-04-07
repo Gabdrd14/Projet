@@ -256,6 +256,7 @@ public class GameMenu {
             }
             isPaused = !isPaused; 
         }
+        
     }
     
     private static void playBackgroundMusic() {

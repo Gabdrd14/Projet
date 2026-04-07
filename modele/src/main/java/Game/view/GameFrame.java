@@ -3,9 +3,7 @@ package Game.view;
 
 import Game.model.Shape; 
 import Game.model.Tool ;
-import Game.state.StateController;
-import Game.state.StateCreateCircle;
-import Game.state.StateCreateRectangle;
+import Game.state.*;
 import Game.command.CommandHandler;
 import Game.model.CircleShape;
 import Game.model.Plateau;
@@ -31,6 +29,7 @@ public class GameFrame extends JFrame {
     
     private StateCreateRectangle stateCreateRectangle;
     private StateCreateCircle stateCreateCircle;
+    private StateDeleteShape stateDeleteShape;
     private CommandHandler commandHandler;
     private StateController currentState;
     
@@ -39,6 +38,7 @@ public class GameFrame extends JFrame {
         commandHandler = new CommandHandler();
         stateCreateRectangle = new StateCreateRectangle(plateau, commandHandler);
         stateCreateCircle = new StateCreateCircle(plateau, commandHandler);
+        stateDeleteShape = new StateDeleteShape(plateau, commandHandler);
         
         setTitle("Shape Wars");
         setSize(1920, 1080);
@@ -113,11 +113,45 @@ public class GameFrame extends JFrame {
         rectangleButton.addActionListener(e -> {
             currentState = stateCreateRectangle;
             gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            gamePanel.repaint();
+            
+            // Test : //
+            
+            System.out.println(plateau.getFormePlacees());
         });
 
         circleButton.addActionListener(e -> {
             currentState = stateCreateCircle;
             gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            //gamePanel.repaint();
+            
+            System.out.println(plateau.getFormePlacees());
+        });
+        
+        deleteButton.addActionListener(e -> {
+            currentState = stateDeleteShape;
+            gamePanel.setCursor(Cursor.getDefaultCursor());
+            //gamePanel.repaint();
+            
+            System.out.println(plateau.getFormePlacees());
+        });
+        
+        undoButton.addActionListener(e -> {
+        	 currentState = null;
+        	 commandHandler.undo();
+             gamePanel.setCursor(Cursor.getDefaultCursor());
+             gamePanel.repaint();
+             
+             System.out.println(plateau.getFormePlacees());
+        });
+        
+        redoButton.addActionListener(e -> {
+       	 	commandHandler.redo();
+       	 	currentState = null;
+            gamePanel.setCursor(Cursor.getDefaultCursor());
+            gamePanel.repaint();
+            
+            System.out.println(plateau.getFormePlacees());
         });
         
         revalidate();

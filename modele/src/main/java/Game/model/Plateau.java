@@ -183,14 +183,17 @@ public class Plateau {
 
         for (Shape s : shapes) {
             if (s.equals(forme)) {
-                this.shapes.remove(s);
+                shapes.remove(s);
+                
+                System.out.println("Shapes 1 :" + forme);
                 return;
             }
         }
 
          for (Shape s : shapes2) {
             if (s.equals(forme)) {
-                this.shapes2.remove(s);
+                shapes2.remove(s);
+                System.out.println("Shapes 2 :" + forme);
                 return;
             }
         }
@@ -228,7 +231,10 @@ public class Plateau {
      }
 
     public List<Shape> getFormePlacees() {
-        return (compteur_piece > 4) ? shapes : shapes2;
+        List<Shape> allShape = new ArrayList<>();
+        allShape.addAll(shapes);
+        allShape.addAll(shapes2);
+        return allShape;
     }
 
     public void setStrategieDeGen(StrategiePlateau strategieDeGen) {
