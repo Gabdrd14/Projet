@@ -6,7 +6,7 @@ import Game.command.CommandHandler;
 import Game.command.CommandMoveShape;
 import Game.command.CommandResizeShape;
 import Game.model.Plateau;
-import Game.model.Shape;
+import Game.model.Form.Shape;
 
 public class StateResizeShape implements StateController {
 

@@ -1,7 +1,7 @@
 package Game.command;
 
 import Game.model.Plateau;
-import Game.model.CircleShape;
+import Game.model.Form.CircleShape;
 
 public class CommandCreateCircle implements OperationCommand {
 
