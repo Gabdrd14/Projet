@@ -1,8 +1,8 @@
 package Game.view;
 
-import Game.model.Shape;
-import Game.model.RectangleShape;
-import Game.model.CircleShape;
+import Game.model.Form.CircleShape;
+import Game.model.Form.RectangleShape;
+import Game.model.Form.Shape;
 import Game.model.Plateau;
 
 import javax.swing.*;
