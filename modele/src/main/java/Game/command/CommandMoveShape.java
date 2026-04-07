@@ -1,6 +1,6 @@
 package Game.command;
 
-import Game.model.Shape;
+import Game.model.Form.Shape;
 
 public class CommandMoveShape implements OperationCommand {
 

@@ -1,6 +1,10 @@
 package Game.model;
 import java.util.ArrayList;
 import java.util.List;
+
+import Game.model.Form.CircleShape;
+import Game.model.Form.RectangleShape;
+import Game.model.Form.Shape;
 import Game.model.collision.CollisionUtil;
 
 

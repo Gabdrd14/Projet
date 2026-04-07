@@ -1,6 +1,6 @@
 package Game.model.collision;
 
-import Game.model.Shape;
+import Game.model.Form.Shape;
 
 public class CollisionUtil { // Classe utilitaire pour vérifier les collisions entre formes
 

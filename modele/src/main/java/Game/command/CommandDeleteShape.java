@@ -1,7 +1,7 @@
 package Game.command;
 
 import Game.model.Plateau;
-import Game.model.Shape;
+import Game.model.Form.Shape;
 
 public class CommandDeleteShape implements OperationCommand {
     
