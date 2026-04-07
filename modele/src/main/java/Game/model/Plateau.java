@@ -15,7 +15,7 @@ public class Plateau {
     private List<Shape> shapes2 ; 
     private List<Shape> liste_obstacle ;
     
-    protected int compteur_piece = 12; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
+    protected int compteur_piece ; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
     private int score_joueur1 ; // Score du joueur 1,
     private int score_joueur2 ; // Score du joueur 2, 
 
@@ -31,12 +31,13 @@ public class Plateau {
         // this.obstacles = new ListeForme();
         // this.formePlacee = new ListeForme();
 
+
         this.liste_obstacle = new ArrayList<>();
         this.shapes = new ArrayList<>();
         this.shapes2 = new ArrayList<>();
         this.score_joueur1 = 0;
         this.score_joueur2 = 0;
-
+        this.compteur_piece = 8 ;
         this.strategieDeGen = strategieDeGen;
 
     }
@@ -122,7 +123,14 @@ public class Plateau {
 
 
     public List<Shape> getShapes() { // retourne la liste des formes du joueur actuel
-        return (compteur_piece > 4) ? shapes : shapes2;
+
+
+        List<Shape> allShape = new ArrayList<>();
+        allShape.addAll(shapes);
+        allShape.addAll(shapes2);
+
+
+        return allShape;
     }
 
     public String getCurrentPlayer() {   // retourne le nom du joueur actuel
@@ -146,10 +154,27 @@ public class Plateau {
     
     public void ajouterFormePlacee(Shape forme){  // test 
 
-        if (compteur_piece > 4) {
-            this.shapes.add(forme);
-        } else {
-            this.shapes2.add(forme);
+        // if (compteur_piece > 4) {
+        //     this.shapes.add(forme);
+        // } else {
+        //     this.shapes2.add(forme);
+        // }
+
+        boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
+
+        boolean isPlayer1 = compteur_piece > 4; // si compteur > 4 alors c'est le joueur 1 qui joue, sinon c'est le joueur 2
+
+        List<Shape> current = isObstacle ? liste_obstacle : (isPlayer1 ? shapes : shapes2);
+        current.add(forme);
+        compteur_piece--;
+
+        if (collision(isPlayer1)) {
+            current.remove(current.size() - 1);
+            System.out.println("Collision -> suppression");
+        }
+
+        if (compteur_piece == 0) {
+            System.out.println("FINISH");
         }
     }
 
