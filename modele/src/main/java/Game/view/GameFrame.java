@@ -30,6 +30,8 @@ public class GameFrame extends JFrame {
     private StateCreateRectangle stateCreateRectangle;
     private StateCreateCircle stateCreateCircle;
     private StateDeleteShape stateDeleteShape;
+    private StateMoveShape stateMoveShape;
+    private StateResizeShape stateResizeShape;
     private CommandHandler commandHandler;
     private StateController currentState;
     
@@ -39,6 +41,8 @@ public class GameFrame extends JFrame {
         stateCreateRectangle = new StateCreateRectangle(plateau, commandHandler);
         stateCreateCircle = new StateCreateCircle(plateau, commandHandler);
         stateDeleteShape = new StateDeleteShape(plateau, commandHandler);
+        stateMoveShape = new StateMoveShape(plateau, commandHandler);
+        stateResizeShape = new StateResizeShape(plateau, commandHandler);
         
         setTitle("Shape Wars");
         setSize(1920, 1080);
@@ -58,17 +62,18 @@ public class GameFrame extends JFrame {
         // Boutons à gauche
         JButton rectangleButton = createIconButton("src/main/java/Images/bouton_rectangle.png", 70, 40);
         JButton circleButton = createIconButton("src/main/java/Images/bouton_cercle.png", 40, 40);
-        JButton polygonButton = createTextButton("Polygone");
+        JButton resizeButton = createIconButton("src/main/java/Images/Bouton_resize.png", 40, 40);
+        JButton moveButton = createIconButton("src/main/java/Images/Bouton_move.png", 50, 40);
+        JButton deleteButton = createIconButton("src/main/java/Images/bouton_supprimer.png", 40, 40);
 
-        JPanel leftButtons = createButtonPanel(FlowLayout.LEFT, rectangleButton, circleButton, polygonButton);
+        JPanel leftButtons = createButtonPanel(FlowLayout.LEFT, rectangleButton, circleButton, resizeButton, moveButton, deleteButton);
         leftButtons.setOpaque(false);
 
         // Boutons à droite
-        JButton deleteButton = createIconButton("src/main/java/Images/bouton_supprimer.png", 40, 40);
         JButton undoButton = createIconButton("src/main/java/Images/undo.png", 40, 40);
         JButton redoButton = createIconButton("src/main/java/Images/redo.png", 40, 40);
 
-        JPanel rightButtons = createButtonPanel(FlowLayout.RIGHT, deleteButton, undoButton, redoButton);
+        JPanel rightButtons = createButtonPanel(FlowLayout.RIGHT, undoButton, redoButton);
         rightButtons.setOpaque(false);
 
         menuPanel.add(leftButtons, BorderLayout.WEST);
@@ -80,8 +85,8 @@ public class GameFrame extends JFrame {
         add(menuPanel, BorderLayout.NORTH);
         add(gamePanel, BorderLayout.CENTER);
         
-        menuPanel.revalidate();
-        menuPanel.repaint();
+        //menuPanel.revalidate();
+        //menuPanel.repaint();
         
         // ---------------------------------------------------------------------------------- //
         // Gestion des boutons : un seul listener qui s'adapte au type du bouton //
@@ -103,18 +108,26 @@ public class GameFrame extends JFrame {
             @Override
             public void mouseDragged(java.awt.event.MouseEvent me) {
                 if (currentState != null) currentState.mouseDragged(me.getPoint());
+                
                 if (currentState instanceof StateCreateRectangle)
                     gamePanel.setPreview(((StateCreateRectangle) currentState).getCurrentRect());
+                
                 else if (currentState instanceof StateCreateCircle)
                     gamePanel.setPreview(((StateCreateCircle) currentState).getCurrentcirc());
+                
+                else if (currentState instanceof StateMoveShape)
+                	gamePanel.setPreview(((StateMoveShape) currentState).getCurrentShape());
+                
+                else if (currentState instanceof StateResizeShape)
+                	gamePanel.setPreview(((StateResizeShape) currentState).getCurrentShape());
+                
             }
         });
         
         rectangleButton.addActionListener(e -> {
             currentState = stateCreateRectangle;
             gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-            gamePanel.repaint();
-            
+
             // Test : //
             
             System.out.println(plateau.getFormePlacees());
@@ -123,7 +136,6 @@ public class GameFrame extends JFrame {
         circleButton.addActionListener(e -> {
             currentState = stateCreateCircle;
             gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-            //gamePanel.repaint();
             
             System.out.println(plateau.getFormePlacees());
         });
@@ -131,7 +143,6 @@ public class GameFrame extends JFrame {
         deleteButton.addActionListener(e -> {
             currentState = stateDeleteShape;
             gamePanel.setCursor(Cursor.getDefaultCursor());
-            //gamePanel.repaint();
             
             System.out.println(plateau.getFormePlacees());
         });
@@ -149,6 +160,22 @@ public class GameFrame extends JFrame {
        	 	commandHandler.redo();
        	 	currentState = null;
             gamePanel.setCursor(Cursor.getDefaultCursor());
+            gamePanel.repaint();
+            
+            System.out.println(plateau.getFormePlacees());
+        });
+        
+        moveButton.addActionListener(e -> {
+       	 	currentState = stateMoveShape;
+       	    gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+            gamePanel.repaint();
+            
+            System.out.println(plateau.getFormePlacees());
+        });
+        
+        resizeButton.addActionListener(e -> {
+       	 	currentState = stateResizeShape;
+       	    gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
             gamePanel.repaint();
             
             System.out.println(plateau.getFormePlacees());

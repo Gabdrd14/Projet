@@ -55,4 +55,8 @@ public class StateResizeShape implements StateController {
             newPoint = null;
         }
     }
+    
+    public Shape getCurrentShape() {
+        return selectedShape;
+    }
 }

@@ -70,9 +70,10 @@ public class RectangleShape implements Shape {
 
 	@Override
 	public void resize(Point lastPoint, Point newPoint) {
-		 this.p1 = lastPoint;
 		 this.p2 = newPoint;
+		 //firechange
 	}
+	
     @Override
     public void accept(IntersectionVisiteur visitor) {
         visitor.visit(this);
