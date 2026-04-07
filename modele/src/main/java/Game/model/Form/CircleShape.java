@@ -1,4 +1,4 @@
-package Game.model;
+package Game.model.Form;
 
 import java.awt.*;
 import java.lang.Math;
