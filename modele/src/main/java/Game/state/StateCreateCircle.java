@@ -3,8 +3,8 @@ package Game.state;
 import java.awt.Point;
 
 import Game.model.Plateau;
-import Game.model.RectangleShape;
-import Game.model.CircleShape;
+import Game.model.Form.CircleShape;
+import Game.model.Form.RectangleShape;
 import Game.command.CommandHandler;
 import Game.command.CommandCreateCircle;
 

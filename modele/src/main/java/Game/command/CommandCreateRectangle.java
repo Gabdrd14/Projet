@@ -1,7 +1,7 @@
 package Game.command;
 
 import Game.model.Plateau;
-import Game.model.RectangleShape;
+import Game.model.Form.RectangleShape;
 
 public class CommandCreateRectangle implements OperationCommand {
 

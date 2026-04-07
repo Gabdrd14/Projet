@@ -3,9 +3,9 @@ package Game.model.collision;
 
 import java.awt.Rectangle;
 
-import Game.model.CircleShape;
-import Game.model.RectangleShape;
-import Game.model.Shape;
+import Game.model.Form.CircleShape;
+import Game.model.Form.RectangleShape;
+import Game.model.Form.Shape;
 
 public class CollisionVisiteur implements IntersectionVisiteur { // Visiteur pour vérifier les collisions entre formes, implémente l'interface IntersectionVisiteur pour pouvoir être utilisé dans les formes
 

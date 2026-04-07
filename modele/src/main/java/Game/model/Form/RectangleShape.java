@@ -7,7 +7,6 @@ import Game.model.collision.IntersectionVisiteur;
 public class RectangleShape implements Shape {
 
     private Point p1, p2;
-    private String joueur;
 
     public RectangleShape(Point p1, Point p2) {
         this.p1 = p1;

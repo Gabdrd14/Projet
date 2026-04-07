@@ -2,6 +2,9 @@ package Game.model;
 
 import java.awt.Point;
 
+import Game.model.Form.CircleShape;
+import Game.model.Form.RectangleShape;
+
 public class StratGen1 implements StrategiePlateau {
 
     @Override
