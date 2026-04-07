@@ -9,12 +9,17 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
 import Game.view.GameFrame;
+import Game.model.Plateau;
+import Game.model.StratGen1;
+import Game.model.StratGen2;
+import Game.model.StrategiePlateau;
 
 public class GameMenu {
     
     private static Clip clip;
     private static boolean isPaused = false;
     private static boolean transitionShown = false;
+    private static Plateau plateau;
     
     public static void main(String[] args) {
         
@@ -224,11 +229,17 @@ public class GameMenu {
         
         playButton.addActionListener(e -> {
         	  
-        	  // Test 	
+        	  // Test : //	
         	  boolean test = GameSettings.isHiddenChallenge();
         	  System.out.println(test);
         	  
-        	  new GameFrame();
+        	  StrategiePlateau strategie1 = new StratGen1();
+        	  
+        	  GameMenu.plateau = new Plateau(1920,1080,strategie1);
+        	  
+        	  GameMenu.plateau.genererObs();       	  
+        	  
+        	  new GameFrame(GameMenu.plateau);
         	
         });
         

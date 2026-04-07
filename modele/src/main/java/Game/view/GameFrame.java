@@ -3,26 +3,43 @@ package Game.view;
 
 import Game.model.Shape; 
 import Game.model.Tool ;
+import Game.state.StateController;
+import Game.state.StateCreateCircle;
+import Game.state.StateCreateRectangle;
+import Game.command.CommandHandler;
 import Game.model.CircleShape;
 import Game.model.Plateau;
 import Game.model.RectangleShape;
 import javax.swing.*;
 import java.awt.*;
 
+import Game.model.Plateau;
+
 public class GameFrame extends JFrame {
 
     private JPanel menuPanel;   // bande du haut
-    private JPanel gamePanel;   // surface de jeu
+    //private JPanel gamePanel;
+    
+    private GamePanel gamePanel;   // surface de jeu //
 
-    private Plateau plateau ; // Modèle du jeu, il contient les formes placées sur le plateau, les scores des joueurs, et le compteur de pièces restantes, il est partagé entre la vue et le contrôleur pour permettre la communication et la synchronisation entre les deux
+    private Plateau plateau; // Modèle du jeu, il contient les formes placées sur le plateau, les scores des joueurs, et le compteur de pièces restantes, il est partagé entre la vue et le contrôleur pour permettre la communication et la synchronisation entre les deux
     // private Point p1, p2;
     // private Tool previewTool;
 
-
     // ajouter plateau  en paramètre du constructeur pour pouvoir l'associer à la vue et au contrôleur, et permettre la communication entre les deux, la vue observe le modèle pour se redessiner à chaque changement, et le contrôleur modifie le modèle en réponse aux actions de l'utilisateur
-    public GameFrame() { // Constructeur de la fenêtre principale du jeu, il prend en paramètre le modèle pour pouvoir l'associer à la vue et au contrôleur, il initialise les composants graphiques de la fenêtre (menu et surface de jeu), et configure les propriétés de la fenêtre (taille, titre, comportement à la fermeture)
-        // this.plateau = plateau;
-
+    
+    
+    private StateCreateRectangle stateCreateRectangle;
+    private StateCreateCircle stateCreateCircle;
+    private CommandHandler commandHandler;
+    private StateController currentState;
+    
+    public GameFrame(Plateau plateau) {
+        this.plateau = plateau; // Constructeur de la fenêtre principale du jeu, il prend en paramètre le modèle pour pouvoir l'associer à la vue et au contrôleur, il initialise les composants graphiques de la fenêtre (menu et surface de jeu), et configure les propriétés de la fenêtre (taille, titre, comportement à la fermeture)
+        commandHandler = new CommandHandler();
+        stateCreateRectangle = new StateCreateRectangle(plateau, commandHandler);
+        stateCreateCircle = new StateCreateCircle(plateau, commandHandler);
+        
         setTitle("Shape Wars");
         setSize(1920, 1080);
         setLocationRelativeTo(null);
@@ -32,14 +49,19 @@ public class GameFrame extends JFrame {
         // MENU DU HAUT //
         menuPanel = new JPanel(new BorderLayout());
         menuPanel.setPreferredSize(new Dimension(1000, 80));
+        //menuPanel.setOpaque(true); 
         menuPanel.setBackground(new Color(242, 242, 242));
-
+        
+        
+        // Création des boutons : //
+        
         // Boutons à gauche
         JButton rectangleButton = createIconButton("src/main/java/Images/bouton_rectangle.png", 70, 40);
         JButton circleButton = createIconButton("src/main/java/Images/bouton_cercle.png", 40, 40);
         JButton polygonButton = createTextButton("Polygone");
 
         JPanel leftButtons = createButtonPanel(FlowLayout.LEFT, rectangleButton, circleButton, polygonButton);
+        leftButtons.setOpaque(false);
 
         // Boutons à droite
         JButton deleteButton = createIconButton("src/main/java/Images/bouton_supprimer.png", 40, 40);
@@ -47,18 +69,59 @@ public class GameFrame extends JFrame {
         JButton redoButton = createIconButton("src/main/java/Images/redo.png", 40, 40);
 
         JPanel rightButtons = createButtonPanel(FlowLayout.RIGHT, deleteButton, undoButton, redoButton);
+        rightButtons.setOpaque(false);
 
         menuPanel.add(leftButtons, BorderLayout.WEST);
-        menuPanel.add(rightButtons, BorderLayout.EAST);
-        
+        menuPanel.add(rightButtons, BorderLayout.EAST);        
         
         // SURFACE DE JEU //
-        gamePanel = new JPanel();
-        gamePanel.setBackground(new Color(191, 191, 191));
+        gamePanel = new GamePanel(this.plateau);
 
         add(menuPanel, BorderLayout.NORTH);
         add(gamePanel, BorderLayout.CENTER);
+        
+        menuPanel.revalidate();
+        menuPanel.repaint();
+        
+        // ---------------------------------------------------------------------------------- //
+        // Gestion des boutons : un seul listener qui s'adapte au type du bouton //
 
+        gamePanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent me) {
+                if (currentState != null) currentState.mousePressed(me.getPoint());
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent me) {
+                if (currentState != null) currentState.mouseReleased(me.getPoint());
+                gamePanel.setPreview(null);
+            }
+        });
+
+        gamePanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(java.awt.event.MouseEvent me) {
+                if (currentState != null) currentState.mouseDragged(me.getPoint());
+                if (currentState instanceof StateCreateRectangle)
+                    gamePanel.setPreview(((StateCreateRectangle) currentState).getCurrentRect());
+                else if (currentState instanceof StateCreateCircle)
+                    gamePanel.setPreview(((StateCreateCircle) currentState).getCurrentcirc());
+            }
+        });
+        
+        rectangleButton.addActionListener(e -> {
+            currentState = stateCreateRectangle;
+            gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        });
+
+        circleButton.addActionListener(e -> {
+            currentState = stateCreateCircle;
+            gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        });
+        
+        revalidate();
+        repaint();
         setVisible(true);
     }
 
