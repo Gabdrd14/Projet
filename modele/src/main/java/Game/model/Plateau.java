@@ -7,10 +7,6 @@ import Game.model.collision.CollisionUtil;
 public class Plateau {
     private int largeur;
     private int hauteur;
-
-    // private ListeForme obstacles; // forme placée à l'initialisation de la partie 
-    // private ListeForme formePlacee;  // forme placée par les joueurs 
-
     private List<Shape> shapes ;
     private List<Shape> shapes2 ; 
     private List<Shape> liste_obstacle ;
@@ -26,12 +22,6 @@ public class Plateau {
     public Plateau(int largeur, int hauteur, StrategiePlateau strategieDeGen) {
         this.largeur = largeur;
         this.hauteur = hauteur;
-
-    
-        // this.obstacles = new ListeForme();
-        // this.formePlacee = new ListeForme();
-
-
         this.liste_obstacle = new ArrayList<>();
         this.shapes = new ArrayList<>();
         this.shapes2 = new ArrayList<>();
@@ -40,28 +30,6 @@ public class Plateau {
         this.compteur_piece = 8 ;
         this.strategieDeGen = strategieDeGen;
 
-    }
-
-
-
-    public void addShape(Shape s) { // ajoute une forme au modèle et vérifie les collisions, si collision -> suppression de la forme ajoutée 
-        
-        boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
-
-        boolean isPlayer1 = compteur_piece > 4; // si compteur > 4 alors c'est le joueur 1 qui joue, sinon c'est le joueur 2
-
-        List<Shape> current = isObstacle ? liste_obstacle : (isPlayer1 ? shapes : shapes2);
-        current.add(s);
-        compteur_piece--;
-
-        if (collision(isPlayer1)) {
-            current.remove(current.size() - 1);
-            System.out.println("Collision -> suppression");
-        }
-
-        if (compteur_piece == 0) {
-            System.out.println("FINISH");
-        }
     }
 
 
@@ -122,16 +90,6 @@ public class Plateau {
     }
 
 
-    public List<Shape> getShapes() { // retourne la liste des formes du joueur actuel
-
-
-        List<Shape> allShape = new ArrayList<>();
-        allShape.addAll(shapes);
-        allShape.addAll(shapes2);
-
-
-        return allShape;
-    }
 
     public String getCurrentPlayer() {   // retourne le nom du joueur actuel
         return (compteur_piece > 4) ? "joueur_1" : "joueur_2";
@@ -148,17 +106,34 @@ public class Plateau {
 
 
     public void ajouterObstacle(Shape obstacle) { // Méthode pour ajouter un obstacle au modèle, elle est utilisée par la stratégie de génération d'obstacles pour ajouter des obstacles fixes sur le plateau, elle ajoute l'obstacle à la liste des obstacles
-        this.liste_obstacle.add(obstacle);
+        liste_obstacle.add(obstacle);
     }
 
     
-    public void ajouterFormePlacee(Shape forme){  // test 
+    public List<Shape> getObstacles() { // Méthode pour obtenir la liste des obstacles du modèle, elle est utilisée par la vue pour dessiner les obstacles sur le plateau, elle retourne la liste des obstacles
+         return liste_obstacle;
+     }
 
-        // if (compteur_piece > 4) {
-        //     this.shapes.add(forme);
-        // } else {
-        //     this.shapes2.add(forme);
-        // }
+    
+    public void viderObstacles() { // Méthode pour vider la liste des obstacles du modèle, elle est utilisée par la stratégie de génération d'obstacles pour réinitialiser les obstacles avant d'en générer de nouveaux, elle vide la liste des obstacles
+        liste_obstacle.clear();
+
+
+
+    }
+
+
+    public void genererObs() {
+        if (strategieDeGen == null) {
+            throw new IllegalStateException("Aucune stratégie de génération définie.");
+        }
+
+        liste_obstacle.clear();
+        strategieDeGen.genererObstacles(this);
+    }
+
+
+    public void ajouterFormePlacee(Shape forme){  // test 
 
         boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
 
@@ -177,6 +152,8 @@ public class Plateau {
             System.out.println("FINISH");
         }
     }
+
+
 
 
     public void supprimerFormePlacee(Shape forme){ // test 
@@ -201,34 +178,7 @@ public class Plateau {
     }
 
 
-    // // fonction qui ajoute dans obstacle sur le plateau.
-    // public void ajouterObstacle(Shape obstacle){
-    //     this.obstacles.ajoutForme(obstacle);
-    // }
 
-    // // fonction qui ajoute dans les formes normales sur le plateau.
-    // public void ajouterFormePlacee(Shape forme){
-    //     this.formePlacee.ajoutForme(forme);
-    // }
-    
-    // public void supprimerFormePlacee(Shape forme){
-    //     this.formePlacee.supprimerForme(forme);
-    // }
-
-
-    // largeur du plateau 
-    public int getLargeur() {
-        return largeur;
-    }
-
-    // hauteur du plateau 
-    public int getHauteur() {
-        return hauteur;
-    }
-
-    public List<Shape> getObstacles() {
-         return liste_obstacle;
-     }
 
     public List<Shape> getFormePlacees() {
         List<Shape> allShape = new ArrayList<>();
@@ -237,59 +187,20 @@ public class Plateau {
         return allShape;
     }
 
+
+
+    public int getLargeur() {
+        return largeur;
+    }
+
+    public int getHauteur() {
+        return hauteur;
+    }
+
+
+
     public void setStrategieDeGen(StrategiePlateau strategieDeGen) {
         this.strategieDeGen = strategieDeGen;
     }
 
-    public void viderObstacles() {
-        liste_obstacle.clear();
-    }
-
-
-    public void genererObs() {
-        if (strategieDeGen == null) {
-            throw new IllegalStateException("Aucune stratégie de génération définie.");
-        }
-
-        liste_obstacle.clear();
-        strategieDeGen.genererObstacles(this);
-    }
-
-
-    public void afficherObstacles() {
-        for (Shape f : liste_obstacle) {
-            System.out.println(f);
-        }
-    }
-
-    // public ListeForme getObstacles() {
-    //     return this.obstacles;
-    // }
-    
-    // public ListeForme getFormePlacees() {
-    //     return this.formePlacee;
-    // }    
-
-    // public void setStrategieDeGen(StrategiePlateau strategieDeGen) {
-    //     this.strategieDeGen = strategieDeGen;
-    // }
-
-    // public void viderObstacles() {
-    //     obstacles.viderForme();
-    // }
-
-    // public void genererObs() {
-    //     if (strategieDeGen == null) {
-    //         throw new IllegalStateException("Aucune stratégie de génération définie.");
-    //     }
-
-    //     obstacles.viderForme();
-    //     strategieDeGen.genererObstacles(this);
-    // }
-
-    // public void afficherObstacles() {
-    //     for (Shape f : obstacles.listeForme) {
-    //         System.out.println(f);
-    //     }
-    // }
 }

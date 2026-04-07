@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         
         // Test Initialisation //   
-        for (Shape s : plateau.getShapes()) {
+        for (Shape s : plateau.getFormePlacees()) {
             drawShape(g, s, SKY_BLUE);   
         }
         
