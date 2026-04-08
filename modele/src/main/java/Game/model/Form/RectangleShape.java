@@ -1,7 +1,5 @@
 package Game.model.Form;
 
-import java.awt.Rectangle;
-
 import Game.model.Point;
 import Game.model.collision.IntersectionVisiteur;
 
@@ -31,10 +29,7 @@ public class RectangleShape implements Shape {
         return Math.abs(p1.getY() - p2.getY());
     }
 
-    @Override
-    public Rectangle getBounds() {
-        return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
-    }
+
 
     // Setter //
     public void setEndPoint(Point end) {

@@ -73,22 +73,24 @@ public class Plateau {
         for (Shape s : shapes) {
             if (s instanceof RectangleShape) {
 
-                int forme_valeur = s.getBounds().getSize().width * s.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
-                score_joueur1 += forme_valeur; 
+                double forme_valeur = s.getWidth() * s.getHeight(); // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
+                score_joueur1 += forme_valeur;
+
+
             } else if (s instanceof CircleShape) {
-                int forme_valeur = (int) (Math.PI * Math.pow(s.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)²
-                score_joueur1 += forme_valeur; 
+                double forme_valeur = (Math.PI * Math.pow(s.getWidth() / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)²
+                score_joueur1 += forme_valeur;
             }
         
 
         for (Shape y : shapes2) {
             if (y instanceof RectangleShape) {
-                int forme_valeur = y.getBounds().getSize().width * y.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
-                score_joueur2 += forme_valeur; 
+                double forme_valeur = y.getWidth() * y.getHeight(); // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
+                score_joueur2 += forme_valeur;
             } else if (y instanceof CircleShape) {
-                int forme_valeur = (int) (Math.PI * Math.pow(y.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
-                score_joueur2 += forme_valeur; 
-            } 
+                double forme_valeur = (Math.PI * Math.pow(y.getWidth() / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
+                score_joueur2 += forme_valeur;
+            }
         }}
 
     }
@@ -142,6 +144,8 @@ public class Plateau {
         boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
 
         boolean isPlayer1 = compteur_piece > 4; // si compteur > 4 alors c'est le joueur 1 qui joue, sinon c'est le joueur 2
+
+    
 
         List<Shape> current = isObstacle ? liste_obstacle : (isPlayer1 ? shapes : shapes2);
         current.add(forme);
