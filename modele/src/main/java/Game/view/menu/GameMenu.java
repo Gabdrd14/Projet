@@ -27,6 +27,10 @@ public class GameMenu {
     private static Plateau plateau;
     
     public static void main(String[] args) {
+    	new GameMenu();
+    }
+    
+    public GameMenu() {
         
         JFrame frame = new JFrame("Home menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,6 +125,8 @@ public class GameMenu {
     }
 
     private static void showMainMenu(JFrame frame) {
+    	
+    	final boolean[] characterClicked = {false};
         
     	ImageIcon backgroundImage = new ImageIcon("src/main/java/Images/fond_menu_2.png");
         JLabel backgroundLabel = new JLabel(backgroundImage);
@@ -230,29 +236,78 @@ public class GameMenu {
 
         characterButton.addActionListener(e -> {
         	 new GameCharacter();
+        	 characterClicked[0] = true;
         });
         
         playButton.addActionListener(e -> {
-        	  
-        	  // Test : //	
-        	  boolean test = GameSettings.isHiddenChallenge();
-        	  System.out.println(test);
-        	  
-        	  StrategiePlateau strategie1 = new StratGen1();
-              Entity player1 = new HumanPlayer();
-              player1.setName("Player 1");
-              Entity player2 = new HumanPlayer();
-              player2.setName("Player 2");
-              List<Entity> joueurs = new ArrayList<>();
-              joueurs.add(player1);
-              joueurs.add(player2);
-        	  GameMenu.plateau = new Plateau(1920,1080,strategie1,joueurs);
-        	  GameMenu.plateau.genererObs();       	  
-        	  
-        	  new GameFrame(GameMenu.plateau);
+        	 
+        	// Il faut d'abord choisir nos personnages avant de lancer le jeu. //
+        	if (!characterClicked[0]) {
+                  JOptionPane.showMessageDialog(frame, "Please select your characters before starting the game", 
+                                                "Missing character selection", JOptionPane.WARNING_MESSAGE);
+                  return;  
+            }
         	
+           	if (GameSettings.getNbPlayers() != GameCharacter.nbPlayers) {
+                JOptionPane.showMessageDialog(frame, "Please reselect characters after changing the number of players.");
+                return;
+            }
+        	
+        	frame.dispose();
+            clip.stop(); 
+        	
+            try {
+	        	 // On récupère tous les paramètres mis à jour. : //	
+            	 int nbRedShape = GameSettings.getnbRedShape();
+            	 int Level = GameSettings.getLevel();
+                 int nbPlayers = GameSettings.getNbPlayers();
+	        	 boolean test = GameSettings.isHiddenChallenge();
+	        	 	        	 
+	        	 List<Entity> joueurs = new ArrayList<>();
+
+	        	 for (int i = 0; i < nbPlayers; i++) {
+	        	     String pseudo = GameCharacter.getPlayerPseudo(i);
+	        	     Entity player = new HumanPlayer();
+	        	     player.setName(pseudo);
+	        	     joueurs.add(player); 
+	        	 }
+
+	        	 StrategiePlateau strategie;
+
+	        	 if (Level == 1) {
+	        	     strategie = new StratGen1();
+	        	     System.out.println("Strat 1 choisi");
+	        	 } else {
+	        	     strategie = new StratGen2();
+	        	     System.out.println("Strat 2 choisi");
+	        	 }
+	        	 plateau = new Plateau(1920,1080,strategie,joueurs);
+	        	 plateau.genererObs();
+	        	 new GameFrame(plateau);
+	        	    	 
+	        	 //if (Level == 1) {
+	        		// StrategiePlateau strategie = new StratGen1();
+	        	 //}
+	        	 
+	             //Entity player1 = new HumanPlayer();
+	        	 //player1.setName("Player 1");
+	        	 //Entity player2 = new HumanPlayer();
+	        	 //player2.setName("Player 2");
+	        	 //List<Entity> joueurs = new ArrayList<>();
+	        	 //joueurs.add(player1);
+	        	 //joueurs.add(player2);
+	        	 //GameMenu.plateau = new Plateau(1920,1080,strategie,joueurs);
+	        	 //GameMenu.plateau.genererObs();       	  
+	        	  
+	        	 //new GameFrame(GameMenu.plateau);
+	        	 
+             } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(frame, "Error when starting the game : " + ex.getMessage(),
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+             }
         });
-        
+  
         frame.revalidate();
         frame.repaint();
     }

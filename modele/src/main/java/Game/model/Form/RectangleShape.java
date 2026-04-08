@@ -1,9 +1,10 @@
 package Game.model.Form;
 
+import Game.model.AbstractModeleEcoutable;
 import Game.model.Point;
 import Game.model.collision.IntersectionVisiteur;
 
-public class RectangleShape implements Shape {
+public class RectangleShape extends AbstractModeleEcoutable implements Shape {
 
     private Point p1, p2;
 

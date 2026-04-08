@@ -41,9 +41,11 @@ public class GameCharacter {
     private static int[] savedCharacterIndices;
 
     private int[] currentCharacterIndices;
-
+    
+    public static int nbPlayers;
+    
     public GameCharacter() {
-        int nbPlayers = GameSettings.getNbPlayers();
+    	GameCharacter.nbPlayers = GameSettings.getNbPlayers(); 
 
         if (savedPseudos == null || savedSelections == null || savedCharacterIndices == null || savedPseudos.length != nbPlayers) {
             savedPseudos = new String[nbPlayers];
@@ -318,7 +320,7 @@ public class GameCharacter {
         return true;
     }
     
-    public String getPlayerPseudo(int playerIndex) {
+    public static String getPlayerPseudo(int playerIndex) {
         if (playerIndex >= 0 && playerIndex < savedPseudos.length) {
             return savedPseudos[playerIndex];
         }

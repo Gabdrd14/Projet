@@ -12,16 +12,14 @@ import java.awt.event.ActionListener;
 public class GameSettings {
     
 	// Variables statiques représentant les paramètres par défaut de notre jeu. //
-    private static int nbRedShape = 5;
-    private static int sizeX = 15;
-    private static int sizeY = 15;
+    private static int nbRedShape = 10;
+    private static int Level = 1;
     private static int nbPlayers = 1;
     private static boolean HiddenChallenge = false;
     
     // Champs pour permettre la saisie des paramètres. //
     private JTextField nbRedShapeField;
-    private JTextField sizeXField;
-    private JTextField sizeYField;
+    private JTextField LevelField;
     private JTextField nbPlayersField;  
     private JCheckBox hiddenChallengeCheck;
     
@@ -56,17 +54,11 @@ public class GameSettings {
         fieldsPanel.add(nbRedShapeField);
         fieldsPanel.add(createControlPanel(nbRedShapeField)); // Boutons "+" et "-". //
         
-        fieldsPanel.add(new JLabel("Grid width (X) :"));
-        sizeXField = new JTextField(String.valueOf(sizeX));
-        configureField(sizeXField);
-        fieldsPanel.add(sizeXField);
-        fieldsPanel.add(createControlPanel(sizeXField));
-
-        fieldsPanel.add(new JLabel("Grid height (Y) :"));
-        sizeYField = new JTextField(String.valueOf(sizeY));
-        configureField(sizeYField);
-        fieldsPanel.add(sizeYField);
-        fieldsPanel.add(createControlPanel(sizeYField));
+        fieldsPanel.add(new JLabel("Level :"));
+        LevelField = new JTextField(String.valueOf(Level));
+        configureField(LevelField);
+        fieldsPanel.add(LevelField);
+        fieldsPanel.add(createControlPanel(LevelField));
 
         fieldsPanel.add(new JLabel("Number of players :"));
         nbPlayersField = new JTextField(String.valueOf(nbPlayers));
@@ -101,9 +93,8 @@ public class GameSettings {
                 boolean isValid = true; 
                 
                 // On s'assure que nos paramètres sont valides. //
-                isValid &= validateField(nbRedShapeField, "5", "the number of walls", frame);
-                isValid &= validateField(sizeXField, "15", "size X", frame);
-                isValid &= validateField(sizeYField, "15", "size Y", frame);
+                isValid &= validateField(nbRedShapeField, "5", "the number of red shapes", frame);
+                isValid &= validateField(LevelField, "1", "Level", frame);
                 isValid &= validateField(nbPlayersField, "2", "the number of players", frame);
 
                 if (!isValid) {
@@ -112,8 +103,7 @@ public class GameSettings {
                 
                 // Si c'est le cas alors on récupère leurs valeurs. //
                 nbRedShape = Integer.parseInt(nbRedShapeField.getText());
-                sizeX = Integer.parseInt(sizeXField.getText());
-                sizeY = Integer.parseInt(sizeYField.getText());
+                Level = Integer.parseInt(LevelField.getText());
                 nbPlayers = Integer.parseInt(nbPlayersField.getText());
                 HiddenChallenge = hiddenChallengeCheck.isSelected();
                 
@@ -124,10 +114,9 @@ public class GameSettings {
                     return;
                 }
 
-                if (sizeX < 6 || sizeY < 6) {
+                if (Level < 0) {
                     JOptionPane.showMessageDialog(frame, "Grid size too small");
-                    sizeXField.setText("15");
-                    sizeYField.setText("15");
+                    LevelField.setText("1");
                     return;
                 }
                 settingsFrame.dispose();
@@ -142,9 +131,8 @@ public class GameSettings {
             public void actionPerformed(ActionEvent e) {
                 
             	// Nos paramètres reprennent leurs valeurs par défaut. //
-            	nbRedShapeField.setText(String.valueOf(5)); 
-                sizeXField.setText(String.valueOf(15)); 
-                sizeYField.setText(String.valueOf(15));
+            	nbRedShapeField.setText(String.valueOf(10)); 
+                LevelField.setText(String.valueOf(1)); 
                 nbPlayersField.setText(String.valueOf(1));
                 hiddenChallengeCheck.setSelected(false);
             }
@@ -239,22 +227,22 @@ public class GameSettings {
             int value = Integer.parseInt(field.getText());
             int newValue = value + increment;
             
-            if (newValue < 0) {
-            	newValue = 0; 
+            if (field == nbRedShapeField  && newValue < 1) {
+            	newValue = 1; 
             }
             
-            if (field == sizeXField && newValue < 6) {
-                newValue = 6;  
-            }
-            
-            if (field == sizeYField && newValue < 6) {
-                newValue = 6;              	
-            }
-            
-            if (field == nbPlayersField && newValue < 1) {
+            if (field == LevelField && newValue < 1) {
                 newValue = 1;  
             }
             
+            if (field == LevelField && newValue > 3) {
+                newValue = 3;  
+            }
+            
+            if (field == nbPlayersField && newValue < 1) {
+            	newValue = 1;  
+            }
+        
             field.setText(String.valueOf(newValue));
         } catch (NumberFormatException ex) {
             field.setText("0"); 
@@ -266,12 +254,8 @@ public class GameSettings {
         return nbRedShape;
     }
     
-    public static int getSizeX() {
-        return sizeX;
-    }
-
-    public static int getSizeY() {
-        return sizeY;
+    public static int getLevel() {
+        return Level;
     }
 
     public static int getNbPlayers() {

@@ -64,6 +64,8 @@ public class StateMoveShape implements StateController {
                     commandHandler.record(new CommandMoveShape(selectedShape, totalDx, totalDy));
                     
                     plateau.notifyObservers();
+                    System.out.println("Mouvement de forme");
+                    
                 }
             }
         }
