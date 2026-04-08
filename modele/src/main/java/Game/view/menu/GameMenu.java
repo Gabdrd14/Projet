@@ -7,12 +7,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sound.sampled.*;
 import Game.view.GameFrame;
 import Game.model.Plateau;
 import Game.model.StratGen1;
 import Game.model.StratGen2;
 import Game.model.StrategiePlateau;
+import Game.model.entity.Entity;
+import Game.model.entity.HumanPlayer;
 
 public class GameMenu {
     
@@ -234,9 +239,14 @@ public class GameMenu {
         	  System.out.println(test);
         	  
         	  StrategiePlateau strategie1 = new StratGen1();
-        	  
-        	  GameMenu.plateau = new Plateau(1920,1080,strategie1);
-        	  
+              Entity player1 = new HumanPlayer();
+              player1.setName("Player 1");
+              Entity player2 = new HumanPlayer();
+              player2.setName("Player 2");
+              List<Entity> joueurs = new ArrayList<>();
+              joueurs.add(player1);
+              joueurs.add(player2);
+        	  GameMenu.plateau = new Plateau(1920,1080,strategie1,joueurs);
         	  GameMenu.plateau.genererObs();       	  
         	  
         	  new GameFrame(GameMenu.plateau);

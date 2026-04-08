@@ -6,59 +6,106 @@ import Game.model.Form.CircleShape;
 import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
 import Game.model.collision.CollisionUtil;
+import Game.model.entity.Entity;
 
 
 public class Plateau {
     private int largeur;
     private int hauteur;
-    private List<Shape> shapes ;
-    private List<Shape> shapes2 ; 
-    private List<Shape> liste_obstacle ;
+    private List<Entity> joueurs;          // liste des joueurs
+    private Entity joueurCourant; // joueur courant
+    //private List<Shape> shapes ; // Liste des formes placées par le joueur 1
+    //private List<Shape> shapes2 ; // Liste des formes placées par le joueur 2 
+    private List<Shape> liste_obstacle ; // liste des obstacles fixes sur le plateau
     
     protected int compteur_piece ; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
-    private int score_joueur1 ; // Score du joueur 1,
-    private int score_joueur2 ; // Score du joueur 2, 
+    // private int score_joueur1 ; // Score du joueur 1,
+    // private int score_joueur2 ; // Score du joueur 2, 
 
 
     private StrategiePlateau strategieDeGen; // stratégie de génération d'obstacles
 
 
-    public Plateau(int largeur, int hauteur, StrategiePlateau strategieDeGen) {
+    public Plateau(int largeur, int hauteur, StrategiePlateau strategieDeGen,List<Entity> joueurs) {
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.liste_obstacle = new ArrayList<>();
-        this.shapes = new ArrayList<>();
-        this.shapes2 = new ArrayList<>();
-        this.score_joueur1 = 0;
-        this.score_joueur2 = 0;
+        this.joueurs = joueurs;
+        this.joueurCourant = joueurs.get(0); // Initialiser le joueur courant au premier joueur ajouté
+        //this.shapes = new ArrayList<>();
+       // this.shapes2 = new ArrayList<>();
+        // this.score_joueur1 = 0;
+        // this.score_joueur2 = 0;
         this.compteur_piece = 8 ;
         this.strategieDeGen = strategieDeGen;
 
     }
+    // public void ajouterJoueur(Entity joueur) { // Méthode pour ajouter un joueur au plateau, elle est utilisée par la classe Game pour ajouter les joueurs à la partie, elle ajoute le joueur à la liste des joueurs
+    //     this.joueurs.add(joueur);
+    // }
+    
+    public void setJoueurCourant(Entity joueur) { // Méthode pour définir le joueur courant, elle est utilisée par la classe Game pour changer le joueur courant à chaque tour, elle définit le joueur courant
+        this.joueurCourant = joueur;
+    }
 
 
 
-    public boolean collision(boolean isPlayer1) { // true si collision, false sinon
+    // public boolean collision(boolean isPlayer1) { // true si collision, false sinon
 
-        List<Shape> current = isPlayer1 ? shapes : shapes2;
-        List<Shape> other   = isPlayer1 ? shapes2 : shapes;
+    //     List<Shape> current = isPlayer1 ? shapes : shapes2;
+    //     List<Shape> other   = isPlayer1 ? shapes2 : shapes;
 
 
-        for (int i = 0; i < current.size(); i++) {
-            Shape a = current.get(i);
+    //     for (int i = 0; i < current.size(); i++) {
+    //         Shape a = current.get(i);
 
-            for (int j = i + 1; j < current.size(); j++) {
-                if (CollisionUtil.intersects(a, current.get(j))) {
+    //         for (int j = i + 1; j < current.size(); j++) {
+    //             if (CollisionUtil.intersects(a, current.get(j))) {
+    //                 return true;
+    //             }
+    //         }
+
+    //         for (Shape b : other) {
+    //             if (CollisionUtil.intersects(a, b)) {
+    //                 return true;
+    //             }
+            
+    //         }
+    //     }
+
+    //     return false;
+    // }
+
+     public boolean collision() {
+        List<Shape> formesCourantes = joueurCourant.getShapes();
+
+        for (int i = 0; i < formesCourantes.size(); i++) {
+            Shape a = formesCourantes.get(i);
+
+            // Collision avec les autres formes du joueur courant
+            for (int j = i + 1; j < formesCourantes.size(); j++) {
+                if (CollisionUtil.intersects(a, formesCourantes.get(j))) {
                     return true;
                 }
             }
 
-            for (Shape b : other) {
-                if (CollisionUtil.intersects(a, b)) {
+            // Collision avec les formes des autres joueurs
+            for (Entity joueur : joueurs) {
+                if (joueur == joueurCourant) {
+                    continue;
+                }
+
+                for (Shape b : joueur.getShapes()) {
+                    if (CollisionUtil.intersects(a, b)) {
+                        return true;
+                    }
+                }
+            }
+            // collision avec les obstacles
+            for (Shape obstacle : liste_obstacle) {
+                if (CollisionUtil.intersects(a, obstacle)) {
                     return true;
                 }
-            
-      
             }
         }
 
@@ -67,33 +114,30 @@ public class Plateau {
 
 
 
-    protected void score_game() { // retourne le score du jeu, il est calculé en fonction du nombre de formes de chaque type pour chaque joueur, le score est égal au nombre de rectangles du joueur 1 moins le nombre de rectangles du joueur 2 plus le nombre de cercles du joueur 1 moins le nombre de cercles du joueur 2, un score positif signifie que le joueur 1 est en avance, un score négatif signifie que le joueur 2 est en avance, un score nul signifie que les deux joueurs sont à égalité
 
+    protected void score_game(Entity joueur) { // calcule  de score d'un joueur 
 
-        for (Shape s : shapes) {
+        for (Shape s : joueur.getShapes()) {
             if (s instanceof RectangleShape) {
 
-                double forme_valeur = s.getWidth() * s.getHeight(); // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
-                score_joueur1 += forme_valeur;
-
-
+                Double forme_valeur = s.surface(); // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
+                joueur.setScore(joueur.getScore() + forme_valeur); 
             } else if (s instanceof CircleShape) {
-                double forme_valeur = (Math.PI * Math.pow(s.getWidth() / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)²
-                score_joueur1 += forme_valeur;
+                Double forme_valeur = s.surface(); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
+                joueur.setScore(joueur.getScore() + forme_valeur); 
             }
-        
+        }
+        // for (Shape y : shapes2) {
+        //     if (y instanceof RectangleShape) {
+        //         int forme_valeur = y.getBounds().getSize().width * y.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
+        //         score_joueur2 += forme_valeur; 
+        //     } else if (y instanceof CircleShape) {
+        //         int forme_valeur = (int) (Math.PI * Math.pow(y.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
+        //         score_joueur2 += forme_valeur; 
+        //     } 
+        // }
+}
 
-        for (Shape y : shapes2) {
-            if (y instanceof RectangleShape) {
-                double forme_valeur = y.getWidth() * y.getHeight(); // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
-                score_joueur2 += forme_valeur;
-            } else if (y instanceof CircleShape) {
-                double forme_valeur = (Math.PI * Math.pow(y.getWidth() / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
-                score_joueur2 += forme_valeur;
-            }
-        }}
-
-    }
 
 
 
@@ -102,13 +146,13 @@ public class Plateau {
 
     }
     
-    public int getscorejoueur1() { // retourne le score du joueur 1
-        return score_joueur1;
-    }
+    // public int getscorejoueur1() { // retourne le score du joueur 1
+    //     return score_joueur1;
+    // }
 
-    public int getscorejoueur2() { // retourne le score du joueur 2
-        return score_joueur2;
-    }
+    // public int getscorejoueur2() { // retourne le score du joueur 2
+    //     return score_joueur2;
+    // }
 
 
     public void ajouterObstacle(Shape obstacle) { // Méthode pour ajouter un obstacle au modèle, elle est utilisée par la stratégie de génération d'obstacles pour ajouter des obstacles fixes sur le plateau, elle ajoute l'obstacle à la liste des obstacles
@@ -124,8 +168,6 @@ public class Plateau {
     public void viderObstacles() { // Méthode pour vider la liste des obstacles du modèle, elle est utilisée par la stratégie de génération d'obstacles pour réinitialiser les obstacles avant d'en générer de nouveaux, elle vide la liste des obstacles
         liste_obstacle.clear();
 
-
-
     }
 
 
@@ -136,52 +178,53 @@ public class Plateau {
 
         liste_obstacle.clear();
         strategieDeGen.genererObstacles(this);
+        //firechange(); // Notifier les observateurs du changement de plateau
     }
 
 
     public void ajouterFormePlacee(Shape forme){  // test 
+        
+        System.out.println("joueur courant : " + joueurCourant.getName() + " ajoute la forme : " + forme.toString());        //boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
 
-        boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
-
-        boolean isPlayer1 = compteur_piece > 4; // si compteur > 4 alors c'est le joueur 1 qui joue, sinon c'est le joueur 2
-
-    
-
-        List<Shape> current = isObstacle ? liste_obstacle : (isPlayer1 ? shapes : shapes2);
+        //boolean isPlayer1 = compteur_piece > 4; // si compteur > 4 alors c'est le joueur 1 qui joue, sinon c'est le joueur 2
+        
+        List<Shape> current = this.joueurCourant.getShapes();
+        
+        //List<Shape> current = isObstacle ? liste_obstacle : (isPlayer1 ? shapes : shapes2);
         current.add(forme);
-        compteur_piece--;
+        
+        //compteur_piece--;
+        //firechange(); // Notifier les observateurs du changement de plateau
 
-        if (collision(isPlayer1)) {
+        if (collision()) {
             current.remove(current.size() - 1);
             System.out.println("Collision -> suppression");
         }
 
-        if (compteur_piece == 0) {
-            System.out.println("FINISH");
-        }
+        // if (compteur_piece == 0) {
+        //     System.out.println("FINISH");
+        // }
     }
 
 
 
 
     public void supprimerFormePlacee(Shape forme){ // test 
-
-        for (Shape s : shapes) {
+        for (Shape s : joueurCourant.getShapes()) {
             if (s.equals(forme)) {
-                shapes.remove(s);
-                
-                System.out.println("Shapes 1 :" + forme);
+                joueurCourant.getShapes().remove(s);
+                System.out.println("supression d'une forme de" + joueurCourant.getName() + " :" + forme);
                 return;
             }
         }
 
-         for (Shape s : shapes2) {
-            if (s.equals(forme)) {
-                shapes2.remove(s);
-                System.out.println("Shapes 2 :" + forme);
-                return;
-            }
-        }
+        //  for (Shape s : shapes2) {
+        //     if (s.equals(forme)) {
+        //         shapes2.remove(s);
+        //         System.out.println("Shapes 2 :" + forme);
+        //         return;
+        //     }
+        //}
 
     }
 
@@ -190,8 +233,11 @@ public class Plateau {
 
     public List<Shape> getFormePlacees() {
         List<Shape> allShape = new ArrayList<>();
-        allShape.addAll(shapes);
-        allShape.addAll(shapes2);
+        for (Entity joueur : joueurs) {
+            allShape.addAll(joueur.getShapes());
+        }
+        // allShape.addAll(shapes);
+        // allShape.addAll(shapes2);
         return allShape;
     }
 
@@ -209,6 +255,7 @@ public class Plateau {
 
     public void setStrategieDeGen(StrategiePlateau strategieDeGen) {
         this.strategieDeGen = strategieDeGen;
+        //firechange(); // Notifier les observateurs du changement de stratégie
     }
 
 }
