@@ -14,15 +14,8 @@ public class Plateau extends AbstractModeleEcoutable {
     private int hauteur;
     private List<Entity> joueurs; // liste des joueurs
     private Entity joueurCourant; // joueur courant
-    //private List<Shape> shapes ; // Liste des formes placées par le joueur 1
-    //private List<Shape> shapes2 ; // Liste des formes placées par le joueur 2 
-    private List<Shape> liste_obstacle ; // liste des obstacles fixes sur le plateau
-    
+    private List<Shape> liste_obstacle ; // liste des obstacles fixes sur le plateau  
     protected int compteur_piece ; // Compteur de pièces restantes pour chaque joueur, il commence à 8 et diminue à chaque ajout de forme, lorsque le compteur atteint 0, la partie est terminée
-    // private int score_joueur1 ; // Score du joueur 1,
-    // private int score_joueur2 ; // Score du joueur 2, 
-
-
     private StrategiePlateau strategieDeGen; // stratégie de génération d'obstacles
 
 
@@ -32,49 +25,17 @@ public class Plateau extends AbstractModeleEcoutable {
         this.liste_obstacle = new ArrayList<>();
         this.joueurs = joueurs;
         this.joueurCourant = joueurs.get(0); // Initialiser le joueur courant au premier joueur ajouté
-        //this.shapes = new ArrayList<>();
-       // this.shapes2 = new ArrayList<>();
-        // this.score_joueur1 = 0;
-        // this.score_joueur2 = 0;
         this.compteur_piece = 8 ;
         this.strategieDeGen = strategieDeGen;
 
     }
-    // public void ajouterJoueur(Entity joueur) { // Méthode pour ajouter un joueur au plateau, elle est utilisée par la classe Game pour ajouter les joueurs à la partie, elle ajoute le joueur à la liste des joueurs
-    //     this.joueurs.add(joueur);
-    // }
+
     
     public void setJoueurCourant(Entity joueur) { // Méthode pour définir le joueur courant, elle est utilisée par la classe Game pour changer le joueur courant à chaque tour, elle définit le joueur courant
         this.joueurCourant = joueur;
     }
 
 
-
-    // public boolean collision(boolean isPlayer1) { // true si collision, false sinon
-
-    //     List<Shape> current = isPlayer1 ? shapes : shapes2;
-    //     List<Shape> other   = isPlayer1 ? shapes2 : shapes;
-
-
-    //     for (int i = 0; i < current.size(); i++) {
-    //         Shape a = current.get(i);
-
-    //         for (int j = i + 1; j < current.size(); j++) {
-    //             if (CollisionUtil.intersects(a, current.get(j))) {
-    //                 return true;
-    //             }
-    //         }
-
-    //         for (Shape b : other) {
-    //             if (CollisionUtil.intersects(a, b)) {
-    //                 return true;
-    //             }
-            
-    //         }
-    //     }
-
-    //     return false;
-    // }
 
      public boolean collision() {
         List<Shape> formesCourantes = joueurCourant.getShapes();
@@ -127,15 +88,7 @@ public class Plateau extends AbstractModeleEcoutable {
                 joueur.setScore(joueur.getScore() + forme_valeur); 
             }
         }
-        // for (Shape y : shapes2) {
-        //     if (y instanceof RectangleShape) {
-        //         int forme_valeur = y.getBounds().getSize().width * y.getBounds().getSize().height; // Calcul de la valeur de la forme en fonction de sa taille (aire du rectangle)
-        //         score_joueur2 += forme_valeur; 
-        //     } else if (y instanceof CircleShape) {
-        //         int forme_valeur = (int) (Math.PI * Math.pow(y.getBounds().getSize().width / 2, 2)); // Calcul de la valeur de la forme en fonction de sa taille (aire du cercle)
-        //         score_joueur2 += forme_valeur; 
-        //     } 
-        // }
+
 }
 
 
@@ -146,14 +99,6 @@ public class Plateau extends AbstractModeleEcoutable {
 
     }
     
-    // public int getscorejoueur1() { // retourne le score du joueur 1
-    //     return score_joueur1;
-    // }
-
-    // public int getscorejoueur2() { // retourne le score du joueur 2
-    //     return score_joueur2;
-    // }
-
 
     public void ajouterObstacle(Shape obstacle) { // Méthode pour ajouter un obstacle au modèle, elle est utilisée par la stratégie de génération d'obstacles pour ajouter des obstacles fixes sur le plateau, elle ajoute l'obstacle à la liste des obstacles
         liste_obstacle.add(obstacle);
@@ -185,12 +130,9 @@ public class Plateau extends AbstractModeleEcoutable {
     public void ajouterFormePlacee(Shape forme){  // test 
         
         System.out.println("joueur courant : " + joueurCourant.getName() + " ajoute la forme : " + forme.toString());        //boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
-
-        //boolean isPlayer1 = compteur_piece > 4; // si compteur > 4 alors c'est le joueur 1 qui joue, sinon c'est le joueur 2
         
         List<Shape> current = this.joueurCourant.getShapes();
         
-        //List<Shape> current = isObstacle ? liste_obstacle : (isPlayer1 ? shapes : shapes2);
         current.add(forme);
         
         //compteur_piece--;
@@ -201,9 +143,7 @@ public class Plateau extends AbstractModeleEcoutable {
             System.out.println("Collision -> suppression");
         }
 
-        // if (compteur_piece == 0) {
-        //     System.out.println("FINISH");
-        // }
+
     }
 
 
@@ -218,13 +158,7 @@ public class Plateau extends AbstractModeleEcoutable {
             }
         }
 
-        //  for (Shape s : shapes2) {
-        //     if (s.equals(forme)) {
-        //         shapes2.remove(s);
-        //         System.out.println("Shapes 2 :" + forme);
-        //         return;
-        //     }
-        //}
+        //firechange(); // Notifier les observateurs du changement de plateau
 
     }
 
@@ -236,8 +170,7 @@ public class Plateau extends AbstractModeleEcoutable {
         for (Entity joueur : joueurs) {
             allShape.addAll(joueur.getShapes());
         }
-        // allShape.addAll(shapes);
-        // allShape.addAll(shapes2);
+
         return allShape;
     }
 
