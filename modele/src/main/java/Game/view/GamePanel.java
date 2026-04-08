@@ -67,19 +67,19 @@ public class GamePanel extends JPanel {
         if (s instanceof RectangleShape) {
             RectangleShape r = (RectangleShape) s;
             g2.setColor(color); // couleur du remplissage
-            g2.fillRect(r.getBounds().x, r.getBounds().y, r.getBounds().width, r.getBounds().height);
-            
+            g2.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+
             g2.setColor(Color.black); // couleur du contour
-            g2.drawRect(r.getBounds().x, r.getBounds().y, r.getBounds().width, r.getBounds().height);
-            
-            
+            g2.drawRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+
+
         } else if (s instanceof CircleShape) {
             CircleShape c = (CircleShape) s;
-            g2.setColor(color); 
-            g2.fillOval(c.getBounds().x, c.getBounds().y, c.getBounds().width, c.getBounds().height);
-            
-            g2.setColor(Color.black); 
-            g2.drawOval(c.getBounds().x, c.getBounds().y, c.getBounds().width, c.getBounds().height);
+            g2.setColor(color);
+            g2.fillOval((int) c.getX(), (int) c.getY(), (int) c.getWidth(), (int) c.getHeight());
+
+            g2.setColor(Color.black);
+            g2.drawOval((int) c.getX(), (int) c.getY(), (int) c.getWidth(), (int) c.getHeight());
         }
     }
 }

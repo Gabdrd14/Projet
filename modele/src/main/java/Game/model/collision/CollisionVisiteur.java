@@ -1,8 +1,5 @@
 package Game.model.collision;
 
-
-import java.awt.Rectangle;
-
 import Game.model.Form.CircleShape;
 import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
@@ -24,7 +21,8 @@ public class CollisionVisiteur implements IntersectionVisiteur { // Visiteur pou
     public void visit(RectangleShape r1) { // Vérifie les collisions entre un RectangleShape et l'autre forme
         if (other instanceof RectangleShape) {
             RectangleShape r2 = (RectangleShape) other;
-            result = r1.getBounds().intersects(r2.getBounds());
+            result = !(r1.getX() + r1.getWidth() <= r2.getX() || r2.getX() + r2.getWidth() <= r1.getX() ||
+                      r1.getY() + r1.getHeight() <= r2.getY() || r2.getY() + r2.getHeight() <= r1.getY());
 
         } else if (other instanceof CircleShape) {
             CircleShape c = (CircleShape) other;
@@ -45,33 +43,30 @@ public class CollisionVisiteur implements IntersectionVisiteur { // Visiteur pou
     }
 
     private boolean intersectCircleCircle(CircleShape c1, CircleShape c2) { // Vérifie les collisions entre deux cercles en utilisant la formule de distance entre les centres et les rayons
-        int x1 = c1.getBounds().x + c1.getBounds().width / 2;
-        int y1 = c1.getBounds().y + c1.getBounds().height / 2;
-        int r1 = c1.getBounds().width / 2;
+        double x1 = c1.getX() + c1.getWidth() / 2;
+        double y1 = c1.getY() + c1.getHeight() / 2;
+        double r1 = c1.getWidth() / 2;
 
-        int x2 = c2.getBounds().x + c2.getBounds().width / 2;
-        int y2 = c2.getBounds().y + c2.getBounds().height / 2;
-        int r2 = c2.getBounds().width / 2;
+        double x2 = c2.getX() + c2.getWidth() / 2;
+        double y2 = c2.getY() + c2.getHeight() / 2;
+        double r2 = c2.getWidth() / 2;
 
-        int dx = x1 - x2;
-        int dy = y1 - y2;
+        double dx = x1 - x2;
+        double dy = y1 - y2;
 
         return dx * dx + dy * dy <= (r1 + r2) * (r1 + r2);
     }
 
     private boolean intersectCircleRectangle(CircleShape c, RectangleShape r) { // Vérifie les collisions entre un cercle et un rectangle en utilisant la formule de distance entre le centre du cercle et le point le plus proche du rectangle
-        Rectangle rect = r.getBounds(); 
-        Rectangle circ = c.getBounds();
+        double cx = c.getX() + c.getWidth() / 2;
+        double cy = c.getY() + c.getHeight() / 2;
+        double radius = c.getWidth() / 2;
 
-        int cx = circ.x + circ.width / 2;
-        int cy = circ.y + circ.height / 2;
-        int radius = circ.width / 2;
+        double closestX = Math.max(r.getX(), Math.min(cx, r.getX() + r.getWidth()));
+        double closestY = Math.max(r.getY(), Math.min(cy, r.getY() + r.getHeight()));
 
-        int closestX = Math.max(rect.x, Math.min(cx, rect.x + rect.width));
-        int closestY = Math.max(rect.y, Math.min(cy, rect.y + rect.height));
-
-        int dx = cx - closestX;
-        int dy = cy - closestY;
+        double dx = cx - closestX;
+        double dy = cy - closestY;
 
         return dx * dx + dy * dy <= radius * radius;
     }

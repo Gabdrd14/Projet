@@ -1,7 +1,5 @@
 package Game.model.Form;
 
-import java.awt.Rectangle;
-
 import Game.model.Point;
 import Game.model.collision.IntersectionVisiteur;
 
@@ -17,14 +15,26 @@ public class CircleShape implements Shape {
 
     // Getter //
 
+
+
     @Override
-    public Rectangle getBounds() {
-        return new Rectangle(
-            (int) center.getX() - radius,
-            (int) center.getY() - radius,
-            2 * radius,
-            2 * radius
-        );
+    public double getX() {
+        return center.getX() - radius;
+    }
+
+    @Override
+    public double getY() {
+        return center.getY() - radius;
+    }
+
+    @Override
+    public double getWidth() {
+        return 2 * radius;
+    }
+
+    @Override
+    public double getHeight() {
+        return 2 * radius;
     }
 
     public Point getCenter() {
