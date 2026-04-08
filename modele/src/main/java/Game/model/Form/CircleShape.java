@@ -1,9 +1,10 @@
 package Game.model.Form;
 
 import Game.model.Point;
+import Game.model.AbstractModeleEcoutable;
 import Game.model.collision.IntersectionVisiteur;
 
-public class CircleShape implements Shape {
+public class CircleShape extends AbstractModeleEcoutable implements Shape {
 
     private Point center;
     private int radius;
@@ -73,6 +74,7 @@ public class CircleShape implements Shape {
         double dx = newPoint.getX() - center.getX();
         double dy = newPoint.getY() - center.getY();
         this.radius = (int) Math.sqrt(dx * dx + dy * dy);
+        fireChange();
     }
 
     @Override
