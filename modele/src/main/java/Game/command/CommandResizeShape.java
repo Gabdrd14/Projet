@@ -1,7 +1,6 @@
 package Game.command;
 
-import java.awt.Point;
-
+import Game.model.Point;
 import Game.model.Form.Shape;
 
 public class CommandResizeShape implements OperationCommand {

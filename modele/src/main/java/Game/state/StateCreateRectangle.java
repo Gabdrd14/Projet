@@ -1,6 +1,6 @@
 package Game.state;
 
-import java.awt.Point;
+import Game.model.Point;
 
 import Game.model.Plateau;
 import Game.model.Form.RectangleShape;

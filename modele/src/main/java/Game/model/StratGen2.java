@@ -1,11 +1,10 @@
 package Game.model;
 
 import java.util.Random;
-
 import Game.model.Form.CircleShape;
 import Game.model.Form.RectangleShape;
 
-import java.awt.Point;
+import Game.model.Point;
 
 public class StratGen2 implements StrategiePlateau {
 

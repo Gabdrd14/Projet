@@ -1,7 +1,8 @@
 package Game.model.Form;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
+import Game.model.Point;
 import Game.model.collision.IntersectionVisiteur;
 
 public class RectangleShape implements Shape {
@@ -14,69 +15,62 @@ public class RectangleShape implements Shape {
     }
 
     // Getter //
-    public int getX() { 
-    	return Math.min(p1.x, p2.x); 
+    public double getX() {
+        return Math.min(p1.getX(), p2.getX());
     }
-    
-    public int getY() { 
-    	return Math.min(p1.y, p2.y); 
+
+    public double getY() {
+        return Math.min(p1.getY(), p2.getY());
     }
-    
-    public int getWidth() { 
-    	return Math.abs(p1.x - p2.x); 
+
+    public double getWidth() {
+        return Math.abs(p1.getX() - p2.getX());
     }
-    
-    public int getHeight() { 
-    	return Math.abs(p1.y - p2.y); 
+
+    public double getHeight() {
+        return Math.abs(p1.getY() - p2.getY());
     }
-    
+
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(getX(), getY(), getWidth(), getHeight());
+        return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
     }
-    
+
     // Setter //
-    
-    // Méthode pour changer la position finale //
     public void setEndPoint(Point end) {
         this.p2 = end;
     }
-    
 
     @Override
-    public void move(int dx, int dy) {
-        p1.x += dx;
-        p1.y += dy;
-        p2.x += dx;
-        p2.y += dy;
-        // firechange 
+    public void move(double dx, double dy) {
+        p1.translation(dx, dy);
+        p2.translation(dx, dy);
     }
 
     // Vérifie si un point est à l'intérieur du rectangle //
     @Override
     public boolean contains(Point p) {
-        int xMin = getX();
-        int yMin = getY();
-        int xMax = xMin + getWidth();
-        int yMax = yMin + getHeight();
+        double xMin = getX();
+        double yMin = getY();
+        double xMax = xMin + getWidth();
+        double yMax = yMin + getHeight();
 
-        return p.x >= xMin && p.x <= xMax && p.y >= yMin && p.y <= yMax;
+        return p.getX() >= xMin && p.getX() <= xMax
+            && p.getY() >= yMin && p.getY() <= yMax;
     }
 
-	@Override
-	public double surface() {
-		 return getWidth() * getHeight();
-	}
+    @Override
+    public double surface() {
+        return getWidth() * getHeight();
+    }
 
-	@Override
-	public void resize(Point lastPoint, Point newPoint) {
-		 this.p2 = newPoint;
-		 //firechange
-	}
-	
+    @Override
+    public void resize(Point lastPoint, Point newPoint) {
+        this.p2 = newPoint;
+    }
+
     @Override
     public void accept(IntersectionVisiteur visitor) {
         visitor.visit(this);
     }
-	
 }

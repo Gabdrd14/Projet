@@ -1,12 +1,12 @@
 package Game.state;
 
-import java.awt.Point;
+//import java.awt.Point;
 
 import Game.model.Plateau;
 import Game.model.Form.CircleShape;
-import Game.model.Form.RectangleShape;
 import Game.command.CommandHandler;
 import Game.command.CommandCreateCircle;
+import Game.model.Point;
 
 public class StateCreateCircle implements StateController {
 
@@ -31,8 +31,8 @@ public class StateCreateCircle implements StateController {
     @Override
     public void mouseDragged(Point p) {
         if (currentCircle != null && startPoint != null) {
-            int dx = p.x - startPoint.x;
-            int dy = p.y - startPoint.y;
+            double dx = p.getX() - startPoint.getX();
+            double dy = p.getY() - startPoint.getY();
             int radius = (int) Math.sqrt(dx * dx + dy * dy);
 
             currentCircle.setRadius(radius); 
@@ -42,8 +42,8 @@ public class StateCreateCircle implements StateController {
     @Override
     public void mouseReleased(Point p) {
         if (currentCircle != null) {
-            int dx = p.x - startPoint.x;
-            int dy = p.y - startPoint.y;
+            double dx = p.getX() - startPoint.getX();
+            double dy = p.getY() - startPoint.getY();
             int radius = (int) Math.sqrt(dx * dx + dy * dy);
 
             currentCircle.setRadius(radius);

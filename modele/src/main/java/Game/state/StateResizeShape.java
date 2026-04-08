@@ -1,6 +1,6 @@
 package Game.state;
 
-import java.awt.Point;
+import Game.model.Point;
 
 import Game.command.CommandHandler;
 import Game.command.CommandMoveShape;

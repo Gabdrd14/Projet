@@ -1,6 +1,6 @@
 package Game.state;
 
-import java.awt.Point;
+import Game.model.Point;
 
 public interface StateController {
 

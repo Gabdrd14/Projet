@@ -1,6 +1,6 @@
 package Game.state;
 
-import java.awt.Point;
+import Game.model.Point;
 
 import Game.model.Plateau;
 import Game.model.Form.RectangleShape;
@@ -36,8 +36,8 @@ public class StateMoveShape implements StateController {
     @Override
     public void mouseDragged(Point p) {
         if (selectedShape != null && lastPoint != null) {
-            int dx = p.x - lastPoint.x;
-            int dy = p.y - lastPoint.y;
+            double dx = p.getX() - lastPoint.getX();
+            double dy = p.getY() - lastPoint.getY();
             selectedShape.move(dx, dy); 
             lastPoint = p;
         }
@@ -46,8 +46,8 @@ public class StateMoveShape implements StateController {
     @Override
     public void mouseReleased(Point p) {
         if (selectedShape != null && lastPoint != null) {
-            int dx = p.x - lastPoint.x;
-            int dy = p.y - lastPoint.y;
+            double dx = p.getX()- lastPoint.getX();
+            double dy = p.getY() - lastPoint.getY();
             
        
             commandHandler.handle(
