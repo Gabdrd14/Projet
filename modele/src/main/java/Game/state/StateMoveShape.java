@@ -3,9 +3,7 @@ package Game.state;
 import Game.model.Point;
 
 import Game.model.Plateau;
-import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
-import Game.command.CommandCreateRectangle;
 import Game.command.CommandHandler;
 import Game.command.CommandMoveShape;
 

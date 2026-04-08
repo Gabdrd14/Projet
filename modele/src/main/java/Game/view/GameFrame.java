@@ -206,11 +206,11 @@ public class GameFrame extends JFrame {
     }
 
     // Création d'un bouton avec texte
-    private JButton createTextButton(String text) {
-        JButton button = new JButton(text);
-        styleButton(button);
-        return button;
-    }
+    // private JButton createTextButton(String text) {
+    //     JButton button = new JButton(text);
+    //     styleButton(button);
+    //     return button;
+    // }
 
     // Application du style commun aux boutons
     private void styleButton(JButton button) {
