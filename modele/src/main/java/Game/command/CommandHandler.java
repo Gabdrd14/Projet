@@ -15,6 +15,11 @@ public class CommandHandler {
         redoList.clear();          
     }
 
+    public void record(OperationCommand cmd) {
+        undoList.add(cmd);
+        redoList.clear();
+    }
+
     public void undo() {
         if (!undoList.isEmpty()) {
             OperationCommand dernierElt = undoList.remove(undoList.size() - 1);
