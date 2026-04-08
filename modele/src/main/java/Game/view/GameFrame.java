@@ -1,15 +1,26 @@
 
 package Game.view;
 
-import Game.model.Form.CircleShape;
-import Game.model.Form.RectangleShape;
-import Game.model.Form.Shape;
-import Game.state.*;
-import Game.command.CommandHandler;
-import Game.model.Plateau;
-import javax.swing.*;
-import java.awt.*;
 import Game.model.Point;
+import Game.model.Plateau;
+import Game.state.StateCreateCircle;
+import Game.state.StateCreateRectangle;
+import Game.state.StateDeleteShape;
+import Game.state.StateMoveShape;
+import Game.state.StateResizeShape;
+import Game.state.StateController;  
+import Game.command.CommandHandler;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Image;
 
 public class GameFrame extends JFrame {
 

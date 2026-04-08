@@ -1,6 +1,4 @@
 package Game.model;
-
-import Game.model.Point;
 import Game.model.Form.CircleShape;
 import Game.model.Form.RectangleShape;
 

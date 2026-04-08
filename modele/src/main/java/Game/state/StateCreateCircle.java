@@ -1,7 +1,5 @@
 package Game.state;
 
-//import java.awt.Point;
-
 import Game.model.Plateau;
 import Game.model.Form.CircleShape;
 import Game.command.CommandHandler;
