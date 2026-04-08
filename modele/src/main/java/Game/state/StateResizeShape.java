@@ -3,7 +3,6 @@ package Game.state;
 import Game.model.Point;
 
 import Game.command.CommandHandler;
-import Game.command.CommandMoveShape;
 import Game.command.CommandResizeShape;
 import Game.model.Plateau;
 import Game.model.Form.Shape;

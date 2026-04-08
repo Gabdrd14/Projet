@@ -7,11 +7,9 @@ import Game.model.Form.Shape;
 import Game.state.*;
 import Game.command.CommandHandler;
 import Game.model.Plateau;
-
 import javax.swing.*;
 import java.awt.*;
-
-import Game.model.Plateau;
+import Game.model.Point;
 
 public class GameFrame extends JFrame {
 
@@ -94,12 +92,12 @@ public class GameFrame extends JFrame {
         gamePanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent me) {
-                if (currentState != null) currentState.mousePressed(me.getPoint());
+                if (currentState != null) currentState.mousePressed(new Point(me.getX(), me.getY()));
             }
 
             @Override
             public void mouseReleased(java.awt.event.MouseEvent me) {
-                if (currentState != null) currentState.mouseReleased(me.getPoint());
+                if (currentState != null) currentState.mouseReleased(new Point(me.getX(), me.getY()));
                 gamePanel.setPreview(null);
             }
         });
@@ -107,7 +105,7 @@ public class GameFrame extends JFrame {
         gamePanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             @Override
             public void mouseDragged(java.awt.event.MouseEvent me) {
-                if (currentState != null) currentState.mouseDragged(me.getPoint());
+                if (currentState != null) currentState.mouseDragged(new Point(me.getX(), me.getY()));
                 
                 if (currentState instanceof StateCreateRectangle)
                     gamePanel.setPreview(((StateCreateRectangle) currentState).getCurrentRect());

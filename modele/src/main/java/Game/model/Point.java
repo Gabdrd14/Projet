@@ -24,7 +24,4 @@ public class Point extends AbstractModeleEcoutable {
 		 y += dy;
 		 fireChange();
 	}
-	
-	//public getPoint
-
 }
