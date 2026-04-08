@@ -41,6 +41,7 @@ public class RectangleShape extends AbstractModeleEcoutable implements Shape {
     public void move(double dx, double dy) {
         p1.translation(dx, dy);
         p2.translation(dx, dy);
+        
     }
 
     // Vérifie si un point est à l'intérieur du rectangle //

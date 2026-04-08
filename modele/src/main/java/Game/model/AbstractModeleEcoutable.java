@@ -17,4 +17,9 @@ public abstract class AbstractModeleEcoutable implements ModelEcoutable {
 		}
 	}
 	
+	public void notifyObservers() {
+		fireChange();
+		
+	}
+	
 }

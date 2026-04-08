@@ -4,11 +4,12 @@ import Game.model.Form.CircleShape;
 import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
 import Game.model.Plateau;
+import Game.model.EcouteurModel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements EcouteurModel {
 
     private Plateau plateau;
     private Shape previewShape; // forme temporaire //
@@ -18,6 +19,7 @@ public class GamePanel extends JPanel {
     
     public GamePanel(Plateau plateau) {
         this.plateau = plateau;
+        plateau.ajoutEcouteur(this);
         setBackground(GRAY);
         setOpaque(true);  
     }
@@ -82,4 +84,11 @@ public class GamePanel extends JPanel {
             g2.drawOval((int) c.getX(), (int) c.getY(), (int) c.getWidth(), (int) c.getHeight());
         }
     }
+
+	@Override
+	public void stateChanged(Object source) {
+		repaint();
+		
+	}
+   
 }

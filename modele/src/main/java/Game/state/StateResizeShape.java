@@ -55,6 +55,7 @@ public class StateResizeShape implements StateController {
             } else {
                 // Pas de collision, enregistrer la commande
                 commandHandler.handle(new CommandResizeShape(selectedShape, lastPoint, newPoint));
+                plateau.notifyObservers();
             }
   
             selectedShape = null;

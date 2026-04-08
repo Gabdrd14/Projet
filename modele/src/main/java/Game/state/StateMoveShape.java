@@ -62,6 +62,8 @@ public class StateMoveShape implements StateController {
                 } else {
                     // Pas de collision, enregistrer la commande
                     commandHandler.record(new CommandMoveShape(selectedShape, totalDx, totalDy));
+                    
+                    plateau.notifyObservers();
                 }
             }
         }
