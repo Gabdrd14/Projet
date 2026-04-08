@@ -1,10 +1,9 @@
 package Game.model.Form;
 
-import Game.model.AbstractModeleEcoutable;
 import Game.model.Point;
 import Game.model.collision.IntersectionVisiteur;
 
-public class RectangleShape extends AbstractModeleEcoutable implements Shape {
+public class RectangleShape implements Shape {
 
     private Point p1, p2;
 
@@ -14,6 +13,14 @@ public class RectangleShape extends AbstractModeleEcoutable implements Shape {
     }
 
     // Getter //
+    public Point getP1Point() {
+        return this.p1;
+    }
+
+    public Point getP2Point() {
+        return this.p2;
+    }
+
     public double getX() {
         return Math.min(p1.getX(), p2.getX());
     }
@@ -41,7 +48,6 @@ public class RectangleShape extends AbstractModeleEcoutable implements Shape {
     public void move(double dx, double dy) {
         p1.translation(dx, dy);
         p2.translation(dx, dy);
-        
     }
 
     // Vérifie si un point est à l'intérieur du rectangle //
@@ -64,7 +70,6 @@ public class RectangleShape extends AbstractModeleEcoutable implements Shape {
     @Override
     public void resize(Point lastPoint, Point newPoint) {
         this.p2 = newPoint;
-        fireChange();
     }
 
     @Override
