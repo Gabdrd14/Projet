@@ -55,7 +55,14 @@ public class StateMoveShape implements StateController {
             double totalDx = p.getX() - pressPoint.getX();
             double totalDy = p.getY() - pressPoint.getY();
             if (totalDx != 0 || totalDy != 0) {
-                commandHandler.record(new CommandMoveShape(selectedShape, totalDx, totalDy));
+                // Vérifier les collisions après le mouvement
+                if (plateau.collision()) {
+                    // Annuler le mouvement
+                    selectedShape.move(-totalDx, -totalDy);
+                } else {
+                    // Pas de collision, enregistrer la commande
+                    commandHandler.record(new CommandMoveShape(selectedShape, totalDx, totalDy));
+                }
             }
         }
 
