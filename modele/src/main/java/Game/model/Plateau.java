@@ -12,7 +12,7 @@ import Game.model.entity.Entity;
 public class Plateau {
     private int largeur;
     private int hauteur;
-    private List<Entity> joueurs;          // liste des joueurs
+    private List<Entity> joueurs; // liste des joueurs
     private Entity joueurCourant; // joueur courant
     //private List<Shape> shapes ; // Liste des formes placées par le joueur 1
     //private List<Shape> shapes2 ; // Liste des formes placées par le joueur 2 

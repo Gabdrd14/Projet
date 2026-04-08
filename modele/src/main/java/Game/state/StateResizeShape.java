@@ -45,9 +45,17 @@ public class StateResizeShape implements StateController {
         if (selectedShape != null) {
             newPoint = p; 
             
-            commandHandler.handle(
-            		new CommandResizeShape(selectedShape, lastPoint, newPoint)
-            );
+            // Appliquer temporairement le resize pour vérifier les collisions
+            selectedShape.resize(lastPoint, newPoint);
+            
+            // Vérifier les collisions après le resize
+            if (plateau.collision()) {
+                // Annuler le resize
+                selectedShape.resize(newPoint, lastPoint);
+            } else {
+                // Pas de collision, enregistrer la commande
+                commandHandler.handle(new CommandResizeShape(selectedShape, lastPoint, newPoint));
+            }
   
             selectedShape = null;
             lastPoint = null;
