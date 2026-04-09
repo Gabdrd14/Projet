@@ -27,9 +27,14 @@ public class Plateau extends AbstractModeleEcoutable {
         this.joueurCourant = joueurs.get(0); // Initialiser le joueur courant au premier joueur ajouté
         this.compteur_piece = 8 ;
         this.strategieDeGen = strategieDeGen;
+        this.genererObs();
 
     }
 
+    
+    public String getNameJoueurCourant() { // Méthode pour définir le joueur courant, elle est utilisée par la classe Game pour changer le joueur courant à chaque tour, elle définit le joueur courant
+        return this.joueurCourant.getName();
+    }
     
     public void setJoueurCourant(Entity joueur) { // Méthode pour définir le joueur courant, elle est utilisée par la classe Game pour changer le joueur courant à chaque tour, elle définit le joueur courant
         this.joueurCourant = joueur;

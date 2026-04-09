@@ -261,7 +261,7 @@ public class GameMenu {
             	 int nbRedShape = GameSettings.getnbRedShape();
             	 int Level = GameSettings.getLevel();
                  int nbPlayers = GameSettings.getNbPlayers();
-	        	 boolean test = GameSettings.isHiddenChallenge();
+	        	 boolean hidden = GameSettings.isHiddenChallenge();
 	        	 	        	 
 	        	 List<Entity> joueurs = new ArrayList<>();
 
@@ -282,7 +282,6 @@ public class GameMenu {
 	        	     System.out.println("Strat 2 choisi");
 	        	 }
 	        	 plateau = new Plateau(1920,1080,strategie,joueurs);
-	        	 plateau.genererObs();
 	        	 new GameFrame(plateau);
 	        	    	 
 	        	 //if (Level == 1) {

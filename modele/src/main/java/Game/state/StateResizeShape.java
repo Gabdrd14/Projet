@@ -56,7 +56,7 @@ public class StateResizeShape implements StateController {
                 // Pas de collision, enregistrer la commande
                 commandHandler.handle(new CommandResizeShape(selectedShape, lastPoint, newPoint));
                 plateau.notifyObservers();
-                System.out.println("Modification de taille");
+                System.out.println("Modification de taille réalisé par le" + plateau.getNameJoueurCourant());
             }
   
             selectedShape = null;
