@@ -4,7 +4,7 @@ import Game.model.Plateau;
 import Game.model.Form.Shape;
 import Game.model.strategy_ia.PlacementStrategy;
 
-public class ia {
+public class ia extends Entity {
 
     private Plateau plateau;
     private PlacementStrategy placementStrategy;
@@ -23,8 +23,12 @@ public class ia {
 
     public void jouer() {
         if (plateau != null && placementStrategy != null) {
+            for(int i = 0 ; i < 4 ; i++){
             Shape shape = placementStrategy.placeShape(plateau);
             plateau.ajouterFormePlacee(shape);
+
+            }
+
         }
     }
 }
@@ -32,7 +36,7 @@ public class ia {
 
 // ia ai = new ia(new HeuristiquePlacementStrategy());
 // ai.setPlateau(plateau);
-// ai.jouer();  // Uses heuristic placement
+// ai.jouer();  
 
 // ai.setPlacementStrategy(new AleatoirePlacementStrategy());
 // ai.jouer(); 

@@ -19,6 +19,8 @@ import Game.model.StratGen2;
 import Game.model.StrategiePlateau;
 import Game.model.entity.Entity;
 import Game.model.entity.HumanPlayer;
+import Game.model.entity.ia;
+import Game.model.strategy_ia.BarycentrePlacementStrategy;
 
 public class GameMenu {
     
@@ -271,6 +273,9 @@ public class GameMenu {
 	        	     Entity player = new HumanPlayer();
 	        	     player.setName(pseudo);
 	        	     joueurs.add(player); 
+
+                    // ia ai = new ia(new BarycentrePlacementStrategy());
+                    // ai.setPlateau(plateau);
 	        	 }
 
 	        	 StrategiePlateau strategie;
@@ -284,7 +289,7 @@ public class GameMenu {
 	        	 }
 	        	 plateau = new Plateau(1920,1080,strategie,joueurs);
 	        	 
-                // test
+                
 
 	        	 // Créer GameSession pour gérer les tours
 
