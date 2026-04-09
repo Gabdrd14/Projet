@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -37,7 +38,7 @@ public class save_game {
         int gameNum = lines.size() + 1;
         StringBuilder sb = new StringBuilder("GAME_" + gameNum);
         for (Entity p : players) {
-            sb.append("|").append(p.getName()).append(":").append(String.format("%.2f", p.getScore()));
+            sb.append("|").append(p.getName()).append(":").append(String.format(Locale.US, "%.2f", p.getScore()));
         }
         lines.add(sb.toString());
 
@@ -69,7 +70,7 @@ public class save_game {
                 if (entry.length == 2) {
                     String name = entry[0].trim();
                     try {
-                        double score = Double.parseDouble(entry[1].trim());
+                        double score = Double.parseDouble(entry[1].trim().replace(',', '.'));
                         scores.computeIfAbsent(name, k -> new ArrayList<>()).add(score);
                     } catch (NumberFormatException ignored) {
                     }
