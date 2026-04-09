@@ -1,4 +1,3 @@
-
 package Game.view;
 
 import Game.model.Point;
@@ -28,19 +27,13 @@ public class GameFrame extends JFrame {
 
     private static GameFrame instance;
 
-    private JPanel menuPanel;   // bande du haut
-    //private JPanel gamePanel;
+    private JPanel menuPanel; // bande du haut //
     
     private GamePanel gamePanel;   // surface de jeu //
 
-    private Plateau plateau; // Modèle du jeu, il contient les formes placées sur le plateau, les scores des joueurs, et le compteur de pièces restantes, il est partagé entre la vue et le contrôleur pour permettre la communication et la synchronisation entre les deux
-    private GameSession gameSession; // Gestionnaire des tours du jeu
-    // private Point p1, p2;
-    // private Tool previewTool;
+    private Plateau plateau;
+    private GameSession gameSession; // Gestionnaire des tours du jeu //
 
-    // ajouter plateau  en paramètre du constructeur pour pouvoir l'associer à la vue et au contrôleur, et permettre la communication entre les deux, la vue observe le modèle pour se redessiner à chaque changement, et le contrôleur modifie le modèle en réponse aux actions de l'utilisateur
-    
-    
     private StateCreateRectangle stateCreateRectangle;
     private StateCreateCircle stateCreateCircle;
     private StateDeleteShape stateDeleteShape;
@@ -57,10 +50,10 @@ public class GameFrame extends JFrame {
     public GameFrame(Plateau plateau) {
         this(plateau, null);
     }
-    
+
     public GameFrame(Plateau plateau, GameSession session) {
         GameFrame.instance = this;
-        this.plateau = plateau; // Constructeur de la fenêtre principale du jeu, il prend en paramètre le modèle pour pouvoir l'associer à la vue et au contrôleur, il initialise les composants graphiques de la fenêtre (menu et surface de jeu), et configure les propriétés de la fenêtre (taille, titre, comportement à la fermeture)
+        this.plateau = plateau; 
         this.gameSession = session;
         commandHandler = new CommandHandler();
         stateCreateRectangle = new StateCreateRectangle(plateau, commandHandler);
@@ -75,10 +68,9 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // MENU DU HAUT //
+        // On initialise la barre de menu du haut //
         menuPanel = new JPanel(new BorderLayout());
         menuPanel.setPreferredSize(new Dimension(1000, 80));
-        //menuPanel.setOpaque(true); 
         menuPanel.setBackground(new Color(242, 242, 242));
         
         
@@ -104,22 +96,20 @@ public class GameFrame extends JFrame {
         menuPanel.add(leftButtons, BorderLayout.WEST);
         menuPanel.add(rightButtons, BorderLayout.EAST);        
         
-        // SURFACE DE JEU //
+        // On crée la zone principale de jeu //
         gamePanel = new GamePanel(this.plateau);
 
         add(menuPanel, BorderLayout.NORTH);
         add(gamePanel, BorderLayout.CENTER);
-
+        
+        // On lance un chrono si le hidden challenge est activé //
         if (GameSettings.isHiddenChallenge()) {
             gamePanel.startHiddenChallengeTimer();
         }
         
-        //menuPanel.revalidate();
-        //menuPanel.repaint();
-        
         // ---------------------------------------------------------------------------------- //
+        
         // Gestion des boutons : un seul listener qui s'adapte au type du bouton //
-
         gamePanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent me) {
@@ -133,6 +123,7 @@ public class GameFrame extends JFrame {
             }
         });
 
+        // On gère les déplacements de souris pour les actions en cours //
         gamePanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             @Override
             public void mouseDragged(java.awt.event.MouseEvent me) {
@@ -153,68 +144,59 @@ public class GameFrame extends JFrame {
             }
         });
         
+        // On active la création de rectangle //
         rectangleButton.addActionListener(e -> {
             currentState = stateCreateRectangle;
             gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-
-            // Test : //
-            
-            System.out.println(plateau.getFormePlacees());
         });
 
+        // On active la création de cercle //
         circleButton.addActionListener(e -> {
             currentState = stateCreateCircle;
             gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-            
-            System.out.println(plateau.getFormePlacees());
         });
         
+        // On passe en mode suppression //
         deleteButton.addActionListener(e -> {
             currentState = stateDeleteShape;
             gamePanel.setCursor(Cursor.getDefaultCursor());
-            
-            System.out.println(plateau.getFormePlacees());
         });
         
+        // On annule la dernière action //
         undoButton.addActionListener(e -> {
         	 currentState = null;
         	 commandHandler.undo();
              gamePanel.setCursor(Cursor.getDefaultCursor());
              gamePanel.repaint();
-             
-             System.out.println(plateau.getFormePlacees());
         });
         
+        // On rétablit une action annulée //
         redoButton.addActionListener(e -> {
        	 	commandHandler.redo();
        	 	currentState = null;
             gamePanel.setCursor(Cursor.getDefaultCursor());
             gamePanel.repaint();
-            
-            System.out.println(plateau.getFormePlacees());
         });
         
+        // On active le déplacement des formes //
         moveButton.addActionListener(e -> {
        	 	currentState = stateMoveShape;
        	    gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
             gamePanel.repaint();
-            
-            System.out.println(plateau.getFormePlacees());
         });
         
+        // On active le redimensionnement des formes //
         resizeButton.addActionListener(e -> {
        	 	currentState = stateResizeShape;
        	    gamePanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
             gamePanel.repaint();
-            
-            System.out.println(plateau.getFormePlacees());
         });
         
         revalidate();
         repaint();
         setVisible(true);
 
-        // Hidden Challenge : obstacles visibles 10s par joueur, puis cachés
+        // Hidden Challenge : obstacles visibles 10s par joueur, puis cachés //
         if (GameSettings.isHiddenChallenge() && gameSession != null) {
             gamePanel.startHiddenChallengeTimer();
             gameSession.setOnTurnChanged(() -> gamePanel.startHiddenChallengeTimer());
@@ -222,7 +204,7 @@ public class GameFrame extends JFrame {
     }
 
 
-    // Création d'un bouton avec icône
+    // Création d'un bouton avec icône //
     private JButton createIconButton(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(path);
         Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
@@ -231,14 +213,7 @@ public class GameFrame extends JFrame {
         return button;
     }
 
-    // Création d'un bouton avec texte
-    // private JButton createTextButton(String text) {
-    //     JButton button = new JButton(text);
-    //     styleButton(button);
-    //     return button;
-    // }
-
-    // Application du style commun aux boutons
+    // Application du style commun aux boutons //
     private void styleButton(JButton button) {
         button.setPreferredSize(new Dimension(100, 60));
         button.setBackground(new Color(242, 242, 242));
@@ -246,7 +221,7 @@ public class GameFrame extends JFrame {
         button.setFocusPainted(false);
     }
 
-    // Création d'un panel de boutons avec alignement et espacement
+    // Création d'un panel de boutons avec alignement et espacement //
     private JPanel createButtonPanel(int alignment, JButton... buttons) {
         JPanel panel = new JPanel(new FlowLayout(alignment, 30, 10));
         panel.setOpaque(false);
@@ -256,34 +231,23 @@ public class GameFrame extends JFrame {
         return panel;
     }
 
-    // Accesseur pour la surface de jeu
     public JPanel getGamePanel() {
         return gamePanel;
     }
-    
-    /**
-     * Notify that a piece was placed - forwards to GameSession if available
-     */
+
     public void notifyPiecePlaced() {
         if (gameSession != null) {
             gameSession.onPiecePlaced();
         }
     }
     
-    /**
-     * Get current game session
-     */
     public GameSession getGameSession() {
         return gameSession;
     }
-    
-    /**
-     * Set game session
-     */
+
     public void setGameSession(GameSession session) {
         this.gameSession = session;
     }
-
 
 }
 

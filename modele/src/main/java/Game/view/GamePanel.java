@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements EcouteurModel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        // Test Initialisation //   
+        // On dessine les formes bien placées et les obstacles //   
         for (Shape s : plateau.getFormePlacees()) {
             drawShape(g, s, SKY_BLUE);   
         }
@@ -67,10 +67,6 @@ public class GamePanel extends JPanel implements EcouteurModel {
             }
         }
 
-        
-        //System.out.println(plateau.getObstacles());
-        
-        
         // Dessine la forme temporaire (preview) //
         if (previewShape != null) {
             Graphics2D g2 = (Graphics2D) g;
@@ -83,15 +79,13 @@ public class GamePanel extends JPanel implements EcouteurModel {
     private void drawShape(Graphics g, Shape s, Color color) {
     	
     	Graphics2D g2 = (Graphics2D) g; 
-    	
-    	//g2.setStroke(new BasicStroke(2));
-    	
+    		
         if (s instanceof RectangleShape) {
             RectangleShape r = (RectangleShape) s;
-            g2.setColor(color); // couleur du remplissage
+            g2.setColor(color);
             g2.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 
-            g2.setColor(Color.black); // couleur du contour
+            g2.setColor(Color.black);
             g2.drawRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 
 
