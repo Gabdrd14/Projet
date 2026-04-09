@@ -3,6 +3,8 @@ package Game.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import Game.view.GameFrame;
+
 public class CommandHandler {
 
     private List<OperationCommand> undoList = new ArrayList<>();
@@ -10,9 +12,11 @@ public class CommandHandler {
 
   
     public void handle(OperationCommand cmd) {
-        cmd.operate();             
+        cmd.operate();   
+        GameFrame.getInstance().notifyPiecePlaced();
         undoList.add(cmd);        
-        redoList.clear();          
+        redoList.clear();
+
     }
 
     public void record(OperationCommand cmd) {

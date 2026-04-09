@@ -8,11 +8,15 @@ public abstract class Entity {
     private List<Shape> shapes; // Liste des formes placées par un joueur
     private double score; // Score du joueur
     private String name; // Nom du joueur
+    private int piecesPlacedThisTurn; // Nombre de pièces placées dans le tour actuel
+    private int totalPiecesPlaced; // Nombre total de pièces placées
 
     public Entity(){
         this.shapes = new ArrayList<>();
         this.score = 0;
         this.name = "Player";
+        this.piecesPlacedThisTurn = 0;
+        this.totalPiecesPlaced = 0;
 
     }
 
@@ -39,5 +43,21 @@ public abstract class Entity {
         this.score = score;
     }
 
+    public int getPiecesPlacedThisTurn() { // Récupère le nombre de pièces placées dans le tour actuel
+        return piecesPlacedThisTurn;
+    }
+
+    public void incrementPiecesThisTurn() { // Incrémente le nombre de pièces placées dans le tour actuel
+        this.piecesPlacedThisTurn++;
+        this.totalPiecesPlaced++;
+    }
+
+    public void resetPiecesThisTurn() { // Réinitialise le compteur de pièces pour le tour actuel
+        this.piecesPlacedThisTurn = 0;
+    }
+
+    public int getTotalPiecesPlaced() { // Récupère le nombre total de pièces placées
+        return totalPiecesPlaced;
+    }
 
 }

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.sound.sampled.*;
 import Game.view.GameFrame;
+import Game.engine.GameSession;
 import Game.model.Plateau;
 import Game.model.StratGen1;
 import Game.model.StratGen2;
@@ -282,23 +283,18 @@ public class GameMenu {
 	        	     System.out.println("Strat 2 choisi");
 	        	 }
 	        	 plateau = new Plateau(1920,1080,strategie,joueurs);
-	        	 new GameFrame(plateau);
-	        	    	 
-	        	 //if (Level == 1) {
-	        		// StrategiePlateau strategie = new StratGen1();
-	        	 //}
 	        	 
-	             //Entity player1 = new HumanPlayer();
-	        	 //player1.setName("Player 1");
-	        	 //Entity player2 = new HumanPlayer();
-	        	 //player2.setName("Player 2");
-	        	 //List<Entity> joueurs = new ArrayList<>();
-	        	 //joueurs.add(player1);
-	        	 //joueurs.add(player2);
-	        	 //GameMenu.plateau = new Plateau(1920,1080,strategie,joueurs);
-	        	 //GameMenu.plateau.genererObs();       	  
-	        	  
-	        	 //new GameFrame(GameMenu.plateau);
+                // test
+
+	        	 // Créer GameSession pour gérer les tours
+
+	        	 GameSession gameSession = new GameSession(plateau, joueurs);
+                 System.out.println("GameSession created with " + joueurs.size() + " players.");
+	        	 
+	        	 // Passer GameSession au GameFrame
+	        	 new GameFrame(plateau, gameSession);
+	        	    	 
+
 	        	 
              } catch (Exception ex) {
                 ex.printStackTrace();

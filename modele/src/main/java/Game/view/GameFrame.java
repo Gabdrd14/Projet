@@ -10,6 +10,7 @@ import Game.state.StateMoveShape;
 import Game.state.StateResizeShape;
 import Game.state.StateController;  
 import Game.command.CommandHandler;
+import Game.engine.GameSession;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -24,12 +25,15 @@ import java.awt.Image;
 
 public class GameFrame extends JFrame {
 
+    private static GameFrame instance;
+
     private JPanel menuPanel;   // bande du haut
     //private JPanel gamePanel;
     
     private GamePanel gamePanel;   // surface de jeu //
 
     private Plateau plateau; // Modèle du jeu, il contient les formes placées sur le plateau, les scores des joueurs, et le compteur de pièces restantes, il est partagé entre la vue et le contrôleur pour permettre la communication et la synchronisation entre les deux
+    private GameSession gameSession; // Gestionnaire des tours du jeu
     // private Point p1, p2;
     // private Tool previewTool;
 
@@ -44,8 +48,19 @@ public class GameFrame extends JFrame {
     private CommandHandler commandHandler;
     private StateController currentState;
     
+
+    public static GameFrame getInstance() {
+        return instance;
+    }
+
     public GameFrame(Plateau plateau) {
+        this(plateau, null);
+    }
+    
+    public GameFrame(Plateau plateau, GameSession session) {
+        GameFrame.instance = this;
         this.plateau = plateau; // Constructeur de la fenêtre principale du jeu, il prend en paramètre le modèle pour pouvoir l'associer à la vue et au contrôleur, il initialise les composants graphiques de la fenêtre (menu et surface de jeu), et configure les propriétés de la fenêtre (taille, titre, comportement à la fermeture)
+        this.gameSession = session;
         commandHandler = new CommandHandler();
         stateCreateRectangle = new StateCreateRectangle(plateau, commandHandler);
         stateCreateCircle = new StateCreateCircle(plateau, commandHandler);
@@ -234,14 +249,32 @@ public class GameFrame extends JFrame {
     public JPanel getGamePanel() {
         return gamePanel;
     }
+    
+    /**
+     * Notify that a piece was placed - forwards to GameSession if available
+     */
+    public void notifyPiecePlaced() {
+        if (gameSession != null) {
+            gameSession.onPiecePlaced();
+        }
+    }
+    
+    /**
+     * Get current game session
+     */
+    public GameSession getGameSession() {
+        return gameSession;
+    }
+    
+    /**
+     * Set game session
+     */
+    public void setGameSession(GameSession session) {
+        this.gameSession = session;
+    }
 
 
 }
-
-
-
-
-
 
 
 
