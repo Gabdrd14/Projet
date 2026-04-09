@@ -84,7 +84,6 @@ public class GameMenu {
         } catch (FontFormatException | IOException e) {
         }
         
-     // Charger l'image
         ImageIcon logoImage = new ImageIcon("src/main/java/Images/Shape_Wars_logo.png");
         Image image = logoImage.getImage().getScaledInstance(900, 600, Image.SCALE_SMOOTH);
         ImageIcon resizedLogo = new ImageIcon(image);
@@ -214,7 +213,7 @@ public class GameMenu {
 
         backgroundLabel.add(quitPanel, BorderLayout.SOUTH);
 
-        // Bouton "Pause musique"
+        // Bouton "Pause musique" //
         JButton musicBreakButton = new JButton(new ImageIcon("src/main/java/Images/Bouton_pause.png"));
         musicBreakButton.setPreferredSize(new Dimension(60, 60)); 
         musicBreakButton.setBackground(new Color(200, 200, 200));
@@ -244,7 +243,7 @@ public class GameMenu {
         
         playButton.addActionListener(e -> {
         	 
-        	// Il faut d'abord choisir nos personnages avant de lancer le jeu. //
+        	// Il faut d'abord choisir le pseudo des joueurs avant de lancer le jeu. //
         	if (!characterClicked[0]) {
                   JOptionPane.showMessageDialog(frame, "Please select your characters before starting the game", 
                                                 "Missing character selection", JOptionPane.WARNING_MESSAGE);
@@ -260,7 +259,7 @@ public class GameMenu {
             clip.stop(); 
         	
             try {
-	        	 // On récupère tous les paramètres mis à jour. : //	
+	        	 // On récupère tous les paramètres mis à jour : //	
             	 int nbRedShape = GameSettings.getnbRedShape();
             	 int Level = GameSettings.getLevel();
                  int nbPlayers = GameSettings.getNbPlayers();
@@ -300,12 +299,11 @@ public class GameMenu {
 	        	 
                 
 
-	        	 // Créer GameSession pour gérer les tours
-
+	        	 // Créer GameSession pour gérer les tours //
 	        	 GameSession gameSession = new GameSession(plateau, joueurs, strategie);
                  System.out.println("GameSession created with " + joueurs.size() + " players.");
 
-	        	 // Passer GameSession au GameFrame
+	        	 // Passer GameSession au GameFrame //
 	        	 new GameFrame(plateau, gameSession);
 	        	    	 
 
