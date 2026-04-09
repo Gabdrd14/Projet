@@ -49,8 +49,8 @@ public class save_game {
 
         writeLines(lines);
 
-        // Si la fenêtre est pleine, on retourne les moyennes
-        if (lines.size() == WINDOW) {
+        // Retourne les moyennes uniquement à la 10e partie exacte
+        if (gameNum == WINDOW) {
             return computeAverages(lines);
         }
         return null;
