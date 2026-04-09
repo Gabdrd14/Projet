@@ -1,6 +1,7 @@
 package Game.engine;
 
 import Game.model.Plateau;
+import Game.model.StrategiePlateau;
 import Game.model.entity.Entity;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class GameSession {
     /**
      * Initialise le jeu avec le plateau et les joueurs
      */
-    public GameSession(Plateau plateau, List<Entity> players) {
+    public GameSession(Plateau plateau, List<Entity> players,StrategiePlateau strategie ) {
         this.plateau = plateau;
         this.players = players;
         this.currentPlayerIndex = 0;

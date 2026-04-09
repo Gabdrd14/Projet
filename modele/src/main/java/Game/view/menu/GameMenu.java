@@ -288,7 +288,7 @@ public class GameMenu {
 
 	        	 // Créer GameSession pour gérer les tours
 
-	        	 GameSession gameSession = new GameSession(plateau, joueurs);
+	        	 GameSession gameSession = new GameSession(plateau, joueurs, strategie);
                  System.out.println("GameSession created with " + joueurs.size() + " players.");
 	        	 
 	        	 // Passer GameSession au GameFrame
