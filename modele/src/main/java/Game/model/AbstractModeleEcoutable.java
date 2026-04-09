@@ -11,12 +11,14 @@ public abstract class AbstractModeleEcoutable implements ModelEcoutable {
 		ecouteurs.add(e);
 	}
 	
+	// On déclenche la notification de tous les écouteurs //
 	protected void fireChange() {
 		for (EcouteurModel l : ecouteurs) {
 			l.stateChanged(this);	
 		}
 	}
 	
+	// On informe tous les observateurs qu’un changement a eu lieu //
 	public void notifyObservers() {
 		fireChange();
 		

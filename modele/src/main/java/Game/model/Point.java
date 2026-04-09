@@ -18,10 +18,10 @@ public class Point extends AbstractModeleEcoutable {
 	public double getY() {
 		return y;
 	}
-
+	
+	// On applique une translation au point //
 	public void translation(double dx, double dy) {
 		 x += dx;
 		 y += dy;
-		 fireChange();
 	}
 }

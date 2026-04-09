@@ -39,7 +39,6 @@ public class RectangleShape extends AbstractModeleEcoutable implements Shape {
     }
 
 
-
     // Setter //
     public void setEndPoint(Point end) {
         this.p2 = end;
@@ -47,18 +46,23 @@ public class RectangleShape extends AbstractModeleEcoutable implements Shape {
 
     @Override
     public void move(double dx, double dy) {
-        p1.translation(dx, dy);
+        
+    	// On déplace les deux points pour conserver la forme du rectangle //
+    	p1.translation(dx, dy);
         p2.translation(dx, dy);
     }
 
-    // Vérifie si un point est à l'intérieur du rectangle //
+    // On vérifie si un point est à l'intérieur du rectangle //
     @Override
     public boolean contains(Point p) {
-        double xMin = getX();
+        
+    	 // On calcule les bornes du rectangle //
+    	double xMin = getX();
         double yMin = getY();
         double xMax = xMin + getWidth();
         double yMax = yMin + getHeight();
 
+        // On teste si le point est dans les limites //
         return p.getX() >= xMin && p.getX() <= xMax
             && p.getY() >= yMin && p.getY() <= yMax;
     }

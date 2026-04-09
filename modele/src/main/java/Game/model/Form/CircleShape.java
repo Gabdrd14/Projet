@@ -15,9 +15,6 @@ public class CircleShape extends AbstractModeleEcoutable implements Shape {
     }
 
     // Getter //
-
-
-
     @Override
     public double getX() {
         return center.getX() - radius;
@@ -46,6 +43,7 @@ public class CircleShape extends AbstractModeleEcoutable implements Shape {
         return radius;
     }
 
+    
     // Setter //
     public void setRadius(int radius) {
         this.radius = radius;
@@ -53,13 +51,16 @@ public class CircleShape extends AbstractModeleEcoutable implements Shape {
 
     @Override
     public void move(double dx, double dy) {
-        center.translation(dx, dy);
+    	// On déplace le centre du cercle //
+    	center.translation(dx, dy);
     }
 
-    // Vérifie si un point est dans le cercle //
+    // On vérifie si un point est dans le cercle //
     @Override
     public boolean contains(Point p) {
-        double dx = p.getX() - center.getX();
+        
+    	// On calcule la distance entre le point et le centre //
+    	double dx = p.getX() - center.getX();
         double dy = p.getY() - center.getY();
         return dx * dx + dy * dy <= radius * radius;
     }
@@ -71,10 +72,11 @@ public class CircleShape extends AbstractModeleEcoutable implements Shape {
 
     @Override
     public void resize(Point lastPoint, Point newPoint) {
-        double dx = newPoint.getX() - center.getX();
+        
+    	// On recalcule le rayon à partir de la distance entre le centre et la souris //
+    	double dx = newPoint.getX() - center.getX();
         double dy = newPoint.getY() - center.getY();
         this.radius = (int) Math.sqrt(dx * dx + dy * dy);
-        fireChange();
     }
 
     @Override
