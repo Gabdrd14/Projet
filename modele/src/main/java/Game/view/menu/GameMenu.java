@@ -279,7 +279,7 @@ public class GameMenu {
 	        	 }
 
 	        	 StrategiePlateau strategie;
-                 String cheminFichier = "src/main/java/Game/model/stratConfig/config3.txt";
+                 String cheminFichier = "src/main/java/Game/model/stratConfig/config4.txt";
 	        	 if (Level == 1) {
 	        	     strategie = new StratGen1(cheminFichier);
 	        	     System.out.println("Strat 1 choisi");
