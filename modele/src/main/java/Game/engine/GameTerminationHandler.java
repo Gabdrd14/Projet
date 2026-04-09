@@ -75,6 +75,10 @@ public class GameTerminationHandler extends GameHandler {
         if (choice == JOptionPane.YES_OPTION) {
             restartGame(session, strategie);
         }
+        
+        else {
+        	System.exit(0); 	
+        }
     }
 
     private void restartGame(GameSession session, StrategiePlateau strategie) {
