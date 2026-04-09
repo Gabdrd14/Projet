@@ -265,6 +265,7 @@ public class GameMenu {
             	 int Level = GameSettings.getLevel();
                  int nbPlayers = GameSettings.getNbPlayers();
 	        	 boolean hidden = GameSettings.isHiddenChallenge();
+	        	 boolean AI = GameSettings.ActiveAI();
 	        	 	        	 
 	        	 List<Entity> joueurs = new ArrayList<>();
 

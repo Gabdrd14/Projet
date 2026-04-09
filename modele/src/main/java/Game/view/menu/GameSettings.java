@@ -16,12 +16,14 @@ public class GameSettings {
     private static int Level = 1;
     private static int nbPlayers = 1;
     private static boolean HiddenChallenge = false;
+    private static boolean AI = false;
     
     // Champs pour permettre la saisie des paramètres. //
     private JTextField nbRedShapeField;
     private JTextField LevelField;
     private JTextField nbPlayersField;  
     private JCheckBox hiddenChallengeCheck;
+    private JCheckBox AICheck;
     private JButton nbRedMinusButton, nbRedPlusButton;
     
     public GameSettings(JFrame frame) {
@@ -73,7 +75,7 @@ public class GameSettings {
         fieldsPanel.add(createControlPanel(nbPlayersField));
         
         
-        // Hidden Challenge
+        // Hidden Challenge //
         fieldsPanel.add(new JLabel("Hidden Challenge :"));
         hiddenChallengeCheck = new JCheckBox("Enable");
         hiddenChallengeCheck.setSelected(HiddenChallenge);
@@ -86,6 +88,18 @@ public class GameSettings {
         fieldsPanel.add(hiddenChallengeCheck);
         fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée
         
+        // Mode AI //
+        fieldsPanel.add(new JLabel("Mode AI :"));
+        AICheck = new JCheckBox("Enable");
+        AICheck.setSelected(AI);
+        
+        AICheck.setFont(new Font("Arial", Font.BOLD, 11));
+        AICheck.setForeground(new Color(50, 50, 50));
+        AICheck.setFocusPainted(false);
+        AICheck.setOpaque(false); // fond transparent
+        
+        fieldsPanel.add(AICheck);
+        fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée
         
         
         // On grise le paramètre du nombre de formes lorsque l'on est au Level 1, car la stratégie 1 //
@@ -159,6 +173,7 @@ public class GameSettings {
                 Level = Integer.parseInt(LevelField.getText());
                 nbPlayers = Integer.parseInt(nbPlayersField.getText());
                 HiddenChallenge = hiddenChallengeCheck.isSelected();
+                AI = AICheck.isSelected();
                 
                 // On effectue des vérifications supplémentaires. //
                 if (nbPlayers < 1) {
@@ -189,6 +204,7 @@ public class GameSettings {
                 LevelField.setText(String.valueOf(1)); 
                 nbPlayersField.setText(String.valueOf(1));
                 hiddenChallengeCheck.setSelected(false);
+                AICheck.setSelected(false);
             }
         });
         
@@ -325,6 +341,10 @@ public class GameSettings {
     
     public static boolean isHiddenChallenge() {
         return HiddenChallenge;
+    }
+    
+    public static boolean ActiveAI() {
+        return AI;
     }
     
 }
