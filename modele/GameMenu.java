@@ -1,4 +1,5 @@
-package Game.view.menu;
+
+ackage Game.view.menu;
 
 import javax.swing.*;
 
@@ -12,15 +13,12 @@ import java.util.List;
 
 import javax.sound.sampled.*;
 import Game.view.GameFrame;
-import Game.engine.GameSession;
 import Game.model.Plateau;
 import Game.model.StratGen1;
 import Game.model.StratGen2;
 import Game.model.StrategiePlateau;
 import Game.model.entity.Entity;
 import Game.model.entity.HumanPlayer;
-import Game.model.entity.ia;
-import Game.model.strategy_ia.BarycentrePlacementStrategy;
 
 public class GameMenu {
     
@@ -273,9 +271,6 @@ public class GameMenu {
 	        	     Entity player = new HumanPlayer();
 	        	     player.setName(pseudo);
 	        	     joueurs.add(player); 
-
-                    // ia ai = new ia(new BarycentrePlacementStrategy());
-                    // ai.setPlateau(plateau);
 	        	 }
 
 	        	 StrategiePlateau strategie;
@@ -288,18 +283,23 @@ public class GameMenu {
 	        	     System.out.println("Strat 2 choisi");
 	        	 }
 	        	 plateau = new Plateau(strategie,joueurs);
-	        	 
-                
-
-	        	 // Créer GameSession pour gérer les tours
-
-	        	 GameSession gameSession = new GameSession(plateau, joueurs, strategie);
-                 System.out.println("GameSession created with " + joueurs.size() + " players.");
-	        	 
-	        	 // Passer GameSession au GameFrame
-	        	 new GameFrame(plateau, gameSession);
+	        	 new GameFrame(plateau);
 	        	    	 
-
+	        	 //if (Level == 1) {
+	        		// StrategiePlateau strategie = new StratGen1();
+	        	 //}
+	        	 
+	             //Entity player1 = new HumanPlayer();
+	        	 //player1.setName("Player 1");
+	        	 //Entity player2 = new HumanPlayer();
+	        	 //player2.setName("Player 2");
+	        	 //List<Entity> joueurs = new ArrayList<>();
+	        	 //joueurs.add(player1);
+	        	 //joueurs.add(player2);
+	        	 //GameMenu.plateau = new Plateau(1920,1080,strategie,joueurs);
+	        	 //GameMenu.plateau.genererObs();       	  
+	        	  
+	        	 //new GameFrame(GameMenu.plateau);
 	        	 
              } catch (Exception ex) {
                 ex.printStackTrace();
