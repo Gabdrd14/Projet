@@ -6,6 +6,7 @@ import Game.model.entity.Entity;
 import Game.model.entity.ia;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  * Classe représentant la session de jeu.
@@ -20,6 +21,7 @@ public class GameSession {
     private int totalPiecesPlaced = 0;
     private final int PIECES_PER_TURN = 4;
     private final int MAX_PIECES_GAME = 8;
+    private boolean gameEndHandled = false;
     
     // Chain of Responsibility handler
     private GameHandler handlerChain;
@@ -53,12 +55,30 @@ public class GameSession {
     }
     
     /**
-     * Méthode utilitaire : lance le play si IA
+     * Lance le tour de l'IA en différé (invokeLater) pour permettre le rendu.
      */
     private void playIfAI(Entity player) {
         if (player instanceof ia) {
             ia aiPlayer = (ia) player;
-            aiPlayer.jouer();
+            SwingUtilities.invokeLater(() -> {
+                aiPlayer.jouer(); // place les formes + fireChange → repaint
+                totalPiecesPlaced += PIECES_PER_TURN;
+                System.out.println(player.getName() + " (IA) a placé " + PIECES_PER_TURN +
+                        " pièces (Total: " + totalPiecesPlaced + "/" + MAX_PIECES_GAME + ")");
+                if (handlerChain != null) {
+                    handlerChain.handle(GameSession.this);
+                }
+                if (!isGameOver()) {
+                    piecesPlacedThisTurn = 0;
+                    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+                    Entity next = getCurrentPlayer();
+                    plateau.setJoueurCourant(next);
+                    System.out.println(">>> " + player.getName() + " tour terminé\n");
+                    System.out.println(">>> " + next.getName() + " tour commence");
+                    if (onTurnChanged != null) onTurnChanged.run();
+                    playIfAI(next);
+                }
+            });
         }
     }
     
@@ -153,6 +173,14 @@ public class GameSession {
 
     public boolean isGameOver() {
         return totalPiecesPlaced >= MAX_PIECES_GAME;
+    }
+
+    public boolean isGameEndHandled() {
+        return gameEndHandled;
+    }
+
+    public void setGameEndHandled(boolean v) {
+        gameEndHandled = v;
     }
     
     public int getPiecesRemainingInGame() {

@@ -268,15 +268,19 @@ public class GameMenu {
 	        	 boolean AI = GameSettings.ActiveAI();
 	        	 	        	 
 	        	 List<Entity> joueurs = new ArrayList<>();
+	        	 ia aiPlayer = null;
 
 	        	 for (int i = 0; i < nbPlayers; i++) {
 	        	     String pseudo = GameCharacter.getPlayerPseudo(i);
-	        	     Entity player = new HumanPlayer();
-	        	     player.setName(pseudo);
-	        	     joueurs.add(player); 
-
-                    // ia ai = new ia(new BarycentrePlacementStrategy());
-                    // ai.setPlateau(plateau);
+	        	     if (AI && i == 1) {
+	        	         aiPlayer = new ia(new BarycentrePlacementStrategy());
+	        	         aiPlayer.setName(pseudo);
+	        	         joueurs.add(aiPlayer);
+	        	     } else {
+	        	         Entity player = new HumanPlayer();
+	        	         player.setName(pseudo);
+	        	         joueurs.add(player);
+	        	     }
 	        	 }
 
 	        	 StrategiePlateau strategie;
@@ -289,6 +293,10 @@ public class GameMenu {
 	        	     System.out.println("Strat 2 choisi");
 	        	 }
 	        	 plateau = new Plateau(strategie,joueurs);
+
+	        	 if (aiPlayer != null) {
+	        	     aiPlayer.setPlateau(plateau);
+	        	 }
 	        	 
                 
 
@@ -296,7 +304,7 @@ public class GameMenu {
 
 	        	 GameSession gameSession = new GameSession(plateau, joueurs, strategie);
                  System.out.println("GameSession created with " + joueurs.size() + " players.");
-	        	 
+
 	        	 // Passer GameSession au GameFrame
 	        	 new GameFrame(plateau, gameSession);
 	        	    	 

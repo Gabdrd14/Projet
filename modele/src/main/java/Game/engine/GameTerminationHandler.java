@@ -23,6 +23,8 @@ public class GameTerminationHandler extends GameHandler {
     }
 
     private void handleGameEnd(GameSession session) {
+        if (session.isGameEndHandled()) return;
+        session.setGameEndHandled(true);
         System.out.println("\n PARTIE TERMINÉE!");
         System.out.println("  Total pièces placées: " + session.getTotalPiecesPlaced() + "/8");
         System.out.println(buildScoreSummary(session));

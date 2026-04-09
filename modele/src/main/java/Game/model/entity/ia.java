@@ -23,12 +23,10 @@ public class ia extends Entity {
 
     public void jouer() {
         if (plateau != null && placementStrategy != null) {
-            for(int i = 0 ; i < 4 ; i++){
-            Shape shape = placementStrategy.placeShape(plateau);
-            plateau.ajouterFormePlacee(shape);
-
+            for (int i = 0; i < 4; i++) {
+                Shape shape = placementStrategy.placeShape(plateau);
+                plateau.ajouterFormePlacee(shape);
             }
-
         }
     }
 }

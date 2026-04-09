@@ -151,6 +151,7 @@ public class Plateau extends AbstractModeleEcoutable {
             System.out.println("Collision -> suppression");
         }
         score_game(joueurCourant);
+        fireChange();
 
     }
 
