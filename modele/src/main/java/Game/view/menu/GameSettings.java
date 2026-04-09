@@ -80,23 +80,23 @@ public class GameSettings {
         hiddenChallengeCheck = new JCheckBox("Enable");
         hiddenChallengeCheck.setSelected(HiddenChallenge);
         
-        hiddenChallengeCheck.setFont(new Font("Arial", Font.BOLD, 11));
+        hiddenChallengeCheck.setFont(new Font("Arial", Font.BOLD, 14));
         hiddenChallengeCheck.setForeground(new Color(50, 50, 50));
         hiddenChallengeCheck.setFocusPainted(false);
-        hiddenChallengeCheck.setOpaque(false); // fond transparent
+        hiddenChallengeCheck.setOpaque(false); 
         
         fieldsPanel.add(hiddenChallengeCheck);
-        fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée
+        fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée //
         
         // Mode AI //
         fieldsPanel.add(new JLabel("Mode AI :"));
         AICheck = new JCheckBox("Enable");
         AICheck.setSelected(AI);
-        
-        AICheck.setFont(new Font("Arial", Font.BOLD, 11));
+
+        AICheck.setFont(new Font("Arial", Font.BOLD, 14));
         AICheck.setForeground(new Color(50, 50, 50));
         AICheck.setFocusPainted(false);
-        AICheck.setOpaque(false); // fond transparent
+        AICheck.setOpaque(false);
         
         fieldsPanel.add(AICheck);
         fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée
@@ -160,7 +160,7 @@ public class GameSettings {
                 boolean isValid = true; 
                 
                 // On s'assure que nos paramètres sont valides. //
-                isValid &= validateField(nbRedShapeField, "5", "the number of red shapes", frame);
+                isValid &= validateField(nbRedShapeField, "10", "the number of red shapes", frame);
                 isValid &= validateField(LevelField, "1", "Level", frame);
                 isValid &= validateField(nbPlayersField, "2", "the number of players", frame);
 
@@ -175,15 +175,15 @@ public class GameSettings {
                 HiddenChallenge = hiddenChallengeCheck.isSelected();
                 AI = AICheck.isSelected();
                 
-                // On effectue des vérifications supplémentaires. //
-                if (nbPlayers < 1) {
+                // On effectue des vérifications supplémentaires. //          
+                if (nbPlayers < 1 || nbPlayers > 2) {
                     JOptionPane.showMessageDialog(frame, "There must be at least 2 players");
                     nbPlayersField.setText("1");
                     return;
                 }
 
-                if (Level < 0) {
-                    JOptionPane.showMessageDialog(frame, "Grid size too small");
+                if (Level < 0 || Level > 2) {
+                    JOptionPane.showMessageDialog(frame, "Level impossible");
                     LevelField.setText("1");
                     return;
                 }
@@ -310,12 +310,16 @@ public class GameSettings {
                 newValue = 1;  
             }
             
-            if (field == LevelField && newValue > 3) {
-                newValue = 3;  
+            if (field == LevelField && newValue > 2) {
+                newValue = 2;  
             }
             
             if (field == nbPlayersField && newValue < 1) {
             	newValue = 1;  
+            }
+            
+            if (field == nbPlayersField && newValue > 2) {
+            	newValue = 2;  
             }
             
             field.setText(String.valueOf(newValue));
