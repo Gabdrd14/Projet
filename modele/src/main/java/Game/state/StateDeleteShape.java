@@ -19,7 +19,9 @@ public class StateDeleteShape implements StateController {
 
     @Override
     public void mousePressed(Point p) {
-        Shape selectedShape = null;
+        
+    	// On cherche la première forme qui contient le point cliqué //
+    	Shape selectedShape = null;
         for (Shape s : plateau.getFormePlacees()) {
             if (s.contains(p)) {
                 selectedShape = s;
@@ -27,6 +29,7 @@ public class StateDeleteShape implements StateController {
             }
         }
 
+        // On supprime la forme si une sélection a été trouvée //
         if (selectedShape != null) {
         	 commandHandler.handle(
         			 new CommandDeleteShape(plateau, selectedShape)
@@ -38,14 +41,11 @@ public class StateDeleteShape implements StateController {
     
 	@Override
 	public void mouseDragged(Point p) {
-		// TODO Auto-generated method stub
-		
+		// Aucun comportement dans ce mode
 	}
 
 	@Override
 	public void mouseReleased(Point p) {
-		// TODO Auto-generated method stub
-		
-	}
-    
+		// Aucun comportement dans ce mode
+	}   
 }

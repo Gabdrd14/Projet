@@ -21,18 +21,22 @@ public class StateCreateCircle implements StateController {
 
     @Override
     public void mousePressed(Point p) {
-        startPoint = p;
+        
+    	// On enregistre le point de départ et on crée un cercle temporaire //
+    	startPoint = p;
         currentCircle = new CircleShape(startPoint, 0);
-        // On n'ajoute plus au modèle à cet endroit //
     }
 
     @Override
     public void mouseDragged(Point p) {
         if (currentCircle != null && startPoint != null) {
-            double dx = p.getX() - startPoint.getX();
+            
+        	// On calcule la distance entre le point initial et la position actuelle //
+        	double dx = p.getX() - startPoint.getX();
             double dy = p.getY() - startPoint.getY();
             int radius = (int) Math.sqrt(dx * dx + dy * dy);
-
+            
+            // On met à jour le rayon du cercle en temps réel //
             currentCircle.setRadius(radius); 
         }
     }
@@ -40,17 +44,21 @@ public class StateCreateCircle implements StateController {
     @Override
     public void mouseReleased(Point p) {
         if (currentCircle != null) {
-            double dx = p.getX() - startPoint.getX();
+            
+        	// On recalcule le rayon final du cercle au relâchement //
+        	double dx = p.getX() - startPoint.getX();
             double dy = p.getY() - startPoint.getY();
             int radius = (int) Math.sqrt(dx * dx + dy * dy);
 
             currentCircle.setRadius(radius);
-
+            
+            // On transforme l’action en commande pour gestion undo/redo //
             commandHandler.handle(
                 new CommandCreateCircle(plateau, currentCircle)
             );
         }
-
+        
+        // On réinitialise l’état après création //
         currentCircle = null;
         startPoint = null;
     }

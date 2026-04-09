@@ -22,7 +22,9 @@ public class StateResizeShape implements StateController {
 
     @Override
     public void mousePressed(Point p) {
-        selectedShape = null;
+        
+    	// On sélectionne la forme à redimensionner si elle contient le point cliqué //
+    	selectedShape = null;
         for (Shape s : plateau.getFormePlacees()) {
             if (s.contains(p)) {
                 selectedShape = s;
@@ -35,8 +37,12 @@ public class StateResizeShape implements StateController {
     @Override
     public void mouseDragged(Point p) {
         if (selectedShape != null) {
-            selectedShape.resize(lastPoint, p);
-            newPoint = p; // On mémorise la nouvelle taille pour quand le drag se termine //
+            
+        	// On applique un redimensionnement en temps réel pendant le drag //
+        	selectedShape.resize(lastPoint, p);
+            
+        	// On garde la dernière position de la souris
+        	newPoint = p; 
         }
     }
 
@@ -45,20 +51,25 @@ public class StateResizeShape implements StateController {
         if (selectedShape != null) {
             newPoint = p; 
             
-            // Appliquer temporairement le resize pour vérifier les collisions
+            // On applique le redimensionnement final avant vérification //
             selectedShape.resize(lastPoint, newPoint);
             
-            // Vérifier les collisions après le resize
+            // On vérifie si le resize entraîne une collision //
             if (plateau.collision()) {
-                // Annuler le resize
+            	
+            	// On annule le redimensionnement en cas de collision
                 selectedShape.resize(newPoint, lastPoint);
-            } else {
-                // Pas de collision, enregistrer la commande
-                commandHandler.handle(new CommandResizeShape(selectedShape, lastPoint, newPoint));
+            } 
+            
+            else {
+            	// On enregistre l’action dans l’historique undo/redo //
+            	// On évite de compter un déplacement comme une nouvelle forme créée //
+                commandHandler.record(new CommandResizeShape(selectedShape, lastPoint, newPoint));
                 plateau.notifyObservers();
                 System.out.println("Modification de taille réalisé par le" + plateau.getNameJoueurCourant());
             }
-  
+            
+            // On réinitialise l’état après redimensionnement //
             selectedShape = null;
             lastPoint = null;
             newPoint = null;

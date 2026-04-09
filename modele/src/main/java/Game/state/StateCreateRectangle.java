@@ -22,28 +22,35 @@ public class StateCreateRectangle implements StateController {
 
     @Override
     public void mousePressed(Point p) {
-        startPoint = p;
+        
+    	// On enregistre le point de départ et on crée un rectangle temporaire //
+    	startPoint = p;
         currentRect = new RectangleShape(startPoint, startPoint);
-        // On n'ajoute plus au modèle à cet endroit //
     }
 
     @Override
     public void mouseDragged(Point p) {
         if (currentRect != null) {
-            currentRect.setEndPoint(p); 
+            
+        	// On met à jour dynamiquement le coin opposé du rectangle //
+        	currentRect.setEndPoint(p); 
         }
     }
 
     @Override
     public void mouseReleased(Point p) {
         if (currentRect != null) {
-            currentRect.setEndPoint(p);
             
+        	// On fixe définitivement la taille du rectangle //
+        	currentRect.setEndPoint(p);
+            
+        	// On transforme la création en commande pour undo/redo //
             commandHandler.handle(
                 new CommandCreateRectangle(plateau, currentRect)
             );
         }
-
+        
+        // On réinitialise l’état après création //
         currentRect = null;
         startPoint = null;
     }

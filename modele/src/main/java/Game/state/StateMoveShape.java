@@ -22,7 +22,9 @@ public class StateMoveShape implements StateController {
 
     @Override
     public void mousePressed(Point p) {
-        selectedShape = null;
+        
+    	// On cherche la première forme qui contient le point cliqué //
+    	selectedShape = null;
         for (Shape s : plateau.getFormePlacees()) {
             if (s.contains(p)) {
                 selectedShape = s;
@@ -35,7 +37,9 @@ public class StateMoveShape implements StateController {
 
     @Override
     public void mouseDragged(Point p) {
-        if (selectedShape != null && lastPoint != null) {
+        
+    	 // On déplace la forme en suivant le déplacement de la souris //
+    	if (selectedShape != null && lastPoint != null) {
             double dx = p.getX() - lastPoint.getX();
             double dy = p.getY() - lastPoint.getY();
             selectedShape.move(dx, dy);
@@ -46,21 +50,30 @@ public class StateMoveShape implements StateController {
     @Override
     public void mouseReleased(Point p) {
         if (selectedShape != null && pressPoint != null && lastPoint != null) {
-            double remainingDx = p.getX() - lastPoint.getX();
+            
+        	// On applique le dernier ajustement de déplacement //
+        	double remainingDx = p.getX() - lastPoint.getX();
             double remainingDy = p.getY() - lastPoint.getY();
+            
             if (remainingDx != 0 || remainingDy != 0) {
                 selectedShape.move(remainingDx, remainingDy);
             }
-
+            
+            // On calcule le déplacement total effectué //
             double totalDx = p.getX() - pressPoint.getX();
             double totalDy = p.getY() - pressPoint.getY();
             if (totalDx != 0 || totalDy != 0) {
-                // Vérifier les collisions après le mouvement
+                
+            	// On Vérifie les collisions après le mouvement //
                 if (plateau.collision()) {
-                    // Annuler le mouvement
+                    
+                	// On annule le mouvement en cas de collision //
                     selectedShape.move(-totalDx, -totalDy);
+                
                 } else {
-                    // Pas de collision, enregistrer la commande
+                    
+                	// On enregistre le déplacement dans l’historique undo/redo //
+                	// On évite de compter un déplacement comme une nouvelle forme créée //
                     commandHandler.record(new CommandMoveShape(selectedShape, totalDx, totalDy));
                     
                     plateau.notifyObservers();
@@ -70,6 +83,7 @@ public class StateMoveShape implements StateController {
             }
         }
 
+        // On réinitialise l’état après déplacement //
         selectedShape = null;
         pressPoint = null;
         lastPoint = null;
