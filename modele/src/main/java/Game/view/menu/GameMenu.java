@@ -147,7 +147,7 @@ public class GameMenu {
 
         JButton playButton = new JButton("Play");
 
-        JButton characterButton = new JButton("Characters");
+        JButton characterButton = new JButton("Players");
     
         JButton settingsButton = new JButton("Settings");
 
