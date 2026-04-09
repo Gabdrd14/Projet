@@ -84,7 +84,9 @@ public class GameSession {
                          " (Total: " + totalPiecesPlaced + "/" + MAX_PIECES_GAME + ")");
         
         if (piecesPlacedThisTurn >= PIECES_PER_TURN) {
+            currentPlayer.getShapes().clear(); // clear les formes du joueur 1 dans sa liste respective 
             nextTurn();
+
         }
 
         if (handlerChain != null) {
@@ -98,6 +100,7 @@ public class GameSession {
     public void nextTurn() {
         Entity currentPlayer = getCurrentPlayer();
         System.out.println(">>> " + currentPlayer.getName() + " tour terminé\n");
+
         
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         piecesPlacedThisTurn = 0;
