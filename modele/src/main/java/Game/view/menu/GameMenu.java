@@ -245,13 +245,15 @@ public class GameMenu {
         	 
         	// Il faut d'abord choisir le pseudo des joueurs avant de lancer le jeu. //
         	if (!characterClicked[0]) {
-                  JOptionPane.showMessageDialog(frame, "Please select your characters before starting the game", 
-                                                "Missing character selection", JOptionPane.WARNING_MESSAGE);
+                  JOptionPane.showMessageDialog(frame, "Please enter your pseudo before starting the game", 
+                                                "Missing pseudo", JOptionPane.WARNING_MESSAGE);
                   return;  
             }
         	
+        	
+        
            	if (GameSettings.getNbPlayers() != GameCharacter.nbPlayers) {
-                JOptionPane.showMessageDialog(frame, "Please reselect characters after changing the number of players.");
+                JOptionPane.showMessageDialog(frame, "Please reselect your pseudo after changing the number of players.");
                 return;
             }
         	

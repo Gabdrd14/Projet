@@ -21,13 +21,14 @@ public class GameCharacter {
 
     public GameCharacter() {
         GameCharacter.nbPlayers = GameSettings.getNbPlayers();
-
+        
+        // On initialise les données statiques si nécessaire //
         if (savedPseudos == null || savedSelections == null || savedPseudos.length != nbPlayers) {
             savedPseudos = new String[nbPlayers];
             savedSelections = new boolean[nbPlayers];
         }
 
-        this.frame = new JFrame("Saisie des Pseudos");
+        this.frame = new JFrame("Player Name Input");
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         this.mainPanel = new JPanel();
@@ -41,6 +42,7 @@ public class GameCharacter {
         int width;
         int height;
 
+        // On adapte la disposition selon le nombre de joueurs //
         if (nbPlayers == 2) {
             width = 700;  
             height = 500;
@@ -64,7 +66,7 @@ public class GameCharacter {
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
 
-        JButton finalValidateButton = new JButton("Valider");
+        JButton finalValidateButton = new JButton("Confirm");
         finalValidateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         finalValidateButton.setFont(new Font("Arial", Font.BOLD, 14));
         finalValidateButton.setBackground(new Color(0, 153, 51));
@@ -74,13 +76,15 @@ public class GameCharacter {
 
         finalValidateButton.addActionListener((ActionEvent e) -> {
             if (allPseudosValidated()) {
-                for (int i = 0; i < nbPlayers; i++) {
+                
+            	// On sauvegarde les pseudos validés //
+            	for (int i = 0; i < nbPlayers; i++) {
                     savedPseudos[i] = pseudoFields[i].getText();
                 }
-                JOptionPane.showMessageDialog(frame, "Pseudos validés !");
+                JOptionPane.showMessageDialog(frame, "Names validated !");
                 frame.dispose();
             } else {
-                JOptionPane.showMessageDialog(frame, "Tous les joueurs doivent valider leur pseudo !");
+                JOptionPane.showMessageDialog(frame, "All players must validate their names !");
             }
         });
 
@@ -93,7 +97,7 @@ public class GameCharacter {
         JPanel playerPanel = new JPanel(new GridBagLayout());
         playerPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.GRAY, 2),
-                "Joueur " + (playerIndex + 1),
+                "Player " + (playerIndex + 1),
                 TitledBorder.CENTER,
                 TitledBorder.TOP,
                 new Font("Arial", Font.BOLD, 14),
@@ -104,12 +108,12 @@ public class GameCharacter {
         gbc.insets = new Insets(15, 15, 15, 15);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Label pseudo //
+        // On affiche le label du pseudo
         gbc.gridx = 0;
         gbc.gridy = 0;
         playerPanel.add(new JLabel("Pseudo :"), gbc);
 
-        // Champ pseudo //
+        // On initialise le champ de saisie du pseudo
         gbc.gridx = 1;
         pseudoFields[playerIndex] = new JTextField(
                 savedPseudos[playerIndex] != null ? savedPseudos[playerIndex] : "Joueur " + (playerIndex + 1)
@@ -117,9 +121,9 @@ public class GameCharacter {
         pseudoFields[playerIndex].setPreferredSize(new Dimension(150, 30));
         playerPanel.add(pseudoFields[playerIndex], gbc);
 
-        // Bouton valider pseudo //
+        // Bouton de validation du pseudo //
         JButton validateButton = new JButton(
-                savedSelections[playerIndex] ? "Pseudo validé" : "Valider le pseudo"
+                savedSelections[playerIndex] ? "Name validated" : "Validate name"
         );
         validateButton.setEnabled(!savedSelections[playerIndex]);
         
@@ -130,11 +134,13 @@ public class GameCharacter {
 
         validateButton.addActionListener((ActionEvent e) -> {
             if (!savedSelections[playerIndex]) {
-                savedSelections[playerIndex] = true;
-                validateButton.setText("Pseudo validé");
+                
+            	// On marque le joueur comme validé //
+            	savedSelections[playerIndex] = true;
+                validateButton.setText("Name validated");
                 validateButton.setEnabled(false);
 
-                pseudoFields[playerIndex].setEnabled(false); // on grise le champ //
+                pseudoFields[playerIndex].setEnabled(false); // On grise le champ //
 
                 cancelButtons[playerIndex].setEnabled(true);
             }
@@ -146,8 +152,8 @@ public class GameCharacter {
         gbc.gridy = 1;
         playerPanel.add(validateButton, gbc);
 
-        // Bouton annuler //
-        JButton cancelButton = new JButton("Annuler");
+        // Bouton d'annulation de validation //
+        JButton cancelButton = new JButton("Cancel");
         cancelButton.setEnabled(savedSelections[playerIndex]);
         cancelButton.setBackground(new Color(255, 102, 102));
         cancelButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -155,12 +161,14 @@ public class GameCharacter {
         cancelButton.setBorderPainted(false);
 
         cancelButton.addActionListener((ActionEvent e) -> {
-            savedSelections[playerIndex] = false;
+            
+        	// On réinitialise l'état de validation //
+        	savedSelections[playerIndex] = false;
 
             validateButton.setText("Valider le pseudo");
             validateButton.setEnabled(true);
 
-            pseudoFields[playerIndex].setEnabled(true); // on réactive le champ //
+            pseudoFields[playerIndex].setEnabled(true); // On réactive le champ //
 
             cancelButton.setEnabled(false);
         });
@@ -184,6 +192,6 @@ public class GameCharacter {
         if (playerIndex >= 0 && playerIndex < savedPseudos.length) {
             return savedPseudos[playerIndex];
         }
-        throw new IllegalArgumentException("Index de joueur invalide : " + playerIndex);
+        throw new IllegalArgumentException("Invalid player index: " + playerIndex);
     }
 }
