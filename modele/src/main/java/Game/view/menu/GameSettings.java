@@ -22,6 +22,7 @@ public class GameSettings {
     private JTextField LevelField;
     private JTextField nbPlayersField;  
     private JCheckBox hiddenChallengeCheck;
+    private JButton nbRedMinusButton, nbRedPlusButton;
     
     public GameSettings(JFrame frame) {
     	
@@ -48,11 +49,16 @@ public class GameSettings {
         settingsPanel.add(fieldsPanel, BorderLayout.CENTER);
         
         // On ajoute des champs de saisie et de leurs libellés. //
-        fieldsPanel.add(new JLabel("Number of red shapes :"));
+        fieldsPanel.add(new JLabel("<html>Number of red shapes :<br>Available for Level 2</html>"));
         nbRedShapeField = new JTextField(String.valueOf(nbRedShape)); // Champ avec valeur par défaut. //
         configureField(nbRedShapeField);
         fieldsPanel.add(nbRedShapeField);
         fieldsPanel.add(createControlPanel(nbRedShapeField)); // Boutons "+" et "-". //
+        
+        // Désactivation par défaut car Level = 1
+        nbRedShapeField.setEditable(false);
+        nbRedMinusButton.setEnabled(false);
+        nbRedPlusButton.setEnabled(false);
         
         fieldsPanel.add(new JLabel("Level :"));
         LevelField = new JTextField(String.valueOf(Level));
@@ -79,6 +85,53 @@ public class GameSettings {
         
         fieldsPanel.add(hiddenChallengeCheck);
         fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée
+        
+        
+        
+        // On grise le paramètre du nombre de formes lorsque l'on est au Level 1, car la stratégie 1 //
+        // est basée sur des ensembles de formes définis dans des fichiers. //
+
+        // Dès que l'on passe au Level 2, on peut choisir le nombre de formes rouges qui apparaissent sur le plateau, //
+        // puisque la stratégie 2 est basée sur un placement aléatoire des formes. //
+        LevelField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            private void updateNbRedShapeState() {
+                try {
+                	boolean editable = false;
+                   
+                    int level = Integer.parseInt(LevelField.getText());
+
+                    if (level >= 2) {
+                    	editable = true;
+                    }
+                   
+                    nbRedShapeField.setEditable(editable);
+                    nbRedMinusButton.setEnabled(editable);
+                    nbRedPlusButton.setEnabled(editable);
+                
+                } catch (NumberFormatException e) {
+                    nbRedShapeField.setEditable(false);
+                    nbRedMinusButton.setEnabled(false);
+                    nbRedPlusButton.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { 
+            	updateNbRedShapeState(); 
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { 
+            	updateNbRedShapeState();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { 
+            	updateNbRedShapeState(); 
+            }
+        });    
+        
+        
         
         // On crée un panneau pour les boutons Confirmer et Réinitialiser. //
         JPanel buttonPanel = new JPanel();
@@ -110,7 +163,7 @@ public class GameSettings {
                 // On effectue des vérifications supplémentaires. //
                 if (nbPlayers < 1) {
                     JOptionPane.showMessageDialog(frame, "There must be at least 2 players");
-                    nbPlayersField.setText("2");
+                    nbPlayersField.setText("1");
                     return;
                 }
 
@@ -119,6 +172,7 @@ public class GameSettings {
                     LevelField.setText("1");
                     return;
                 }
+                
                 settingsFrame.dispose();
             }
         });
@@ -168,6 +222,11 @@ public class GameSettings {
         
         minusButton.addActionListener(e -> updateFieldValue(field, -1)); // On décrémente de 1 si on appuie sur le "-". //
         plusButton.addActionListener(e -> updateFieldValue(field, 1)); // On incrémente de 1 si on appuie sur le "+". //
+        
+        if (field == nbRedShapeField) {
+            nbRedMinusButton = minusButton;
+            nbRedPlusButton = plusButton;
+        }
 
         controlPanel.add(minusButton);
         controlPanel.add(plusButton);
@@ -242,12 +301,14 @@ public class GameSettings {
             if (field == nbPlayersField && newValue < 1) {
             	newValue = 1;  
             }
-        
+            
             field.setText(String.valueOf(newValue));
         } catch (NumberFormatException ex) {
             field.setText("0"); 
         }
+        
     }
+    
     
     // Accesseurs pour les paramètres. //
     public static int getnbRedShape() {
