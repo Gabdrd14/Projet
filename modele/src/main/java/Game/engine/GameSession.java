@@ -14,6 +14,7 @@ public class GameSession {
     
     private Plateau plateau;
     private List<Entity> players;
+    private StrategiePlateau strategie;
     private int currentPlayerIndex = 0;
     private int piecesPlacedThisTurn = 0;
     private int totalPiecesPlaced = 0;
@@ -36,6 +37,7 @@ public class GameSession {
     public GameSession(Plateau plateau, List<Entity> players, StrategiePlateau strategie) {
         this.plateau = plateau;
         this.players = players;
+        this.strategie = strategie;
         this.currentPlayerIndex = 0;
         this.piecesPlacedThisTurn = 0;
         this.totalPiecesPlaced = 0;
@@ -161,5 +163,13 @@ public class GameSession {
         if (handlerChain != null) {
             handlerChain.handle(this);
         }
+    }
+
+    public StrategiePlateau getStrategie() {
+        return strategie;
+    }
+
+    public Plateau getPlateau() {
+        return plateau;
     }
 }
