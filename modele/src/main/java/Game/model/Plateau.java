@@ -1,7 +1,8 @@
 package Game.model;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import Game.model.Form.CircleShape;
 import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
@@ -19,9 +20,11 @@ public class Plateau extends AbstractModeleEcoutable {
     private StrategiePlateau strategieDeGen; // stratégie de génération d'obstacles
 
 
-    public Plateau(int largeur, int hauteur, StrategiePlateau strategieDeGen,List<Entity> joueurs) {
-        this.largeur = largeur;
-        this.hauteur = hauteur;
+    public Plateau(StrategiePlateau strategieDeGen,List<Entity> joueurs) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        this.largeur = screenSize.width;
+        this.hauteur = screenSize.height;
         this.liste_obstacle = new ArrayList<>();
         this.joueurs = joueurs;
         this.joueurCourant = joueurs.get(0); // Initialiser le joueur courant au premier joueur ajouté
@@ -147,7 +150,7 @@ public class Plateau extends AbstractModeleEcoutable {
             current.remove(current.size() - 1);
             System.out.println("Collision -> suppression");
         }
-
+        score_game(joueurCourant);
 
     }
 
