@@ -30,6 +30,7 @@ public class GameTerminationHandler extends GameHandler {
         // Enregistrement dans l'historique + calcul de la moyenne à la 10e partie
         Map<String, Double> averages = save_game.checkAndSave(session.getPlayers());
         if (averages != null) {
+            // 10e partie atteinte : afficher les moyennes et ne pas relancer
             StringBuilder avgMsg = new StringBuilder("=== Moyenne sur les 10 dernières parties ===\n");
             for (Map.Entry<String, Double> e : averages.entrySet()) {
                 avgMsg.append("  ").append(e.getKey()).append(" : ")
@@ -37,9 +38,14 @@ public class GameTerminationHandler extends GameHandler {
             }
             String msg = avgMsg.toString().trim();
             System.out.println(msg);
-            SwingUtilities.invokeLater(() ->
+            SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(GameFrame.getInstance(), msg,
-                        "Scores moyens — 10 parties", JOptionPane.INFORMATION_MESSAGE));
+                        "Scores moyens — 10 parties", JOptionPane.INFORMATION_MESSAGE);
+                if (GameFrame.getInstance() != null) {
+                    GameFrame.getInstance().dispose();
+                }
+            });
+            return; // ne pas proposer de rejouer
         }
 
         StrategiePlateau strategie = session.getStrategie();
