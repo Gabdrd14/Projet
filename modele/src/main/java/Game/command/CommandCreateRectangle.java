@@ -15,9 +15,10 @@ public class CommandCreateRectangle implements OperationCommand {
 
     @Override
     public void operate() {
-        // On Ajoute le rectangle au modèle //
+        // On ajoute le rectangle au modèle //
         plateau.ajouterFormePlacee(rectangle);
-        System.out.println("Rectangle ajouté au plateau en position ("+ rectangle.getP1Point().getX()+ "," + rectangle.getP1Point().getY() + ") et (" + rectangle.getP2Point().getX() + "," + rectangle.getP2Point().getY()+ ")");
+        System.out.println("Rectangle ajouté au plateau en position ("+ rectangle.getP1Point().getX()+ "," 
+        + rectangle.getP1Point().getY() + ") et (" + rectangle.getP2Point().getX() + "," + rectangle.getP2Point().getY()+ ")");
     }
 
     @Override

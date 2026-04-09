@@ -17,11 +17,13 @@ public class CommandResizeShape implements OperationCommand {
 
     @Override
     public void operate() {
-        shape.resize(lastPoint, newPoint); // lastPoint -> newPoint //
+    	// On applique le redimensionnement de la forme entre deux points //
+        shape.resize(lastPoint, newPoint); 
     }
 
     @Override
     public void compensate() {
-        shape.resize(newPoint, lastPoint); // On inverse pour undo //
+    	// On inverse les deux points pour annuler le redimensionnement //
+        shape.resize(newPoint, lastPoint); 
     }
 }

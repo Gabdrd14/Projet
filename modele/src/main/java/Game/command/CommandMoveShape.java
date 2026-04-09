@@ -17,12 +17,13 @@ public class CommandMoveShape implements OperationCommand {
 
     @Override
     public void operate() {
+    	// On bouge la forme //
     	selectedShape.move(dx, dy);
-    	//plateau.ajouterFormePlacee(selectedShape);
     }
 
     @Override
     public void compensate() {
+    	// On inverse le déplacement pour revenir à la position précédente //
     	selectedShape.move(-dx, -dy);
     }
 }

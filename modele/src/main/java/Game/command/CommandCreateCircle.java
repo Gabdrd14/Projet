@@ -15,9 +15,10 @@ public class CommandCreateCircle implements OperationCommand {
 
     @Override
     public void operate() {
-        // On Ajoute le cercle au modèle //
+        // On ajoute le cercle au modèle //
         plateau.ajouterFormePlacee(circle);
-        System.out.println("Cercle ajouté au plateau en position (" + circle.getCenter().getX() + "," + circle.getCenter().getY() + ") avec un rayon de " + circle.getRadius());
+        System.out.println("Cercle ajouté au plateau en position (" + circle.getCenter().getX() + "," 
+        + circle.getCenter().getY() + ") avec un rayon de " + circle.getRadius());
     }
 
     @Override

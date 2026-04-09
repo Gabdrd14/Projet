@@ -15,11 +15,13 @@ public class CommandDeleteShape implements OperationCommand {
 
     @Override
     public void operate() {
+    	// On supprime la forme du modèle //
         plateau.supprimerFormePlacee(selectedShape);
     }
     
     @Override
     public void compensate() {
+    	// On ajoute la forme au modèle //
         plateau.ajouterFormePlacee(selectedShape);
     }
 }
