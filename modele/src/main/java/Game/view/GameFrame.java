@@ -11,6 +11,7 @@ import Game.state.StateResizeShape;
 import Game.state.StateController;  
 import Game.command.CommandHandler;
 import Game.engine.GameSession;
+import Game.view.menu.GameSettings;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -108,6 +109,10 @@ public class GameFrame extends JFrame {
 
         add(menuPanel, BorderLayout.NORTH);
         add(gamePanel, BorderLayout.CENTER);
+
+        if (GameSettings.isHiddenChallenge()) {
+            gamePanel.startHiddenChallengeTimer();
+        }
         
         //menuPanel.revalidate();
         //menuPanel.repaint();
@@ -208,6 +213,12 @@ public class GameFrame extends JFrame {
         revalidate();
         repaint();
         setVisible(true);
+
+        // Hidden Challenge : obstacles visibles 10s par joueur, puis cachés
+        if (GameSettings.isHiddenChallenge() && gameSession != null) {
+            gamePanel.startHiddenChallengeTimer();
+            gameSession.setOnTurnChanged(() -> gamePanel.startHiddenChallengeTimer());
+        }
     }
 
 

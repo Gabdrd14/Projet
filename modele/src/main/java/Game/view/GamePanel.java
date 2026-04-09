@@ -7,6 +7,7 @@ import Game.model.Plateau;
 import Game.model.EcouteurModel;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements EcouteurModel {
@@ -16,6 +17,8 @@ public class GamePanel extends JPanel implements EcouteurModel {
     private static final Color SKY_BLUE = new Color(135, 206, 235);
     private static final Color GRAY = new Color(191, 191, 191);
     private static final Color LIGHT_RED = new Color(255, 100, 100, 100);
+
+    private boolean obstaclesVisible = true;
     
     public GamePanel(Plateau plateau) {
         this.plateau = plateau;
@@ -34,6 +37,21 @@ public class GamePanel extends JPanel implements EcouteurModel {
         repaint();
     }
 
+    /**
+     * Lance un minuteur de 10 secondes : les obstacles sont visibles pendant 10s
+     * puis disparaissent (mode Hidden Challenge).
+     */
+    public void startHiddenChallengeTimer() {
+        obstaclesVisible = true;
+        repaint();
+        Timer timer = new Timer(10000, e -> {
+            obstaclesVisible = false;
+            repaint();
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -43,8 +61,10 @@ public class GamePanel extends JPanel implements EcouteurModel {
             drawShape(g, s, SKY_BLUE);   
         }
         
-        for (Shape s : plateau.getObstacles()) {
-            drawShape(g, s, LIGHT_RED);
+        if (obstaclesVisible) {
+            for (Shape s : plateau.getObstacles()) {
+                drawShape(g, s, LIGHT_RED);
+            }
         }
 
         

@@ -22,8 +22,15 @@ public class GameSession {
     
     // Chain of Responsibility handler
     private GameHandler handlerChain;
+
+    // Callback appelé à chaque changement de tour (ex. Hidden Challenge)
+    private Runnable onTurnChanged;
+
+    public void setOnTurnChanged(Runnable callback) {
+        this.onTurnChanged = callback;
+    }
     
-    /**
+    /** 
      * Initialise le jeu avec le plateau et les joueurs
      */
     public GameSession(Plateau plateau, List<Entity> players, StrategiePlateau strategie) {
@@ -40,7 +47,6 @@ public class GameSession {
             plateau.setJoueurCourant(players.get(0));
             System.out.println(">>> " + players.get(0).getName() + " tour commence");
 
-            playIfAI(players.get(0));
         }
     }
     
@@ -85,6 +91,7 @@ public class GameSession {
         
         if (piecesPlacedThisTurn >= PIECES_PER_TURN) {
             currentPlayer.getShapes().clear(); // clear les formes du joueur 1 dans sa liste respective 
+            
             nextTurn();
 
         }
@@ -110,7 +117,10 @@ public class GameSession {
 
         System.out.println(">>> " + nextPlayer.getName() + " tour commence");
 
-        // 🔥 Si le nouveau joueur est une IA → elle joue automatiquement
+        if (onTurnChanged != null) {
+            onTurnChanged.run();
+        }
+
         playIfAI(nextPlayer);
     }
     
