@@ -20,7 +20,7 @@ public class GameSession {
     private int piecesPlacedThisTurn = 0;
     private int totalPiecesPlaced = 0;
     private final int PIECES_PER_TURN = 4;
-    private final int MAX_PIECES_GAME = 8;
+    private final int MAX_PIECES_GAME;
     private boolean gameEndHandled = false;
     
     // Chain of Responsibility handler
@@ -43,6 +43,7 @@ public class GameSession {
         this.currentPlayerIndex = 0;
         this.piecesPlacedThisTurn = 0;
         this.totalPiecesPlaced = 0;
+        this.MAX_PIECES_GAME = players.size() * 4;
         
         // Initialise handler chaine
         buildHandlerChain();

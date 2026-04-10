@@ -24,6 +24,7 @@ public class save_game {
 
     private static final String FILE_NAME = "history.txt";
     private static final int WINDOW = 10;
+    private static int sessionGameCount = 0;
 
     /**
      * Enregistre les scores de la partie courante.
@@ -32,10 +33,11 @@ public class save_game {
      * Retourne null si moins de 10 parties ont été jouées.
      */
     public static Map<String, Double> checkAndSave(List<Entity> players) {
+        sessionGameCount++;
         List<String> lines = readLines();
 
         // Construction de la nouvelle ligne
-        int gameNum = lines.size() + 1;
+        int gameNum = sessionGameCount;
         StringBuilder sb = new StringBuilder("GAME_" + gameNum);
         for (Entity p : players) {
             sb.append("|").append(p.getName()).append(":").append(String.format(Locale.US, "%.2f", p.getScore()));
@@ -49,9 +51,11 @@ public class save_game {
 
         writeLines(lines);
 
-        // Retourne les moyennes uniquement à la 10e partie exacte
-        if (gameNum == WINDOW) {
-            return computeAverages(lines);
+        // Retourne les moyennes tous les WINDOW parties et vide le fichier
+        if (sessionGameCount % WINDOW == 0) {
+            Map<String, Double> averages = computeAverages(lines);
+            writeLines(new ArrayList<>());
+            return averages;
         }
         return null;
     }

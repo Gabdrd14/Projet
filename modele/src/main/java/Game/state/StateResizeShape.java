@@ -64,7 +64,7 @@ public class StateResizeShape implements StateController {
             else {
             	// On enregistre l’action dans l’historique undo/redo //
             	// On évite de compter un déplacement comme une nouvelle forme créée //
-                commandHandler.record(new CommandResizeShape(selectedShape, lastPoint, newPoint));
+                commandHandler.handle(new CommandResizeShape(selectedShape, lastPoint, newPoint));
                 plateau.notifyObservers();
                 System.out.println("Modification de taille réalisé par le" + plateau.getNameJoueurCourant());
             }

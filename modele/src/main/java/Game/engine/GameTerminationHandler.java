@@ -6,6 +6,7 @@ import Game.model.StratGen2;
 import Game.model.StrategiePlateau;
 import Game.model.ConfigFileSelector;
 import Game.model.entity.Entity;
+import Game.model.entity.ia;
 import Game.model.history_game.save_game;
 import Game.view.GameFrame;
 import javax.swing.JOptionPane;
@@ -106,6 +107,14 @@ public class GameTerminationHandler extends GameHandler {
         }
 
         Plateau nouveauPlateau = new Plateau(strategie, players);
+
+        // Mettre à jour le plateau de l'IA si présent
+        for (Entity p : players) {
+            if (p instanceof ia) {
+                ((ia) p).setPlateau(nouveauPlateau);
+            }
+        }
+
         GameSession nouvelleSession = new GameSession(nouveauPlateau, players, strategie);
 
         // Ferme l'ancienne fenêtre si elle existe
