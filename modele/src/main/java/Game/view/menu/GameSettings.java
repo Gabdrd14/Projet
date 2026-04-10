@@ -100,9 +100,45 @@ public class GameSettings {
         
         fieldsPanel.add(AICheck);
         fieldsPanel.add(new JLabel("")); // vide pour garder la grille alignée
-        
-        
-        // On grise le paramètre du nombre de formes lorsque l'on est au Level 1, car la stratégie 1 //
+
+        // --- Liaison entre nbPlayers et AICheck ---
+
+        // Grise la case IA selon la valeur actuelle du champ (et non la variable statique)
+        try {
+            AICheck.setEnabled(Integer.parseInt(nbPlayersField.getText()) == 2);
+        } catch (NumberFormatException ex) {
+            AICheck.setEnabled(false);
+        }
+
+        // Si on décoche l'IA manuellement, on ne force rien sur nbPlayers
+        // Si on coche l'IA, le nombre de joueurs passe automatiquement à 2
+        AICheck.addActionListener(ev -> {
+            if (AICheck.isSelected()) {
+                nbPlayersField.setText("2");
+            }
+        });
+
+        // Quand nbPlayers change : grise/dégrise AICheck, et décoche si < 2
+        nbPlayersField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            private void updateAICheckState() {
+                // Différé pour attendre la fin du cycle remove+insert de setText()
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    try {
+                        int n = Integer.parseInt(nbPlayersField.getText());
+                        AICheck.setEnabled(n >= 2);
+                        if (n < 2) {
+                            AICheck.setSelected(false);
+                        }
+                    } catch (NumberFormatException e) {
+                        AICheck.setEnabled(false);
+                        AICheck.setSelected(false);
+                    }
+                });
+            }
+            @Override public void insertUpdate(javax.swing.event.DocumentEvent e)  { updateAICheckState(); }
+            @Override public void removeUpdate(javax.swing.event.DocumentEvent e)  { updateAICheckState(); }
+            @Override public void changedUpdate(javax.swing.event.DocumentEvent e) { updateAICheckState(); }
+        });
         // est basée sur des ensembles de formes définis dans des fichiers. //
 
         // Dès que l'on passe au Level 2, on peut choisir le nombre de formes rouges qui apparaissent sur le plateau, //
