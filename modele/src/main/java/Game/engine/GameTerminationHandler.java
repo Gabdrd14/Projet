@@ -130,8 +130,8 @@ public class GameTerminationHandler extends GameHandler {
         StringBuilder sb = new StringBuilder("Scores finaux :\n");
         for (Entity player : session.getPlayers()) {
             sb.append("  ").append(player.getName()).append(" : ")
-              .append(String.format("%.2f", player.getScore()))
-              .append(" (").append(player.getShapes().size()).append(" formes)\n");
+              .append(String.format("%.2f", player.getScore()));
+            //   .append(" (").append(player.getShapes().size()).append(" formes)\n");
         }
         return sb.toString().trim();
     }
