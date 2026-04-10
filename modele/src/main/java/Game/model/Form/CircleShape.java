@@ -1,8 +1,8 @@
 package Game.model.Form;
 
 import Game.model.Point;
-import Game.model.AbstractModeleEcoutable;
 import Game.model.collision.IntersectionVisiteur;
+import Game.model.observer.AbstractModeleEcoutable;
 
 public class CircleShape extends AbstractModeleEcoutable implements Shape {
 

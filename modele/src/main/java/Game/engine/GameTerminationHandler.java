@@ -1,7 +1,7 @@
 package Game.engine;
 
-import Game.model.Plateau;
 import Game.model.ConfigFileSelector;
+import Game.model.Plateau;
 import Game.model.entity.Entity;
 import Game.model.entity.ia;
 import Game.model.history_game.save_game;

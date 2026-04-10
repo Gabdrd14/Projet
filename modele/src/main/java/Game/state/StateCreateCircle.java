@@ -1,9 +1,9 @@
 package Game.state;
 
-import Game.model.Plateau;
 import Game.model.Form.CircleShape;
 import Game.command.CommandHandler;
 import Game.command.CommandCreateCircle;
+import Game.model.Plateau;
 import Game.model.Point;
 
 public class StateCreateCircle implements StateController {

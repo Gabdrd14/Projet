@@ -1,7 +1,7 @@
 package Game.view;
 
-import Game.model.Point;
 import Game.model.Plateau;
+import Game.model.Point;
 import Game.state.StateCreateCircle;
 import Game.state.StateCreateRectangle;
 import Game.state.StateDeleteShape;

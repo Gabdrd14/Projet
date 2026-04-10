@@ -2,8 +2,9 @@ package Game.model.strategy_ia;
 
 import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
-import Game.model.Point;
 import Game.model.Plateau;
+import Game.model.Point;
+
 import java.util.List;
 import java.util.Random;
 

@@ -1,10 +1,10 @@
 package Game.state;
 
+import Game.model.Plateau;
 import Game.model.Point;
 
 import Game.command.CommandHandler;
 import Game.command.CommandResizeShape;
-import Game.model.Plateau;
 import Game.model.Form.Shape;
 
 public class StateResizeShape implements StateController {

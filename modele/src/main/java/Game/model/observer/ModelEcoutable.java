@@ -1,4 +1,4 @@
-package Game.model;
+package Game.model.observer;
 
 public interface ModelEcoutable {
 	

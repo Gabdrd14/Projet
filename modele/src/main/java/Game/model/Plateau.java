@@ -8,8 +8,18 @@ import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
 import Game.model.collision.CollisionUtil;
 import Game.model.entity.Entity;
+import Game.model.observer.AbstractModeleEcoutable;
 import Game.model.stratGen.StrategiePlateau;
+import Game.model.stratGen.StrategiePlateau;
+import Game.model.observer.AbstractModeleEcoutable;
 
+/**
+     * Classe représentant le plateau de jeu
+     * Elle fournit des méthodes pour gérer les joueurs, les obstacles, les collisions, le score
+     * et la génération d'obstacles selon une stratégie définie.
+     * Elle notifie également les observateurs des changements de plateau.
+     * 
+     */
 
 public class Plateau extends AbstractModeleEcoutable {
     private int largeur;
@@ -46,39 +56,48 @@ public class Plateau extends AbstractModeleEcoutable {
 
 
 
-     public boolean collision() {
+    /**
+     * Vérifie s'il existe une collision entre les formes du joueur courant et d'autres objets du plateau.
+     * @return true si une collision est détectée, false sinon
+     */
+    public boolean collision() {
+        // Récupère la liste des formes du joueur courant
         List<Shape> formesCourantes = joueurCourant.getShapes();
 
         for (int i = 0; i < formesCourantes.size(); i++) {
             Shape a = formesCourantes.get(i);
 
-            // Collision avec les autres formes du joueur courant
+            // Vérifie les collisions entre les formes du joueur courant
+            // On commence à j = i+1 pour éviter les comparaisons redondantes (a ne s'intersecte pas avec elle-même)
             for (int j = i + 1; j < formesCourantes.size(); j++) {
                 if (CollisionUtil.intersects(a, formesCourantes.get(j))) {
-                    return true;
+                    return true; // Une collision trouvée, la mise en place est invalide
                 }
             }
 
-            // Collision avec les formes des autres joueurs
+            // Vérifie les collisions avec les formes des autres joueurs
             for (Entity joueur : joueurs) {
                 if (joueur == joueurCourant) {
-                    continue;
+                    continue; // On saute le joueur courant puisqu'on l'a déjà traité
                 }
 
+                // Boucle sur les formes de cet autre joueur
                 for (Shape b : joueur.getShapes()) {
                     if (CollisionUtil.intersects(a, b)) {
-                        return true;
+                        return true; // Une collision trouvée avec un autre joueur
                     }
                 }
             }
-            // collision avec les obstacles
+            
+            // COLLISION AVEC LES OBSTACLES : Vérifie les collisions avec les obstacles fixes du plateau
             for (Shape obstacle : liste_obstacle) {
                 if (CollisionUtil.intersects(a, obstacle)) {
-                    return true;
+                    return true; // Une collision trouvée avec un obstacle
                 }
             }
         }
 
+        // Aucune collision détectée parmi tous les contrôles effectués
         return false;
     }
 
@@ -124,7 +143,9 @@ public class Plateau extends AbstractModeleEcoutable {
 
     }
 
-
+    /*
+        * Méthode pour générer les obstacles sur le plateau en utilisant la stratégie de génération définie.
+    */
     public void genererObs() {
         if (strategieDeGen == null) {
             throw new IllegalStateException("Aucune stratégie de génération définie.");
@@ -135,17 +156,13 @@ public class Plateau extends AbstractModeleEcoutable {
         //firechange(); // Notifier les observateurs du changement de plateau
     }
 
-
-    public void ajouterFormePlacee(Shape forme){  // test 
-        
+    //methode pour ajouter une forme cree par un joueur.
+    public void ajouterFormePlacee(Shape forme){  
         System.out.println("joueur courant : " + joueurCourant.getName() + " ajoute la forme : " + forme.toString());        //boolean isObstacle = compteur_piece > 8 ; // si compteur > 8 alors on ajoute un obstacle, sinon on ajoute une forme de joueur
         
         List<Shape> current = this.joueurCourant.getShapes();
         
         current.add(forme);
-        
-        //compteur_piece--;
-        //firechange(); // Notifier les observateurs du changement de plateau
 
         if (collision()) {
             current.remove(current.size() - 1);
@@ -158,7 +175,7 @@ public class Plateau extends AbstractModeleEcoutable {
 
 
 
-
+    // methode qui supprime une forme placée par un joueur .
     public void supprimerFormePlacee(Shape forme){ // test 
         for (Shape s : joueurCourant.getShapes()) {
             if (s.equals(forme)) {
@@ -168,13 +185,12 @@ public class Plateau extends AbstractModeleEcoutable {
             }
         }
 
-        //firechange(); // Notifier les observateurs du changement de plateau
+        fireChange();
 
     }
 
 
-
-
+    // Méthode pour obtenir la liste de toutes les formes placées par tous les joueurs.
     public List<Shape> getFormePlacees() {
         List<Shape> allShape = new ArrayList<>();
         for (Entity joueur : joueurs) {
@@ -198,7 +214,7 @@ public class Plateau extends AbstractModeleEcoutable {
 
     public void setStrategieDeGen(StrategiePlateau strategieDeGen) {
         this.strategieDeGen = strategieDeGen;
-        //firechange(); // Notifier les observateurs du changement de stratégie
+        fireChange(); // Notifier les observateurs du changement de stratégie
     }
 
 }

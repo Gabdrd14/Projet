@@ -1,7 +1,7 @@
 package Game.model.strategy_ia;
 
-import Game.model.Form.Shape;
 import Game.model.Plateau;
+import Game.model.Form.Shape;
 
 public class AleatoirePlacementStrategy implements PlacementStrategy {
     @Override

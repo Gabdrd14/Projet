@@ -1,5 +1,7 @@
 package Game.model;
 
+import Game.model.observer.AbstractModeleEcoutable;
+
 public class Point extends AbstractModeleEcoutable {
 	
 	private double x;
