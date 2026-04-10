@@ -1,5 +1,4 @@
-
-ackage Game.view.menu;
+package Game.view.menu;
 
 import javax.swing.*;
 
@@ -274,9 +273,8 @@ public class GameMenu {
 	        	 }
 
 	        	 StrategiePlateau strategie;
-                 String cheminFichier = "src/main/java/Game/model/stratConfig/config3.txt";
 	        	 if (Level == 1) {
-	        	     strategie = new StratGen1(cheminFichier);
+	        	     strategie = new StratGen1();
 	        	     System.out.println("Strat 1 choisi");
 	        	 } else {
 	        	     strategie = new StratGen2(nbRedShape);

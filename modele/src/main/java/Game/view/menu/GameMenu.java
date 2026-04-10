@@ -265,7 +265,6 @@ public class GameMenu {
             	 int nbRedShape = GameSettings.getnbRedShape();
             	 int Level = GameSettings.getLevel();
                  int nbPlayers = GameSettings.getNbPlayers();
-	        	 boolean hidden = GameSettings.isHiddenChallenge();
 	        	 boolean AI = GameSettings.ActiveAI();
 	        	 	        	 
 	        	 List<Entity> joueurs = new ArrayList<>();
@@ -285,9 +284,8 @@ public class GameMenu {
 	        	 }
 
 	        	 StrategiePlateau strategie;
-                 String cheminFichier = "src/main/java/Game/model/stratConfig/config4.txt";
 	        	 if (Level == 1) {
-	        	     strategie = new StratGen1(cheminFichier);
+	        	     strategie = new StratGen1();
 	        	     System.out.println("Strat 1 choisi");
 	        	 } else {
 	        	     strategie = new StratGen2(nbRedShape);

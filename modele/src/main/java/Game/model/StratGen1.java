@@ -55,14 +55,37 @@ import Game.model.Form.RectangleShape;
 public class StratGen1 implements StrategiePlateau {
 
     private String cheminFichier;
+    private boolean useConfigSelector; // Indique si on utilise ConfigFileSelector
 
+    /**
+     * Constructeur utilisant ConfigFileSelector pour les fichiers de config rotatifs
+     */
+    public StratGen1() {
+        this.useConfigSelector = true;
+        this.cheminFichier = ConfigFileSelector.getInstance().getCurrentConfigPath();
+    }
+
+    /**
+     * Constructeur avec un chemin de fichier spécifique (rétrocompatibilité)
+     */
     public StratGen1(String cheminFichier) {
         this.cheminFichier = cheminFichier;
+        this.useConfigSelector = false;
+    }
+
+    /**
+     * Obtient le chemin du fichier de configuration courant
+     */
+    public String getCheminFichier() {
+        if (useConfigSelector) {
+            this.cheminFichier = ConfigFileSelector.getInstance().getCurrentConfigPath();
+        }
+        return this.cheminFichier;
     }
 
     @Override
     public void genererObstacles(Plateau plateau) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(cheminFichier))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getCheminFichier()))) {
             String ligne;
 
             while ((ligne = reader.readLine()) != null) {
@@ -121,7 +144,7 @@ public class StratGen1 implements StrategiePlateau {
             }
 
         } catch (IOException e) {
-            System.out.println("Erreur lors de la lecture du fichier : " + cheminFichier);
+            System.out.println("Erreur lors de la lecture du fichier : " + getCheminFichier());
             e.printStackTrace();
         } catch (NumberFormatException e) {
             System.out.println("Erreur de format dans le fichier texte.");

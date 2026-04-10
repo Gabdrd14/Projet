@@ -4,6 +4,7 @@ import Game.model.Plateau;
 import Game.model.StratGen1;
 import Game.model.StratGen2;
 import Game.model.StrategiePlateau;
+import Game.model.ConfigFileSelector;
 import Game.model.entity.Entity;
 import Game.model.history_game.save_game;
 import Game.view.GameFrame;
@@ -59,7 +60,14 @@ public class GameTerminationHandler extends GameHandler {
     }
 
     private void proposeRestart(GameSession session, StrategiePlateau strategie) {
-        String stratName = (strategie instanceof StratGen1) ? "Level 1 (config fixe)" : "Level 2 (aléatoire)";
+        String stratName;
+        if (strategie instanceof StratGen1) {
+            String currentConfig = ConfigFileSelector.getInstance().getCurrentConfigPath();
+            stratName = "Level 1 - Fichier actuel : " + currentConfig;
+        } else {
+            stratName = "Level 2 (aléatoire)";
+        }
+        
         Object[] options = {"Rejouer", "Quitter"};
         int choice = JOptionPane.showOptionDialog(
                 GameFrame.getInstance(),
@@ -88,6 +96,13 @@ public class GameTerminationHandler extends GameHandler {
         for (Entity p : players) {
             p.getShapes().clear();
             p.setScore(0);
+        }
+
+        // Si c'est StratGen1, passe au fichier de configuration suivant
+        if (strategie instanceof StratGen1) {
+            ConfigFileSelector.getInstance().nextConfig();
+            System.out.println("Prochain fichier de configuration : " + 
+                              ConfigFileSelector.getInstance().getCurrentConfigPath());
         }
 
         Plateau nouveauPlateau = new Plateau(strategie, players);
