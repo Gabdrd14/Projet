@@ -30,11 +30,3 @@ public class ia extends Entity {
         }
     }
 }
-
-
-// ia ai = new ia(new HeuristiquePlacementStrategy());
-// ai.setPlateau(plateau);
-// ai.jouer();  
-
-// ai.setPlacementStrategy(new AleatoirePlacementStrategy());
-// ai.jouer(); 

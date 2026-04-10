@@ -1,9 +1,10 @@
 package Game.engine;
 
 import Game.model.Plateau;
-import Game.model.StrategiePlateau;
 import Game.model.entity.Entity;
 import Game.model.entity.ia;
+import Game.model.stratGen.StrategiePlateau;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;

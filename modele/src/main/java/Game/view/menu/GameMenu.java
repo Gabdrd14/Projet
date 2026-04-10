@@ -14,12 +14,12 @@ import javax.sound.sampled.*;
 import Game.view.GameFrame;
 import Game.engine.GameSession;
 import Game.model.Plateau;
-import Game.model.StratGen1;
-import Game.model.StratGen2;
-import Game.model.StrategiePlateau;
 import Game.model.entity.Entity;
 import Game.model.entity.HumanPlayer;
 import Game.model.entity.ia;
+import Game.model.stratGen.StratGen1;
+import Game.model.stratGen.StratGen2;
+import Game.model.stratGen.StrategiePlateau;
 import Game.model.strategy_ia.BarycentrePlacementStrategy;
 
 public class GameMenu {

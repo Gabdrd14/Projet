@@ -1,13 +1,13 @@
 package Game.engine;
 
 import Game.model.Plateau;
-import Game.model.StratGen1;
-import Game.model.StratGen2;
-import Game.model.StrategiePlateau;
 import Game.model.ConfigFileSelector;
 import Game.model.entity.Entity;
 import Game.model.entity.ia;
 import Game.model.history_game.save_game;
+import Game.model.stratGen.StratGen1;
+import Game.model.stratGen.StratGen2;
+import Game.model.stratGen.StrategiePlateau;
 import Game.view.GameFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;

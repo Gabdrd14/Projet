@@ -8,6 +8,7 @@ import Game.model.Form.RectangleShape;
 import Game.model.Form.Shape;
 import Game.model.collision.CollisionUtil;
 import Game.model.entity.Entity;
+import Game.model.stratGen.StrategiePlateau;
 
 
 public class Plateau extends AbstractModeleEcoutable {
